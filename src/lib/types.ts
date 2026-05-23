@@ -31,6 +31,11 @@ export interface Career {
   aliases: string[];
 }
 
+export interface PathInput {
+  goal: string;
+  gradeLevel?: string;
+}
+
 export interface DiscoverInput {
   likes: string;
   strengths: string;

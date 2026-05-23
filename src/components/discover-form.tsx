@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { discoverAction } from "@/app/actions/discover";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
+import { SourceNote } from "@/components/source-note";
+import { GRADE_OPTIONS } from "@/lib/grade-levels";
+import { loadDiscoverSession, saveDiscoverSession } from "@/lib/session-storage";
 import type { CareerMatch } from "@/lib/types";
 import type { DiscoverSource } from "@/lib/discover-ai";
 
@@ -17,6 +20,7 @@ const tips = [
 ];
 
 export function DiscoverForm() {
+  const hydrated = useRef(false);
   const [likes, setLikes] = useState("");
   const [strengths, setStrengths] = useState("");
   const [weaknesses, setWeaknesses] = useState("");
@@ -25,6 +29,21 @@ export function DiscoverForm() {
   const [source, setSource] = useState<DiscoverSource | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (hydrated.current) return;
+    hydrated.current = true;
+
+    const saved = loadDiscoverSession();
+    if (!saved) return;
+
+    setLikes(saved.likes);
+    setStrengths(saved.strengths);
+    setWeaknesses(saved.weaknesses);
+    setGradeLevel(saved.gradeLevel);
+    setResults(saved.results);
+    setSource(saved.source);
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -40,6 +59,14 @@ export function DiscoverForm() {
       });
       setResults(matches);
       setSource(matchSource);
+      saveDiscoverSession({
+        likes,
+        strengths,
+        weaknesses,
+        gradeLevel,
+        results: matches,
+        source: matchSource,
+      });
       requestAnimationFrame(() => {
         document.getElementById("matches")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
@@ -105,11 +132,11 @@ export function DiscoverForm() {
               disabled={loading}
             >
               <option value="">Select...</option>
-              <option value="9">9th grade</option>
-              <option value="10">10th grade</option>
-              <option value="11">11th grade</option>
-              <option value="12">12th grade</option>
-              <option value="college">College / gap year</option>
+              {GRADE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </Field>
 
@@ -165,11 +192,7 @@ export function DiscoverForm() {
               ? "Tap any role for salary data, day-in-the-life details, and a full roadmap."
               : "Try adding more detail about what you like and what you're good at."}
           </p>
-          {source === "ai" && results.length > 0 && (
-            <p className="mt-3 label text-smoke">
-              Matched from your answers — salary and growth data come from our career catalog.
-            </p>
-          )}
+          {source && results.length > 0 && <SourceNote flow="discover" source={source} />}
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {results.map((match) => (
               <CareerCard

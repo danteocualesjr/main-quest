@@ -3,7 +3,8 @@ import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
 import { careers, getCareerById } from "./careers";
 import { buildCareerPath, suggestCareersForGoal } from "./path-builder";
-import type { Career, CareerPath, PathStep } from "./types";
+import { GRADE_LABELS } from "./grade-levels";
+import type { Career, CareerPath, PathInput, PathStep } from "./types";
 
 const PATH_PHASES = [
   "High school",
@@ -41,11 +42,14 @@ function buildCatalogForPrompt() {
   }));
 }
 
-function buildPrompt(goal: string) {
+function buildPrompt(input: PathInput) {
+  const grade = input.gradeLevel ? GRADE_LABELS[input.gradeLevel] : null;
+
   return `You build personalized career roadmaps for US students (ages 15–22) from a fixed catalog.
 
 STUDENT GOAL:
-"${goal.trim()}"
+"${input.goal.trim()}"
+${grade ? `\nGRADE LEVEL: ${grade}` : ""}
 
 RULES:
 1. If the goal clearly maps to ONE catalog career, set careerId to that career's exact "id" and fill encouragement, gaps, and steps.
@@ -58,6 +62,7 @@ RULES:
 8. gaps highlight honest hurdles (math requirements, long schooling, portfolio needs, certifications) tailored to the student's goal wording when possible.
 9. encouragement is 1–2 warm sentences in second person. Do NOT mention salary or growth statistics.
 10. Respect catalog facts for education and timeline — do not contradict educationLabel or timeToEntry.
+11. When grade level is provided, tailor phase timing and actions (e.g. 9th graders focus on exploration and coursework; seniors on applications and deadlines; college students on internships and portfolios).
 
 CATALOG:
 ${JSON.stringify(buildCatalogForPrompt())}`;
@@ -95,8 +100,8 @@ function toCareerPath(
   };
 }
 
-export async function buildCareerPathWithAI(goal: string): Promise<PathBuildResult> {
-  const trimmed = goal.trim();
+export async function buildCareerPathWithAI(input: PathInput): Promise<PathBuildResult> {
+  const trimmed = input.goal.trim();
   if (!trimmed) {
     return { kind: "suggestions", suggestions: [], source: "keyword" };
   }
@@ -112,7 +117,7 @@ export async function buildCareerPathWithAI(goal: string): Promise<PathBuildResu
       model: openai("gpt-4o-mini"),
       schema: pathSchema,
       temperature: 0.35,
-      prompt: buildPrompt(trimmed),
+      prompt: buildPrompt({ ...input, goal: trimmed }),
     });
 
     if (object.careerId && object.steps && object.encouragement && object.gaps?.length) {

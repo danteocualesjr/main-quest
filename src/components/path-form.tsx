@@ -1,67 +1,123 @@
 "use client";
 
-import { useMemo, useState, useEffect, useCallback } from "react";
+import { useMemo, useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Flag, Loader2 } from "lucide-react";
 import { pathAction } from "@/app/actions/path";
-import { CareerCard } from "@/components/career-card";
+import { PathSuggestionCard } from "@/components/path-suggestion-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
+import { SourceNote } from "@/components/source-note";
 import { careers } from "@/lib/careers";
+import { GRADE_OPTIONS } from "@/lib/grade-levels";
+import { loadPathSession, savePathSession } from "@/lib/session-storage";
 import type { PathSource } from "@/lib/path-ai";
 import type { Career, CareerPath } from "@/lib/types";
 
 export function PathForm() {
   const searchParams = useSearchParams();
+  const hydrated = useRef(false);
   const [goal, setGoal] = useState("");
+  const [gradeLevel, setGradeLevel] = useState("");
   const [path, setPath] = useState<CareerPath | null>(null);
   const [suggestions, setSuggestions] = useState<Career[]>([]);
   const [source, setSource] = useState<PathSource | null>(null);
   const [loading, setLoading] = useState(false);
+  const [buildingCareerId, setBuildingCareerId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
 
-  const runPathBuild = useCallback(async (goalQuery: string) => {
-    setLoading(true);
-    setError(null);
+  const persistSession = useCallback(
+    (
+      nextGoal: string,
+      nextGrade: string,
+      nextPath: CareerPath | null,
+      nextSuggestions: Career[],
+      nextSource: PathSource | null
+    ) => {
+      savePathSession({
+        goal: nextGoal,
+        gradeLevel: nextGrade,
+        path: nextPath,
+        suggestions: nextSuggestions,
+        source: nextSource,
+      });
+    },
+    []
+  );
 
-    try {
-      const result = await pathAction(goalQuery);
-      setSource(result.source);
+  const runPathBuild = useCallback(
+    async (goalQuery: string, gradeQuery = gradeLevel) => {
+      setLoading(true);
+      setError(null);
 
-      if (result.kind === "path") {
-        setPath(result.path);
-        setSuggestions([]);
-        requestAnimationFrame(() => {
-          document.getElementById("roadmap")?.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-      } else {
+      try {
+        const result = await pathAction({ goal: goalQuery, gradeLevel: gradeQuery || undefined });
+        setSource(result.source);
+
+        if (result.kind === "path") {
+          setPath(result.path);
+          setSuggestions([]);
+          persistSession(goalQuery, gradeQuery, result.path, [], result.source);
+          requestAnimationFrame(() => {
+            document.getElementById("roadmap")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        } else {
+          setPath(null);
+          setSuggestions(result.suggestions);
+          persistSession(goalQuery, gradeQuery, null, result.suggestions, result.source);
+        }
+      } catch {
+        setError("Something went wrong building your path. Try again in a moment.");
         setPath(null);
-        setSuggestions(result.suggestions);
+        setSuggestions([]);
+        setSource(null);
+      } finally {
+        setLoading(false);
+        setBuildingCareerId(null);
       }
-    } catch {
-      setError("Something went wrong building your path. Try again in a moment.");
-      setPath(null);
-      setSuggestions([]);
-      setSource(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    [gradeLevel, persistSession]
+  );
 
   useEffect(() => {
+    if (hydrated.current) return;
+    hydrated.current = true;
+
+    const saved = loadPathSession();
     const preset = searchParams.get("goal");
+
+    if (saved && !preset) {
+      setGoal(saved.goal);
+      setGradeLevel(saved.gradeLevel);
+      setPath(saved.path);
+      setSuggestions(saved.suggestions);
+      setSource(saved.source);
+      return;
+    }
+
+    const grade = saved?.gradeLevel ?? "";
+    if (saved?.gradeLevel) {
+      setGradeLevel(saved.gradeLevel);
+    }
+
     if (preset) {
       setGoal(preset);
-      void runPathBuild(preset);
+      void runPathBuild(preset, grade);
     }
   }, [searchParams, runPathBuild]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     await runPathBuild(goal);
+  }
+
+  async function handleBuildSuggestion(career: Career) {
+    setGoal(career.title);
+    setBuildingCareerId(career.id);
+    await runPathBuild(career.title);
   }
 
   return (
@@ -90,7 +146,7 @@ export function PathForm() {
             </datalist>
           </div>
           <QuestButton type="submit" size="lg" disabled={loading}>
-            {loading ? (
+            {loading && !buildingCareerId ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
                 Building your path…
@@ -103,6 +159,28 @@ export function PathForm() {
             )}
           </QuestButton>
         </div>
+
+        <div className="mt-10 grid gap-3 border-t border-ink/10 pt-8">
+          <label htmlFor="path-grade" className="font-display text-xl font-light text-ink md:text-2xl">
+            Grade level
+            <span className="ml-2 text-sm text-smoke">Optional — helps tailor your roadmap</span>
+          </label>
+          <select
+            id="path-grade"
+            className="input-bare max-w-md font-display text-2xl font-light tracking-tight md:text-3xl"
+            value={gradeLevel}
+            onChange={(e) => setGradeLevel(e.target.value)}
+            disabled={loading}
+          >
+            <option value="">Select...</option>
+            {GRADE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {error && <p className="mt-3 text-sm text-tomato">{error}</p>}
       </form>
 
@@ -113,11 +191,18 @@ export function PathForm() {
             Did you mean one of these?
           </h2>
           <p className="mt-3 max-w-2xl text-[15px] text-graphite">
-            Pick a role below to open its full profile, or refine your goal and try again.
+            Build a full roadmap for any role below, or open its profile for salary and day-in-the-life
+            details.
           </p>
+          {source && <SourceNote flow="path" source={source} />}
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {suggestions.map((career) => (
-              <CareerCard key={career.id} career={career} compact />
+              <PathSuggestionCard
+                key={career.id}
+                career={career}
+                onBuildPath={handleBuildSuggestion}
+                building={loading && buildingCareerId === career.id}
+              />
             ))}
           </div>
         </section>
@@ -135,12 +220,7 @@ export function PathForm() {
                 <p className="mt-5 max-w-xl text-lg leading-relaxed text-graphite">
                   {path.encouragement}
                 </p>
-                {source === "ai" && (
-                  <p className="mt-3 label text-smoke">
-                    Roadmap tailored to your goal — education and salary facts come from our career
-                    catalog.
-                  </p>
-                )}
+                {source && <SourceNote flow="path" source={source} />}
               </div>
               <Link
                 href={`/explore/${path.career.id}`}

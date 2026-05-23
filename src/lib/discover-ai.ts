@@ -3,15 +3,8 @@ import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
 import { careers, getCareerById } from "./careers";
 import { discoverCareersKeyword } from "./matching";
+import { GRADE_LABELS } from "./grade-levels";
 import type { CareerMatch, DiscoverInput } from "./types";
-
-const GRADE_LABELS: Record<string, string> = {
-  "9": "9th grade (early high school)",
-  "10": "10th grade",
-  "11": "11th grade",
-  "12": "12th grade (planning next steps soon)",
-  college: "college or gap year",
-};
 
 const matchSchema = z.object({
   matches: z
