@@ -63,7 +63,7 @@ export async function POST(req: Request) {
     system: buildCoachSystemPrompt(context),
     tools: buildCoachTools(),
     stopWhen: stepCountIs(5),
-    messages: convertToModelMessages(messages),
+    messages: await convertToModelMessages(messages),
   });
 
   return result.toUIMessageStreamResponse();
