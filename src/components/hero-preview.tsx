@@ -1,11 +1,21 @@
-import { ArrowUpRight, TrendingUp } from "lucide-react";
+import { ArrowUpRight, Sparkles, TrendingUp } from "lucide-react";
 
 export function HeroPreview() {
   return (
     <div className="relative">
-      <div className="relative rounded-xl border border-ink/12 bg-cream p-8 shadow-lift">
+      {/* Faint stacked card behind for depth */}
+      <div
+        aria-hidden
+        className="absolute inset-x-3 -bottom-3 top-3 rounded-xl border border-ink/10 bg-cream/60 shadow-paper"
+      />
+      <div className="absolute inset-x-1.5 -bottom-1.5 top-1.5 rounded-xl border border-ink/10 bg-cream/80 shadow-paper" />
+
+      <div className="relative rounded-xl border border-ink/12 bg-cream p-7 shadow-lift md:p-8">
         <div className="flex items-center justify-between">
-          <p className="label-accent">Discover Me · Match</p>
+          <p className="label-accent inline-flex items-center gap-1.5">
+            <Sparkles className="h-3 w-3" />
+            Discover Me · Match
+          </p>
           <span className="font-mono text-[10px] uppercase tracking-widest text-ash">
             Result 01 / 04
           </span>
@@ -26,11 +36,33 @@ export function HeroPreview() {
           </div>
         </div>
 
-        <dl className="mt-6 grid grid-cols-2 gap-y-5">
-          <div>
-            <dt className="label">Salary</dt>
-            <dd className="mt-1 font-display text-xl text-ink tabular">$55k – $130k</dd>
+        {/* Salary visualization — entry / median / top markers */}
+        <div className="mt-6">
+          <div className="flex items-baseline justify-between">
+            <p className="label">Salary range</p>
+            <p className="font-display text-sm text-smoke tabular">
+              <span className="text-ink">$80k</span> median
+            </p>
           </div>
+          <div className="relative mt-3 h-1.5 rounded-full bg-ink/10">
+            <span
+              className="absolute inset-y-0 left-[15%] right-[10%] rounded-full bg-gradient-to-r from-tomato/50 via-tomato to-tomato/80"
+              aria-hidden
+            />
+            {/* Median marker */}
+            <span
+              aria-hidden
+              className="absolute -top-1 h-3.5 w-0.5 -translate-x-1/2 rounded bg-ink"
+              style={{ left: "55%" }}
+            />
+          </div>
+          <div className="mt-2 flex justify-between font-mono text-[10px] uppercase tracking-widest tabular text-ash">
+            <span>$55k entry</span>
+            <span>$130k top</span>
+          </div>
+        </div>
+
+        <dl className="mt-6 grid grid-cols-2 gap-y-5 border-t border-ink/10 pt-6">
           <div>
             <dt className="label">Outlook</dt>
             <dd className="mt-1 flex items-center gap-1.5 font-display text-xl text-ink">
@@ -44,6 +76,10 @@ export function HeroPreview() {
           <div>
             <dt className="label">Entry</dt>
             <dd className="mt-1 font-display text-lg text-ink">~4 yrs</dd>
+          </div>
+          <div>
+            <dt className="label">Remote-friendly</dt>
+            <dd className="mt-1 font-display text-lg text-ink">High</dd>
           </div>
         </dl>
 
@@ -67,18 +103,31 @@ export function HeroPreview() {
 
         <div className="mt-7 flex items-center justify-between border-t border-ink/10 pt-6">
           <p className="text-sm text-smoke">Tap to explore the full profile</p>
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-ink text-cream">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-ink text-cream transition group-hover:bg-tomato">
             <ArrowUpRight className="h-4 w-4" />
           </span>
         </div>
       </div>
 
-      <div className="absolute -bottom-6 -right-6 hidden h-32 w-32 rounded-full bg-tomato/15 blur-3xl md:block" />
-      <div className="absolute -top-8 -left-6 hidden h-24 w-24 rounded-full bg-moss/20 blur-3xl md:block" />
+      {/* Floating accents */}
+      <div
+        aria-hidden
+        className="absolute -bottom-6 -right-6 hidden h-32 w-32 rounded-full bg-tomato/15 blur-3xl md:block"
+      />
+      <div
+        aria-hidden
+        className="absolute -top-8 -left-6 hidden h-24 w-24 rounded-full bg-moss/20 blur-3xl md:block"
+      />
 
       <div className="absolute -bottom-3 right-8 rotate-2 rounded-md border border-ink/15 bg-paper px-3 py-1.5 shadow-soft">
         <p className="font-mono text-[10px] uppercase tracking-widest text-ink">
           + 3 more matches
+        </p>
+      </div>
+
+      <div className="absolute -top-3 -left-3 -rotate-3 rounded-md border border-ink/15 bg-paper px-3 py-1.5 shadow-soft">
+        <p className="font-mono text-[10px] uppercase tracking-widest text-smoke">
+          <span className="text-tomato">●</span> Live demo
         </p>
       </div>
     </div>
