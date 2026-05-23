@@ -122,7 +122,8 @@ function buildReasons(
   return reasons.slice(0, 3);
 }
 
-export function discoverCareers(input: DiscoverInput): CareerMatch[] {
+/** Keyword-based matcher — instant fallback when AI is unavailable. */
+export function discoverCareersKeyword(input: DiscoverInput): CareerMatch[] {
   const likeTokens = tokenize(input.likes);
   const strengthTokens = tokenize(input.strengths);
   const weaknessTokens = tokenize(input.weaknesses);

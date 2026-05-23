@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
+import { discoverAction } from "@/app/actions/discover";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
-import { discoverCareers } from "@/lib/matching";
 import type { CareerMatch } from "@/lib/types";
+import type { DiscoverSource } from "@/lib/discover-ai";
 
 const tips = [
   "Mention subjects you actually enjoy, not just what you're good at.",
@@ -21,15 +22,31 @@ export function DiscoverForm() {
   const [weaknesses, setWeaknesses] = useState("");
   const [gradeLevel, setGradeLevel] = useState("");
   const [results, setResults] = useState<CareerMatch[] | null>(null);
+  const [source, setSource] = useState<DiscoverSource | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const matches = discoverCareers({ likes, strengths, weaknesses, gradeLevel });
-    setResults(matches);
-    if (typeof window !== "undefined") {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { matches, source: matchSource } = await discoverAction({
+        likes,
+        strengths,
+        weaknesses,
+        gradeLevel,
+      });
+      setResults(matches);
+      setSource(matchSource);
       requestAnimationFrame(() => {
         document.getElementById("matches")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
+    } catch {
+      setError("Something went wrong finding matches. Try again in a moment.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -48,6 +65,7 @@ export function DiscoverForm() {
               value={likes}
               onChange={(e) => setLikes(e.target.value)}
               required
+              disabled={loading}
             />
           </Field>
 
@@ -61,6 +79,7 @@ export function DiscoverForm() {
               placeholder="Communication, creativity, staying organized..."
               value={strengths}
               onChange={(e) => setStrengths(e.target.value)}
+              disabled={loading}
             />
           </Field>
 
@@ -74,6 +93,7 @@ export function DiscoverForm() {
               placeholder="Heavy math, blood, long presentations..."
               value={weaknesses}
               onChange={(e) => setWeaknesses(e.target.value)}
+              disabled={loading}
             />
           </Field>
 
@@ -82,6 +102,7 @@ export function DiscoverForm() {
               className="input-bare font-display text-2xl font-light tracking-tight md:text-3xl"
               value={gradeLevel}
               onChange={(e) => setGradeLevel(e.target.value)}
+              disabled={loading}
             >
               <option value="">Select...</option>
               <option value="9">9th grade</option>
@@ -92,11 +113,21 @@ export function DiscoverForm() {
             </select>
           </Field>
 
-          <div className="pt-4">
-            <QuestButton type="submit" size="lg">
-              Find my matches
-              <ArrowRight className="h-4 w-4" />
+          <div className="space-y-3 pt-4">
+            <QuestButton type="submit" size="lg" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Reading your answers…
+                </>
+              ) : (
+                <>
+                  Find my matches
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
             </QuestButton>
+            {error && <p className="text-sm text-tomato">{error}</p>}
           </div>
         </form>
 
@@ -134,6 +165,11 @@ export function DiscoverForm() {
               ? "Tap any role for salary data, day-in-the-life details, and a full roadmap."
               : "Try adding more detail about what you like and what you're good at."}
           </p>
+          {source === "ai" && results.length > 0 && (
+            <p className="mt-3 label text-smoke">
+              Matched from your answers — salary and growth data come from our career catalog.
+            </p>
+          )}
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {results.map((match) => (
               <CareerCard
