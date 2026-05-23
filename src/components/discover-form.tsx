@@ -23,6 +23,7 @@ const likePrompts = ["drawing", "gaming", "tutoring friends", "making videos", "
 
 export function DiscoverForm() {
   const hydrated = useRef(false);
+  const requestId = useRef(0);
   const [likes, setLikes] = useState("");
   const [strengths, setStrengths] = useState("");
   const [weaknesses, setWeaknesses] = useState("");
@@ -59,6 +60,7 @@ export function DiscoverForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const id = ++requestId.current;
     setLoading(true);
     setError(null);
 
@@ -69,6 +71,7 @@ export function DiscoverForm() {
         weaknesses,
         gradeLevel,
       });
+      if (id !== requestId.current) return;
       setResults(matches);
       setSource(matchSource);
       saveDiscoverSession({
@@ -83,9 +86,10 @@ export function DiscoverForm() {
         document.getElementById("matches")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     } catch {
+      if (id !== requestId.current) return;
       setError("Something went wrong finding matches. Try again in a moment.");
     } finally {
-      setLoading(false);
+      if (id === requestId.current) setLoading(false);
     }
   }
 
@@ -231,8 +235,9 @@ export function DiscoverForm() {
             <div className="mt-10 border-t border-ink/10 pt-6">
               <p className="label">Privacy</p>
               <p className="mt-3 text-sm leading-relaxed text-smoke">
-                Your answers stay in your browser. No account. No tracking. Clear
-                them anytime by clearing site data.
+                Answers are saved only in your browser on this device — not in a Main
+                Quest account. When you submit, we process them to find matches (and
+                may use AI if enabled). Clear anytime via site data.
               </p>
             </div>
           </div>

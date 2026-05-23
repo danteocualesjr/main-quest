@@ -160,8 +160,8 @@ export function CareerCard({
 
       {reasons && reasons.length > 0 && (
         <ul className="mt-5 space-y-1.5 border-t border-ink/10 pt-5 text-sm text-graphite">
-          {reasons.map((r) => (
-            <li key={r} className="flex gap-2">
+          {reasons.map((r, i) => (
+            <li key={`${r}-${i}`} className="flex gap-2">
               <span className="font-mono text-tomato">→</span>
               {r}
             </li>
