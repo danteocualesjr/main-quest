@@ -17,7 +17,8 @@ import type { Career, CareerPath } from "@/lib/types";
 
 export function PathForm() {
   const searchParams = useSearchParams();
-  const hydrated = useRef(false);
+  const restoredFromStorage = useRef(false);
+  const lastPresetGoal = useRef<string | null>(null);
   const [goal, setGoal] = useState("");
   const [gradeLevel, setGradeLevel] = useState("");
   const [path, setPath] = useState<CareerPath | null>(null);
@@ -83,30 +84,33 @@ export function PathForm() {
   );
 
   useEffect(() => {
-    if (hydrated.current) return;
-    hydrated.current = true;
-
-    const saved = loadPathSession();
     const preset = searchParams.get("goal");
 
-    if (saved && !preset) {
-      setGoal(saved.goal);
-      setGradeLevel(saved.gradeLevel);
-      setPath(saved.path);
-      setSuggestions(saved.suggestions);
-      setSource(saved.source);
+    if (preset) {
+      if (preset === lastPresetGoal.current) return;
+      lastPresetGoal.current = preset;
+
+      const saved = loadPathSession();
+      if (saved?.gradeLevel) {
+        setGradeLevel(saved.gradeLevel);
+      }
+
+      setGoal(preset);
+      void runPathBuild(preset, saved?.gradeLevel ?? "");
       return;
     }
 
-    const grade = saved?.gradeLevel ?? "";
-    if (saved?.gradeLevel) {
-      setGradeLevel(saved.gradeLevel);
-    }
+    if (restoredFromStorage.current) return;
+    restoredFromStorage.current = true;
 
-    if (preset) {
-      setGoal(preset);
-      void runPathBuild(preset, grade);
-    }
+    const saved = loadPathSession();
+    if (!saved) return;
+
+    setGoal(saved.goal);
+    setGradeLevel(saved.gradeLevel);
+    setPath(saved.path);
+    setSuggestions(saved.suggestions);
+    setSource(saved.source);
   }, [searchParams, runPathBuild]);
 
   async function handleSubmit(e: React.FormEvent) {
