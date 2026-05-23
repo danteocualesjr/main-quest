@@ -16,6 +16,39 @@
   ::selection {
     @apply bg-tomato/90 text-cream;
   }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-tomato/45 ring-offset-2 ring-offset-paper;
+  }
+
+  /* Subtle, slim scrollbar that fits the editorial palette. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(20, 19, 18, 0.18) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(20, 19, 18, 0.18);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 62, 26, 0.5);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer components {
@@ -81,5 +114,80 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.07 0 0 0 0 0.07 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     opacity: 0.35;
     mix-blend-mode: multiply;
+  }
+
+  /* Editorial drop cap for the first paragraph after a hero. */
+  .drop-cap::first-letter {
+    @apply font-display text-tomato;
+    font-size: 3.4em;
+    line-height: 0.85;
+    float: left;
+    padding: 0.12em 0.18em 0 0;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  /* Card hover lift used across catalog/cards. */
+  .card-lift {
+    @apply transition duration-300 ease-out;
+  }
+  .card-lift:hover {
+    @apply -translate-y-0.5 shadow-lift;
+  }
+
+  /* Tiny dotted hairline separator. */
+  .dot-rule {
+    background-image: radial-gradient(circle, rgba(20, 19, 18, 0.28) 1px, transparent 1.2px);
+    background-size: 8px 1px;
+    background-repeat: repeat-x;
+    background-position: center;
+    height: 1px;
+  }
+
+  /* Loading skeleton shimmer used in form/loading states. */
+  .skeleton {
+    @apply relative overflow-hidden bg-ink/[0.04];
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(20, 19, 18, 0.06) 50%,
+      transparent 100%
+    );
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Active filter pill used in /explore. */
+  .filter-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato;
+  }
+
+  /* Editorial corner ticks for accenting cards/sections. */
+  .corner-ticks {
+    background-image:
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor);
+    background-size: 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px;
+    background-position:
+      top left, top left,
+      top right, top right,
+      bottom left, bottom left,
+      bottom right, bottom right;
+    background-repeat: no-repeat;
   }
 }

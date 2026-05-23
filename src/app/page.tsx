@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Quote } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Quote } from "lucide-react";
 import { Container } from "@/components/container";
 import { SectionLabel } from "@/components/section-label";
 import { QuestButton } from "@/components/quest-button";
@@ -66,29 +66,58 @@ export default function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative grain border-b border-ink/10 pb-20 pt-12 md:pb-28 md:pt-16">
-        <Container>
-          <SectionLabel number="01" variant="accent">
-            An honest career guide for students
-          </SectionLabel>
+      <section className="relative grain overflow-hidden border-b border-ink/10 pb-20 pt-12 md:pb-28 md:pt-16">
+        {/* Decorative ambient blobs (very subtle) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 right-[-10%] hidden h-[420px] w-[420px] rounded-full bg-tomato/10 blur-[120px] md:block"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 left-[-8%] hidden h-[360px] w-[360px] rounded-full bg-moss/10 blur-[120px] md:block"
+        />
+
+        <Container className="relative">
+          <div className="animate-fade-up">
+            <SectionLabel number="01" variant="accent">
+              An honest career guide for students
+            </SectionLabel>
+          </div>
 
           <div className="mt-10 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-end">
             <div>
-              <h1 className="font-display font-light tracking-tightest text-ink text-display-1">
-                Pick your <em className="font-normal italic text-tomato">next move</em>
+              <h1
+                className="animate-fade-up font-display font-light tracking-tightest text-ink text-display-1"
+                style={{ animationDelay: "60ms" }}
+              >
+                Pick your{" "}
+                <em className="relative font-normal italic text-tomato">
+                  next move
+                  <span
+                    aria-hidden
+                    className="absolute -bottom-1 left-0 right-0 h-[3px] origin-left animate-draw-line rounded-full bg-tomato/30"
+                    style={{ animationDelay: "780ms" }}
+                  />
+                </em>
                 <br />
                 with clarity.
               </h1>
-              <p className="mt-8 max-w-xl text-lg leading-[1.55] text-graphite md:text-xl">
+              <p
+                className="mt-8 max-w-xl animate-fade-up text-lg leading-[1.55] text-graphite md:text-xl"
+                style={{ animationDelay: "180ms" }}
+              >
                 Main Quest turns &ldquo;I don&apos;t know what to do&rdquo; into
                 concrete next steps — careers that actually fit you, roadmaps
                 to dream jobs, and real US salary data. Two minutes. No sign-up.
               </p>
 
-              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <div
+                className="mt-10 flex animate-fade-up flex-wrap items-center gap-x-6 gap-y-4"
+                style={{ animationDelay: "260ms" }}
+              >
                 <QuestButton href="/discover" size="lg">
                   Start with Discover Me
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 transition group-hover/btn:translate-x-0.5" />
                 </QuestButton>
                 <Link
                   href="/explore"
@@ -99,16 +128,43 @@ export default function HomePage() {
                 </Link>
               </div>
 
-              <div className="mt-12 grid grid-cols-3 gap-6 border-t border-ink/10 pt-8">
-                <Stat n={stats.totalCareers.toString()} label="Career paths" />
-                <Stat n={`$${(stats.avgMedianSalary / 1000).toFixed(0)}k`} label="Avg. median pay" />
-                <Stat n={stats.fastestGrowing.toString()} label="Fast-growing roles" />
+              <div
+                className="mt-12 grid animate-fade-up grid-cols-3 gap-6 border-t border-ink/10 pt-8"
+                style={{ animationDelay: "360ms" }}
+              >
+                <Stat
+                  n={stats.totalCareers.toString()}
+                  unit="paths"
+                  label="Career paths"
+                />
+                <Stat
+                  n={`$${(stats.avgMedianSalary / 1000).toFixed(0)}`}
+                  unit="k median"
+                  label="Avg. pay"
+                />
+                <Stat
+                  n={stats.fastestGrowing.toString()}
+                  unit="fast-growing"
+                  label="Above-average roles"
+                />
               </div>
             </div>
 
-            <div className="lg:pl-4">
+            <div className="animate-scale-in lg:pl-4" style={{ animationDelay: "200ms" }}>
               <HeroPreview />
             </div>
+          </div>
+
+          {/* Scroll hint */}
+          <div
+            className="mt-16 hidden animate-fade-in items-center gap-3 text-smoke md:flex"
+            style={{ animationDelay: "520ms" }}
+          >
+            <span className="h-px w-12 bg-ink/15" />
+            <span className="label inline-flex items-center gap-2">
+              <ArrowDown className="h-3 w-3 animate-pulse-soft" />
+              Scroll for the three doors
+            </span>
           </div>
         </Container>
       </section>
@@ -138,14 +194,19 @@ export default function HomePage() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group grid grid-cols-[auto_1fr_auto] items-start gap-6 py-8 transition hover:bg-cream/60"
+                    className="group relative grid grid-cols-[auto_1fr_auto] items-start gap-6 py-8 transition hover:bg-cream/60"
                   >
-                    <span className="font-mono text-sm font-medium tabular text-ash mt-1">
+                    {/* Hover accent rail */}
+                    <span
+                      aria-hidden
+                      className="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-tomato transition group-hover:scale-y-100"
+                    />
+                    <span className="font-mono text-sm font-medium tabular text-ash mt-1 transition group-hover:text-tomato">
                       {n}
                     </span>
                     <div>
                       <p className="label-accent">{sell}</p>
-                      <h3 className="mt-2 font-display text-3xl font-light tracking-tight text-ink md:text-4xl">
+                      <h3 className="mt-2 font-display text-3xl font-light tracking-tight text-ink transition group-hover:text-tomato md:text-4xl">
                         {title}
                       </h3>
                       <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-graphite">
@@ -159,7 +220,7 @@ export default function HomePage() {
                     <span className="inline-flex items-center gap-2 self-center text-sm font-medium text-ink">
                       <span className="hidden md:inline">{cta}</span>
                       <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 transition group-hover:border-tomato group-hover:bg-tomato group-hover:text-cream">
-                        <ArrowRight className="h-4 w-4" />
+                        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                       </span>
                     </span>
                   </Link>
@@ -284,10 +345,17 @@ export default function HomePage() {
   );
 }
 
-function Stat({ n, label }: { n: string; label: string }) {
+function Stat({ n, label, unit }: { n: string; label: string; unit?: string }) {
   return (
     <div>
-      <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">{n}</p>
+      <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
+        {n}
+        {unit && (
+          <span className="ml-1 font-mono text-xs font-medium uppercase tracking-widest text-smoke">
+            {unit}
+          </span>
+        )}
+      </p>
       <p className="label mt-1">{label}</p>
     </div>
   );

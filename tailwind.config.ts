@@ -44,11 +44,41 @@ const config: Config = {
       animation: {
         marquee: "marquee 40s linear infinite",
         "marquee-slow": "marquee 60s linear infinite",
+        "fade-up": "fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "fade-in": "fade-in 0.6s ease-out both",
+        "scale-in": "scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "draw-line": "draw-line 1.1s cubic-bezier(0.65, 0, 0.35, 1) both",
+        "pulse-soft": "pulse-soft 2.4s ease-in-out infinite",
+        "shimmer": "shimmer 1.8s linear infinite",
       },
       keyframes: {
         marquee: {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-50%)" },
+        },
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(14px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "scale-in": {
+          from: { opacity: "0", transform: "scale(0.96)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        "draw-line": {
+          from: { transform: "scaleX(0)" },
+          to: { transform: "scaleX(1)" },
+        },
+        "pulse-soft": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.55" },
+        },
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
         },
       },
     },

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowRight, Loader2, Sparkles } from "lucide-react";
 import { discoverAction } from "@/app/actions/discover";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
@@ -18,6 +18,8 @@ const tips = [
   "Include hobbies (gaming, sports, art) — they reveal career fits.",
   "Be specific. \u201cI like helping people\u201d → \u201cI like tutoring my friends.\u201d",
 ];
+
+const likePrompts = ["drawing", "gaming", "tutoring friends", "making videos", "fixing things"];
 
 export function DiscoverForm() {
   const hydrated = useRef(false);
@@ -44,6 +46,16 @@ export function DiscoverForm() {
     setResults(saved.results);
     setSource(saved.source);
   }, []);
+
+  // Progress: how many fields have meaningful input (0-4).
+  const progress = useMemo(() => {
+    let n = 0;
+    if (likes.trim().length > 2) n++;
+    if (strengths.trim().length > 2) n++;
+    if (weaknesses.trim().length > 2) n++;
+    if (gradeLevel) n++;
+    return n;
+  }, [likes, strengths, weaknesses, gradeLevel]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -81,6 +93,26 @@ export function DiscoverForm() {
     <div className="space-y-20">
       <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr]">
         <form onSubmit={handleSubmit} className="space-y-12">
+          {/* Progress indicator */}
+          <div
+            className="flex items-center gap-4 border-t border-ink/10 pt-6"
+            aria-label="Form completeness"
+          >
+            <div className="flex flex-1 gap-1.5">
+              {[0, 1, 2, 3].map((i) => (
+                <span
+                  key={i}
+                  className={`h-1 flex-1 rounded-full transition ${
+                    i < progress ? "bg-tomato" : "bg-ink/10"
+                  }`}
+                />
+              ))}
+            </div>
+            <p className="label tabular">
+              {progress}/4 fields
+            </p>
+          </div>
+
           <Field
             n="i"
             label="What do you enjoy?"
@@ -94,6 +126,21 @@ export function DiscoverForm() {
               required
               disabled={loading}
             />
+            {!likes && (
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="label">Try:</span>
+                {likePrompts.map((word) => (
+                  <button
+                    type="button"
+                    key={word}
+                    onClick={() => setLikes((v) => (v ? v : `I like ${word}`))}
+                    className="rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato"
+                  >
+                    {word}
+                  </button>
+                ))}
+              </div>
+            )}
           </Field>
 
           <Field
@@ -149,12 +196,18 @@ export function DiscoverForm() {
                 </>
               ) : (
                 <>
+                  <Sparkles className="h-4 w-4" />
                   Find my matches
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </QuestButton>
-            {error && <p className="text-sm text-tomato">{error}</p>}
+            {error && (
+              <p className="inline-flex items-center gap-2 text-sm text-tomato animate-fade-in">
+                <span className="h-1.5 w-1.5 rounded-full bg-tomato" />
+                {error}
+              </p>
+            )}
           </div>
         </form>
 
@@ -165,18 +218,46 @@ export function DiscoverForm() {
             </SectionLabel>
             <ul className="mt-8 space-y-5">
               {tips.map((tip, i) => (
-                <li key={tip} className="grid grid-cols-[auto_1fr] gap-3 text-[15px] leading-relaxed text-graphite">
+                <li
+                  key={tip}
+                  className="grid grid-cols-[auto_1fr] gap-3 text-[15px] leading-relaxed text-graphite"
+                >
                   <span className="font-mono text-xs tabular text-ash">0{i + 1}</span>
                   <span>{tip}</span>
                 </li>
               ))}
             </ul>
+
+            <div className="mt-10 border-t border-ink/10 pt-6">
+              <p className="label">Privacy</p>
+              <p className="mt-3 text-sm leading-relaxed text-smoke">
+                Your answers stay in your browser. No account. No tracking. Clear
+                them anytime by clearing site data.
+              </p>
+            </div>
           </div>
         </aside>
       </div>
 
-      {results && (
-        <section id="matches" className="border-t border-ink/10 pt-16">
+      {loading && (
+        <section className="border-t border-ink/10 pt-16" aria-busy>
+          <SectionLabel variant="accent">Working…</SectionLabel>
+          <h2 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
+            Reading <em className="italic text-tomato">between the lines.</em>
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-graphite">
+            Cross-referencing your answers against the career catalog…
+          </p>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+            {[0, 1, 2, 3].map((i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {results && !loading && (
+        <section id="matches" className="border-t border-ink/10 pt-16 animate-fade-up">
           <SectionLabel variant="accent">Results</SectionLabel>
           <h2 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
             {results.length > 0 ? (
@@ -194,13 +275,18 @@ export function DiscoverForm() {
           </p>
           {source && results.length > 0 && <SourceNote flow="discover" source={source} />}
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
-            {results.map((match) => (
-              <CareerCard
+            {results.map((match, i) => (
+              <div
                 key={match.career.id}
-                career={match.career}
-                matchScore={match.score}
-                reasons={match.reasons}
-              />
+                className="animate-fade-up"
+                style={{ animationDelay: `${i * 60}ms` }}
+              >
+                <CareerCard
+                  career={match.career}
+                  matchScore={match.score}
+                  reasons={match.reasons}
+                />
+              </div>
             ))}
           </div>
         </section>
@@ -232,6 +318,30 @@ function Field({
         </div>
       </div>
       <div className="pl-9">{children}</div>
+    </div>
+  );
+}
+
+function SkeletonCard() {
+  return (
+    <div className="border border-ink/10 bg-cream p-6">
+      <div className="flex items-start justify-between gap-3">
+        <div className="skeleton h-3 w-20 rounded" />
+        <div className="skeleton h-8 w-12 rounded" />
+      </div>
+      <div className="skeleton mt-5 h-8 w-3/4 rounded" />
+      <div className="skeleton mt-3 h-3 w-full rounded" />
+      <div className="skeleton mt-2 h-3 w-2/3 rounded" />
+      <div className="mt-5 grid grid-cols-2 gap-3 border-t border-ink/10 pt-5">
+        <div>
+          <div className="skeleton h-2.5 w-12 rounded" />
+          <div className="skeleton mt-2 h-5 w-24 rounded" />
+        </div>
+        <div>
+          <div className="skeleton h-2.5 w-12 rounded" />
+          <div className="skeleton mt-2 h-5 w-20 rounded" />
+        </div>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import {
   ArrowLeft,
   Briefcase,
+  GraduationCap,
+  Sparkles,
   TrendingUp,
 } from "lucide-react";
 import { Container } from "@/components/container";
@@ -16,10 +18,16 @@ import {
   getRelatedCareers,
 } from "@/lib/careers";
 import { EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
+import type { Career } from "@/lib/types";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+const SALARY_CEILING = 220_000;
+function pct(n: number) {
+  return Math.min(100, Math.max(2, Math.round((n / SALARY_CEILING) * 100)));
+}
 
 export default async function CareerDetailPage({ params }: Props) {
   const { slug } = await params;
@@ -30,107 +38,195 @@ export default async function CareerDetailPage({ params }: Props) {
   }
 
   const related = getRelatedCareers(career);
+  const minPct = pct(career.salaryMin);
+  const maxPct = pct(career.salaryMax);
+  const medianPct = pct(career.salaryMedian);
 
   return (
-    <Container className="pb-20">
-      <Link
-        href="/explore"
-        className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-smoke transition hover:text-tomato"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to the map
-      </Link>
+    <>
+      <Container className="pb-32 md:pb-20">
+        <Link
+          href="/explore"
+          className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-smoke transition hover:text-tomato"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to the map
+        </Link>
 
-      {/* Header */}
-      <header className="mt-8 border-b border-ink/10 pb-12">
-        <SectionLabel variant="accent">{career.category}</SectionLabel>
-        <h1 className="mt-6 max-w-4xl font-display text-display-1 font-light tracking-tightest text-ink">
-          {career.title}
-        </h1>
-        <p className="mt-6 max-w-2xl font-display text-xl font-light italic text-tomato md:text-2xl">
-          {career.tagline}
-        </p>
-        <p className="mt-8 max-w-2xl text-[17px] leading-relaxed text-graphite md:text-lg">
-          {career.summary}
-        </p>
+        {/* Header */}
+        <header className="mt-8 border-b border-ink/10 pb-12">
+          <SectionLabel variant="accent">{career.category}</SectionLabel>
+          <h1 className="mt-6 max-w-4xl animate-fade-up font-display text-display-1 font-light tracking-tightest text-ink">
+            {career.title}
+          </h1>
+          <p
+            className="mt-6 max-w-2xl animate-fade-up font-display text-xl font-light italic text-tomato md:text-2xl"
+            style={{ animationDelay: "60ms" }}
+          >
+            {career.tagline}
+          </p>
+          <p
+            className="mt-8 max-w-2xl animate-fade-up text-[17px] leading-relaxed text-graphite md:text-lg"
+            style={{ animationDelay: "120ms" }}
+          >
+            {career.summary}
+          </p>
 
-        <div className="mt-10">
-          <QuestButton href={`/path?goal=${encodeURIComponent(career.title)}`} size="lg">
-            <Briefcase className="h-4 w-4" />
-            Build my roadmap to {career.title}
-          </QuestButton>
-        </div>
-      </header>
+          <div className="mt-10 hidden md:block">
+            <QuestButton href={`/path?goal=${encodeURIComponent(career.title)}`} size="lg">
+              <Briefcase className="h-4 w-4" />
+              Build my roadmap to {career.title}
+            </QuestButton>
+          </div>
+        </header>
 
-      {/* Key stats */}
-      <dl className="grid grid-cols-2 divide-ink/10 border-b border-ink/10 md:grid-cols-4 md:divide-x">
-        <Detail
-          label="Salary range"
-          value={formatSalaryRange(career)}
-          sub={`Median ${formatSalary(career.salaryMedian)}`}
-        />
-        <Detail
-          label="Job outlook"
-          value={
-            <span className="inline-flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-moss" />
-              {GROWTH_LABELS[career.growthOutlook].replace(" than average", "")}
-            </span>
-          }
-          sub={`~${career.growthPercent}% projected`}
-        />
-        <Detail
-          label="Education"
-          value={EDUCATION_LABELS[career.education]}
-          sub={career.educationLabel}
-        />
-        <Detail label="Time to entry" value={career.timeToEntry} sub="From high school" />
-      </dl>
-
-      {/* Day in life */}
-      <section className="grid gap-10 border-b border-ink/10 py-14 md:grid-cols-[1fr_2fr] md:gap-16">
-        <SectionLabel number="01">A day in the life</SectionLabel>
-        <ol className="space-y-6">
-          {career.dayInLife.map((item, i) => (
-            <li key={item} className="grid grid-cols-[auto_1fr] gap-5 border-b border-ink/10 pb-6 last:border-0">
-              <span className="font-mono text-xs tabular text-tomato pt-1">
-                0{i + 1}
+        {/* Key stats */}
+        <dl className="grid grid-cols-2 divide-ink/10 border-b border-ink/10 md:grid-cols-4 md:divide-x">
+          <Detail
+            label="Salary range"
+            value={formatSalaryRange(career)}
+            sub={`Median ${formatSalary(career.salaryMedian)}`}
+          />
+          <Detail
+            label="Job outlook"
+            value={
+              <span className="inline-flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-moss" />
+                {GROWTH_LABELS[career.growthOutlook].replace(" than average", "")}
               </span>
-              <p className="font-display text-xl font-light leading-snug text-ink md:text-2xl">
-                {item}
+            }
+            sub={`~${career.growthPercent}% projected by 2032`}
+          />
+          <Detail
+            label="Education"
+            value={EDUCATION_LABELS[career.education]}
+            sub={career.educationLabel}
+          />
+          <Detail label="Time to entry" value={career.timeToEntry} sub="From high school" />
+        </dl>
+
+        {/* Salary visualization */}
+        <section className="grid gap-10 border-b border-ink/10 py-14 md:grid-cols-[1fr_2fr] md:gap-16">
+          <SectionLabel number="01">Salary on the map</SectionLabel>
+          <div>
+            <div className="flex items-baseline justify-between gap-4">
+              <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
+                {formatSalary(career.salaryMin)}{" "}
+                <span className="font-mono text-xs uppercase tracking-widest text-ash">
+                  entry
+                </span>
               </p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* Skills */}
-      <section className="grid gap-10 border-b border-ink/10 py-14 md:grid-cols-[1fr_2fr] md:gap-16">
-        <SectionLabel number="02">Skills to start building</SectionLabel>
-        <ul className="flex flex-wrap gap-2">
-          {career.skillsToBuild.map((skill) => (
-            <li
-              key={skill}
-              className="border border-ink/15 bg-cream px-4 py-2 text-[15px] font-medium text-ink"
-            >
-              {skill}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Related */}
-      {related.length > 0 && (
-        <section className="pt-14">
-          <SectionLabel number="03">Related paths</SectionLabel>
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((r) => (
-              <CareerCard key={r.id} career={r} compact />
-            ))}
+              <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
+                {formatSalary(career.salaryMax)}{" "}
+                <span className="font-mono text-xs uppercase tracking-widest text-ash">
+                  top
+                </span>
+              </p>
+            </div>
+            <div className="relative mt-6 h-3 rounded-full bg-ink/8">
+              <span
+                aria-hidden
+                className="absolute inset-y-0 rounded-full bg-gradient-to-r from-tomato/40 via-tomato to-tomato/80"
+                style={{ left: `${minPct}%`, width: `${Math.max(2, maxPct - minPct)}%` }}
+              />
+              <span
+                aria-hidden
+                className="absolute -top-2 h-7 w-0.5 -translate-x-1/2 rounded bg-ink"
+                style={{ left: `${medianPct}%` }}
+              />
+              <span
+                className="absolute -top-9 -translate-x-1/2 whitespace-nowrap rounded-md border border-ink/15 bg-paper px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-ink shadow-paper"
+                style={{ left: `${medianPct}%` }}
+              >
+                Median {formatSalary(career.salaryMedian)}
+              </span>
+            </div>
+            <div className="mt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest tabular text-ash">
+              <span>$0</span>
+              <span>$110k</span>
+              <span>${(SALARY_CEILING / 1000).toFixed(0)}k+</span>
+            </div>
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-smoke">
+              Range reflects typical US salaries for this role across experience
+              levels. Entry-level hires usually start near the lower end; the
+              median is what most working professionals earn.
+            </p>
           </div>
         </section>
-      )}
-    </Container>
+
+        {/* Day in life */}
+        <section className="grid gap-10 border-b border-ink/10 py-14 md:grid-cols-[1fr_2fr] md:gap-16">
+          <SectionLabel number="02">A day in the life</SectionLabel>
+          <ol className="space-y-6">
+            {career.dayInLife.map((item, i) => (
+              <li
+                key={item}
+                className="grid grid-cols-[auto_1fr] gap-5 border-b border-ink/10 pb-6 last:border-0"
+              >
+                <span className="font-mono text-xs tabular text-tomato pt-1">
+                  0{i + 1}
+                </span>
+                <p className="font-display text-xl font-light leading-snug text-ink md:text-2xl">
+                  {item}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* Skills */}
+        <section className="grid gap-10 border-b border-ink/10 py-14 md:grid-cols-[1fr_2fr] md:gap-16">
+          <SectionLabel number="03">Skills to start building</SectionLabel>
+          <div>
+            <ul className="flex flex-wrap gap-2">
+              {career.skillsToBuild.map((skill, i) => (
+                <li
+                  key={skill}
+                  className="group inline-flex items-center gap-2 border border-ink/15 bg-cream px-4 py-2 text-[15px] font-medium text-ink transition hover:border-tomato hover:text-tomato"
+                >
+                  <span className="font-mono text-[10px] tabular text-ash group-hover:text-tomato">
+                    0{i + 1}
+                  </span>
+                  {skill}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href={`/path?goal=${encodeURIComponent(career.title)}`}
+              className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-ink"
+            >
+              <Sparkles className="h-4 w-4 text-tomato" />
+              <span className="underline-link">
+                See how to build these in your roadmap
+              </span>
+            </Link>
+          </div>
+        </section>
+
+        {/* Related */}
+        {related.length > 0 && <Related related={related} />}
+      </Container>
+
+      {/* Sticky mobile CTA — appears on small screens only */}
+      <div className="sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 backdrop-blur-md md:hidden">
+        <Container className="flex items-center justify-between gap-3 py-3">
+          <div className="min-w-0">
+            <p className="label">Ready?</p>
+            <p className="truncate font-display text-base font-light text-ink">
+              Roadmap to {career.title}
+            </p>
+          </div>
+          <QuestButton
+            href={`/path?goal=${encodeURIComponent(career.title)}`}
+            size="sm"
+            className="shrink-0"
+          >
+            <GraduationCap className="h-4 w-4" />
+            Build
+          </QuestButton>
+        </Container>
+      </div>
+    </>
   );
 }
 
@@ -151,5 +247,18 @@ function Detail({
       </p>
       {sub && <p className="mt-1 text-xs text-smoke">{sub}</p>}
     </div>
+  );
+}
+
+function Related({ related }: { related: Career[] }) {
+  return (
+    <section className="pt-14">
+      <SectionLabel number="04">Related paths</SectionLabel>
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {related.map((r) => (
+          <CareerCard key={r.id} career={r} compact />
+        ))}
+      </div>
+    </section>
   );
 }

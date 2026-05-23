@@ -8,7 +8,12 @@ const GROWTH_ORDER: Record<GrowthOutlook, number> = {
   slower: 1,
 };
 
-export function exploreCareers(filters: ExploreFilters = {}): Career[] {
+export type SortBy = "recommended" | "salary_desc" | "salary_asc" | "growth" | "alpha";
+
+export function exploreCareers(
+  filters: ExploreFilters = {},
+  sortBy: SortBy = "recommended"
+): Career[] {
   let results = [...careers];
 
   if (filters.query) {
@@ -40,9 +45,25 @@ export function exploreCareers(filters: ExploreFilters = {}): Career[] {
   }
 
   return results.sort((a, b) => {
-    const growthDiff = GROWTH_ORDER[b.growthOutlook] - GROWTH_ORDER[a.growthOutlook];
-    if (growthDiff !== 0) return growthDiff;
-    return b.salaryMedian - a.salaryMedian;
+    switch (sortBy) {
+      case "salary_desc":
+        return b.salaryMedian - a.salaryMedian;
+      case "salary_asc":
+        return a.salaryMedian - b.salaryMedian;
+      case "growth":
+        return (
+          GROWTH_ORDER[b.growthOutlook] - GROWTH_ORDER[a.growthOutlook] ||
+          b.growthPercent - a.growthPercent
+        );
+      case "alpha":
+        return a.title.localeCompare(b.title);
+      case "recommended":
+      default: {
+        const growthDiff = GROWTH_ORDER[b.growthOutlook] - GROWTH_ORDER[a.growthOutlook];
+        if (growthDiff !== 0) return growthDiff;
+        return b.salaryMedian - a.salaryMedian;
+      }
+    }
   });
 }
 
