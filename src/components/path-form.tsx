@@ -1,46 +1,67 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Flag } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Flag, Loader2 } from "lucide-react";
+import { pathAction } from "@/app/actions/path";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
 import { careers } from "@/lib/careers";
-import { buildCareerPath, suggestCareersForGoal } from "@/lib/path-builder";
-import type { CareerPath } from "@/lib/types";
+import type { PathSource } from "@/lib/path-ai";
+import type { Career, CareerPath } from "@/lib/types";
 
 export function PathForm() {
   const searchParams = useSearchParams();
   const [goal, setGoal] = useState("");
   const [path, setPath] = useState<CareerPath | null>(null);
-  const [suggestions, setSuggestions] = useState<ReturnType<typeof suggestCareersForGoal>>([]);
+  const [suggestions, setSuggestions] = useState<Career[]>([]);
+  const [source, setSource] = useState<PathSource | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
+
+  const runPathBuild = useCallback(async (goalQuery: string) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await pathAction(goalQuery);
+      setSource(result.source);
+
+      if (result.kind === "path") {
+        setPath(result.path);
+        setSuggestions([]);
+        requestAnimationFrame(() => {
+          document.getElementById("roadmap")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      } else {
+        setPath(null);
+        setSuggestions(result.suggestions);
+      }
+    } catch {
+      setError("Something went wrong building your path. Try again in a moment.");
+      setPath(null);
+      setSuggestions([]);
+      setSource(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     const preset = searchParams.get("goal");
     if (preset) {
       setGoal(preset);
-      const built = buildCareerPath(preset);
-      if (built) {
-        setPath(built);
-        setSuggestions([]);
-      }
+      void runPathBuild(preset);
     }
-  }, [searchParams]);
+  }, [searchParams, runPathBuild]);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const built = buildCareerPath(goal);
-    if (built) {
-      setPath(built);
-      setSuggestions([]);
-    } else {
-      setPath(null);
-      setSuggestions(suggestCareersForGoal(goal));
-    }
+    await runPathBuild(goal);
   }
 
   return (
@@ -60,6 +81,7 @@ export function PathForm() {
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
               required
+              disabled={loading}
             />
             <datalist id="career-suggestions">
               {careerTitles.map((title) => (
@@ -67,11 +89,21 @@ export function PathForm() {
               ))}
             </datalist>
           </div>
-          <QuestButton type="submit" size="lg">
-            Build the path
-            <ArrowRight className="h-4 w-4" />
+          <QuestButton type="submit" size="lg" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Building your path…
+              </>
+            ) : (
+              <>
+                Build the path
+                <ArrowRight className="h-4 w-4" />
+              </>
+            )}
           </QuestButton>
         </div>
+        {error && <p className="mt-3 text-sm text-tomato">{error}</p>}
       </form>
 
       {suggestions.length > 0 && (
@@ -80,6 +112,9 @@ export function PathForm() {
           <h2 className="mt-4 font-display text-3xl font-light tracking-tight text-ink md:text-4xl">
             Did you mean one of these?
           </h2>
+          <p className="mt-3 max-w-2xl text-[15px] text-graphite">
+            Pick a role below to open its full profile, or refine your goal and try again.
+          </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {suggestions.map((career) => (
               <CareerCard key={career.id} career={career} compact />
@@ -89,7 +124,7 @@ export function PathForm() {
       )}
 
       {path && (
-        <section className="space-y-16">
+        <section id="roadmap" className="space-y-16">
           <div className="border-t border-ink/10 pt-12">
             <SectionLabel variant="accent">Your main quest</SectionLabel>
             <div className="mt-6 grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end">
@@ -100,6 +135,12 @@ export function PathForm() {
                 <p className="mt-5 max-w-xl text-lg leading-relaxed text-graphite">
                   {path.encouragement}
                 </p>
+                {source === "ai" && (
+                  <p className="mt-3 label text-smoke">
+                    Roadmap tailored to your goal — education and salary facts come from our career
+                    catalog.
+                  </p>
+                )}
               </div>
               <Link
                 href={`/explore/${path.career.id}`}
@@ -132,7 +173,7 @@ export function PathForm() {
             <SectionLabel>The roadmap</SectionLabel>
             <ol className="mt-10 space-y-12">
               {path.steps.map((step, i) => (
-                <li key={step.phase} className="grid gap-6 md:grid-cols-[auto_1fr_2fr]">
+                <li key={`${step.phase}-${i}`} className="grid gap-6 md:grid-cols-[auto_1fr_2fr]">
                   <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato md:pt-2">
                     Phase 0{i + 1}
                   </span>
