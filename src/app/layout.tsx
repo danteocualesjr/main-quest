@@ -33,7 +33,7 @@ export default function RootLayout({
     >
       <body className="font-body" suppressHydrationWarning>
         <SiteHeader />
-        <main className="mx-auto min-h-[calc(100vh-8rem)] max-w-6xl px-4 pb-16 pt-8">
+        <main className="mx-auto min-h-[calc(100vh-10rem)] max-w-6xl px-4 pb-12 pt-6 md:pt-10">
           {children}
         </main>
         <SiteFooter />

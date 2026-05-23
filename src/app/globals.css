@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-quest-bg text-quest-ink antialiased;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(28, 25, 23, 0.04) 1px, transparent 0);
+    background-size: 24px 24px;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .quest-panel {
+    @apply rounded-2xl border border-quest-border bg-quest-surface p-6 shadow-card;
+  }
+
+  .quest-input {
+    @apply w-full rounded-xl border border-quest-border bg-quest-surface px-4 py-3 text-quest-ink placeholder:text-quest-muted/70 outline-none transition focus:border-quest-indigo/40 focus:ring-2 focus:ring-quest-indigo/10;
+  }
+
+  .quest-label {
+    @apply mb-2 block text-sm font-medium text-quest-ink;
+  }
+
+  .quest-section-title {
+    @apply font-display text-2xl font-bold tracking-tight text-quest-ink md:text-3xl;
+  }
+
+  .quest-page-intro {
+    @apply mt-2 max-w-2xl text-base leading-relaxed text-quest-muted;
+  }
+}
