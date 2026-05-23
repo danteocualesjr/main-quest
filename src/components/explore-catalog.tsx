@@ -32,17 +32,17 @@ export function ExploreCatalog() {
     <div className="space-y-6">
       <div className="grid gap-3 sm:grid-cols-3">
         <div className="quest-panel text-center">
-          <p className="text-3xl font-bold text-quest-indigo">{stats.totalCareers}</p>
+          <p className="font-display text-3xl font-semibold text-quest-coral">{stats.totalCareers}</p>
           <p className="mt-1 text-sm text-quest-muted">Career paths</p>
         </div>
         <div className="quest-panel text-center">
-          <p className="text-3xl font-bold text-quest-teal">
+          <p className="font-display text-3xl font-semibold text-quest-mint">
             ${(stats.avgMedianSalary / 1000).toFixed(0)}k
           </p>
           <p className="mt-1 text-sm text-quest-muted">Avg. median salary</p>
         </div>
         <div className="quest-panel text-center">
-          <p className="text-3xl font-bold text-quest-purple">{stats.fastestGrowing}</p>
+          <p className="font-display text-3xl font-semibold text-quest-lavender">{stats.fastestGrowing}</p>
           <p className="mt-1 text-sm text-quest-muted">Fast-growing roles</p>
         </div>
       </div>

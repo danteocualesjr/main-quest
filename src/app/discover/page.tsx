@@ -1,15 +1,16 @@
+import { Container } from "@/components/container";
 import { DiscoverForm } from "@/components/discover-form";
 import { PageHeader } from "@/components/page-header";
 
 export default function DiscoverPage() {
   return (
-    <div className="space-y-8">
+    <Container className="space-y-10 py-10 md:py-14">
       <PageHeader
-        eyebrow="Step 1"
-        title="Discover Me"
-        description="Tell us what you like, what you're good at, and what you'd rather avoid. We'll match you to careers you might not have considered."
+        eyebrow="Discover Me"
+        title="Let's find careers that actually fit you"
+        description="No wrong answers. The more honest you are about what you enjoy — and what you'd rather avoid — the better your matches."
       />
       <DiscoverForm />
-    </div>
+    </Container>
   );
 }

@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Outfit, DM_Sans } from "next/font/google";
+import { Fraunces, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-const display = Outfit({
+const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
 });
 
-const body = DM_Sans({
+const body = Source_Sans_3({
   subsets: ["latin"],
   variable: "--font-body",
 });
@@ -33,9 +33,7 @@ export default function RootLayout({
     >
       <body className="font-body" suppressHydrationWarning>
         <SiteHeader />
-        <main className="mx-auto min-h-[calc(100vh-10rem)] max-w-6xl px-4 pb-12 pt-6 md:pt-10">
-          {children}
-        </main>
+        <main className="min-h-[calc(100vh-4rem)]">{children}</main>
         <SiteFooter />
       </body>
     </html>

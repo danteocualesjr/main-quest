@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 type QuestButtonProps = {
   href?: string;
   onClick?: () => void;
-  variant?: "primary" | "secondary" | "ghost";
-  size?: "default" | "sm";
+  variant?: "primary" | "secondary" | "ghost" | "navy";
+  size?: "default" | "sm" | "lg";
   className?: string;
   children: React.ReactNode;
   type?: "button" | "submit";
@@ -23,15 +23,18 @@ export function QuestButton({
   disabled,
 }: QuestButtonProps) {
   const styles = cn(
-    "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
-    size === "default" && "px-5 py-3 text-sm",
+    "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
     size === "sm" && "px-4 py-2 text-sm",
+    size === "default" && "px-6 py-3 text-sm",
+    size === "lg" && "px-8 py-4 text-base",
     variant === "primary" &&
-      "bg-quest-indigo text-white shadow-soft hover:bg-indigo-700 focus-visible:outline-quest-indigo",
+      "bg-quest-coral text-white shadow-glow hover:bg-quest-coral-dark focus-visible:outline-quest-coral",
     variant === "secondary" &&
-      "bg-quest-teal/10 text-quest-teal ring-1 ring-quest-teal/20 hover:bg-quest-teal/15",
+      "bg-quest-mint/10 text-quest-mint ring-1 ring-quest-mint/25 hover:bg-quest-mint/15",
+    variant === "navy" &&
+      "bg-quest-navy text-white shadow-soft hover:bg-quest-navy/90 focus-visible:outline-quest-navy",
     variant === "ghost" &&
-      "border border-quest-border bg-quest-surface text-quest-ink shadow-sm hover:border-quest-muted/30 hover:bg-quest-card",
+      "border border-quest-border bg-quest-surface text-quest-ink shadow-sm hover:border-quest-coral/25 hover:bg-quest-card",
     className
   );
 

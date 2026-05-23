@@ -9,9 +9,6 @@
 
   body {
     @apply bg-quest-bg text-quest-ink antialiased;
-    background-image:
-      radial-gradient(circle at 1px 1px, rgba(28, 25, 23, 0.04) 1px, transparent 0);
-    background-size: 24px 24px;
     min-height: 100vh;
   }
 }
@@ -22,18 +19,38 @@
   }
 
   .quest-input {
-    @apply w-full rounded-xl border border-quest-border bg-quest-surface px-4 py-3 text-quest-ink placeholder:text-quest-muted/70 outline-none transition focus:border-quest-indigo/40 focus:ring-2 focus:ring-quest-indigo/10;
+    @apply w-full rounded-xl border border-quest-border bg-quest-surface px-4 py-3 text-quest-ink placeholder:text-quest-muted/60 outline-none transition focus:border-quest-coral/50 focus:ring-2 focus:ring-quest-coral/10;
   }
 
   .quest-label {
-    @apply mb-2 block text-sm font-medium text-quest-ink;
+    @apply mb-2 block text-sm font-semibold text-quest-ink;
   }
 
   .quest-section-title {
-    @apply font-display text-2xl font-bold tracking-tight text-quest-ink md:text-3xl;
+    @apply font-display text-3xl font-semibold tracking-tight text-quest-ink md:text-4xl;
   }
 
   .quest-page-intro {
-    @apply mt-2 max-w-2xl text-base leading-relaxed text-quest-muted;
+    @apply mt-3 max-w-2xl text-lg leading-relaxed text-quest-muted;
+  }
+
+  .quest-container {
+    @apply mx-auto max-w-6xl px-4 sm:px-6;
+  }
+
+  .quest-mesh {
+    background-color: #fffbf7;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(232, 93, 76, 0.08) 0, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(124, 92, 191, 0.07) 0, transparent 45%),
+      radial-gradient(at 80% 100%, rgba(31, 168, 150, 0.06) 0, transparent 40%);
+  }
+
+  .quest-section-band {
+    @apply border-y border-quest-border/80 bg-quest-card/50 py-16 md:py-20;
+  }
+
+  .quest-display-accent {
+    @apply bg-gradient-to-r from-quest-coral via-quest-coral to-quest-gold bg-clip-text text-transparent;
   }
 }

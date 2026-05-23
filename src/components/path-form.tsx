@@ -93,17 +93,17 @@ export function PathForm() {
 
       {path && (
         <section className="space-y-6">
-          <div className="quest-panel border-quest-indigo/15 bg-gradient-to-br from-quest-surface to-quest-indigo/[0.03]">
-            <p className="text-sm font-semibold uppercase tracking-wider text-quest-indigo">
+          <div className="quest-panel border-quest-coral/15 bg-gradient-to-br from-quest-surface to-quest-coral/[0.04]">
+            <p className="text-sm font-bold uppercase tracking-wider text-quest-coral">
               Your main quest
             </p>
-            <h2 className="mt-1 font-display text-2xl font-bold text-quest-ink">
+            <h2 className="mt-1 font-display text-2xl font-semibold text-quest-ink">
               {path.career.title}
             </h2>
             <p className="mt-2 leading-relaxed text-quest-muted">{path.encouragement}</p>
             <Link
               href={`/explore/${path.career.id}`}
-              className="mt-3 inline-block text-sm font-semibold text-quest-indigo hover:underline"
+              className="mt-3 inline-block text-sm font-bold text-quest-coral hover:underline"
             >
               View full career profile →
             </Link>
@@ -114,7 +114,7 @@ export function PathForm() {
             <ul className="mt-3 space-y-2 text-sm text-quest-muted">
               {path.gaps.map((gap) => (
                 <li key={gap} className="flex gap-2">
-                  <Flag className="mt-0.5 h-4 w-4 shrink-0 text-quest-amber" />
+                  <Flag className="mt-0.5 h-4 w-4 shrink-0 text-quest-gold" />
                   {gap}
                 </li>
               ))}
@@ -125,14 +125,14 @@ export function PathForm() {
             {path.steps.map((step, i) => (
               <div key={step.phase} className="quest-panel relative pl-10">
                 <div className="absolute left-4 top-6 flex h-full flex-col items-center">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-quest-indigo text-sm font-bold text-white shadow-soft">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-quest-navy text-sm font-bold text-white shadow-soft">
                     {i + 1}
                   </div>
                   {i < path.steps.length - 1 && (
                     <div className="mt-2 w-px flex-1 bg-quest-border" />
                   )}
                 </div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-quest-purple">
+                <p className="text-xs font-bold uppercase tracking-wider text-quest-lavender">
                   {step.phase}
                 </p>
                 <h3 className="mt-1 font-display text-lg font-bold text-quest-ink">
@@ -144,7 +144,7 @@ export function PathForm() {
                 <ul className="mt-3 space-y-1.5 text-sm text-quest-ink/80">
                   {step.actions.map((action) => (
                     <li key={action} className="flex gap-2">
-                      <span className="text-quest-indigo">✦</span>
+                      <span className="text-quest-coral">✦</span>
                       {action}
                     </li>
                   ))}

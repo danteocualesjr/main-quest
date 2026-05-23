@@ -1,14 +1,15 @@
 import { Suspense } from "react";
+import { Container } from "@/components/container";
 import { PathForm } from "@/components/path-form";
 import { PageHeader } from "@/components/page-header";
 
 export default function PathPage() {
   return (
-    <div className="space-y-8">
+    <Container className="space-y-10 py-10 md:py-14">
       <PageHeader
-        eyebrow="Step 2"
-        title="Path to a Goal"
-        description="Already know what you want? Reverse-engineer the steps — what to study, skills to build, and how to break into the field."
+        eyebrow="Path to a Goal"
+        title="Reverse-engineer your dream job"
+        description="Type the role you're aiming for. We'll break it into phases — what to study, build, and do from now until your first hire."
       />
       <Suspense
         fallback={
@@ -17,6 +18,6 @@ export default function PathPage() {
       >
         <PathForm />
       </Suspense>
-    </div>
+    </Container>
   );
 }
