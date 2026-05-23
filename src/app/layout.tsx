@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Source_Sans_3 } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -7,17 +7,26 @@ import { SiteFooter } from "@/components/site-footer";
 const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
+  axes: ["opsz", "SOFT"],
+  display: "swap",
 });
 
-const body = Source_Sans_3({
+const body = Inter({
   subsets: ["latin"],
   variable: "--font-body",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Main Quest — Find your path",
+  title: "Main Quest — Pick your next move with clarity",
   description:
-    "Discover careers that fit you, reverse-engineer your dream job, and explore US career paths with salaries and growth data.",
+    "An honest career guide for US students. Match careers to who you are, reverse-engineer paths to dream jobs, and explore real salary and growth data.",
 };
 
 export default function RootLayout({
@@ -28,12 +37,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable}`}
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
-      <body className="font-body" suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <SiteHeader />
-        <main className="min-h-[calc(100vh-4rem)]">{children}</main>
+        <main>{children}</main>
         <SiteFooter />
       </body>
     </html>

@@ -3,9 +3,10 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Flag, Target } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Flag } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
+import { SectionLabel } from "@/components/section-label";
 import { careers } from "@/lib/careers";
 import { buildCareerPath, suggestCareersForGoal } from "@/lib/path-builder";
 import type { CareerPath } from "@/lib/types";
@@ -14,14 +15,9 @@ export function PathForm() {
   const searchParams = useSearchParams();
   const [goal, setGoal] = useState("");
   const [path, setPath] = useState<CareerPath | null>(null);
-  const [suggestions, setSuggestions] = useState<ReturnType<typeof suggestCareersForGoal>>(
-    []
-  );
+  const [suggestions, setSuggestions] = useState<ReturnType<typeof suggestCareersForGoal>>([]);
 
-  const careerTitles = useMemo(
-    () => careers.map((c) => c.title).sort(),
-    []
-  );
+  const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
 
   useEffect(() => {
     const preset = searchParams.get("goal");
@@ -48,42 +44,43 @@ export function PathForm() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
-      <form onSubmit={handleSubmit} className="quest-panel space-y-4">
-        <div>
-          <label htmlFor="goal" className="quest-label">
-            What do you want to become?
-          </label>
-          <p className="mb-2 text-sm text-quest-muted">
-            Type a job title or pick from suggestions.
-          </p>
-          <input
-            id="goal"
-            list="career-suggestions"
-            className="quest-input"
-            placeholder="AI researcher, nurse, UX designer..."
-            value={goal}
-            onChange={(e) => setGoal(e.target.value)}
-            required
-          />
-          <datalist id="career-suggestions">
-            {careerTitles.map((title) => (
-              <option key={title} value={title} />
-            ))}
-          </datalist>
+    <div className="space-y-20">
+      <form onSubmit={handleSubmit} className="border-t border-ink/10 pt-12">
+        <SectionLabel variant="accent">Your goal</SectionLabel>
+        <div className="mt-4 grid items-end gap-6 md:grid-cols-[1fr_auto]">
+          <div>
+            <label htmlFor="goal" className="sr-only">
+              What do you want to become?
+            </label>
+            <input
+              id="goal"
+              list="career-suggestions"
+              className="input-bare font-display text-3xl font-light tracking-tight md:text-5xl"
+              placeholder="AI researcher, nurse, UX designer..."
+              value={goal}
+              onChange={(e) => setGoal(e.target.value)}
+              required
+            />
+            <datalist id="career-suggestions">
+              {careerTitles.map((title) => (
+                <option key={title} value={title} />
+              ))}
+            </datalist>
+          </div>
+          <QuestButton type="submit" size="lg">
+            Build the path
+            <ArrowRight className="h-4 w-4" />
+          </QuestButton>
         </div>
-        <QuestButton type="submit">
-          <Target className="h-4 w-4" />
-          Build my quest path
-        </QuestButton>
       </form>
 
       {suggestions.length > 0 && (
-        <section className="quest-panel">
-          <h2 className="font-display text-xl font-bold text-quest-ink">
-            We couldn&apos;t find an exact match — did you mean?
+        <section>
+          <SectionLabel variant="accent">No exact match</SectionLabel>
+          <h2 className="mt-4 font-display text-3xl font-light tracking-tight text-ink md:text-4xl">
+            Did you mean one of these?
           </h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {suggestions.map((career) => (
               <CareerCard key={career.id} career={career} compact />
             ))}
@@ -92,65 +89,76 @@ export function PathForm() {
       )}
 
       {path && (
-        <section className="space-y-6">
-          <div className="quest-panel border-quest-coral/15 bg-gradient-to-br from-quest-surface to-quest-coral/[0.04]">
-            <p className="text-sm font-bold uppercase tracking-wider text-quest-coral">
-              Your main quest
-            </p>
-            <h2 className="mt-1 font-display text-2xl font-semibold text-quest-ink">
-              {path.career.title}
-            </h2>
-            <p className="mt-2 leading-relaxed text-quest-muted">{path.encouragement}</p>
-            <Link
-              href={`/explore/${path.career.id}`}
-              className="mt-3 inline-block text-sm font-bold text-quest-coral hover:underline"
-            >
-              View full career profile →
-            </Link>
+        <section className="space-y-16">
+          <div className="border-t border-ink/10 pt-12">
+            <SectionLabel variant="accent">Your main quest</SectionLabel>
+            <div className="mt-6 grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end">
+              <div>
+                <h2 className="font-display text-display-2 font-light tracking-tight text-ink">
+                  {path.career.title}
+                </h2>
+                <p className="mt-5 max-w-xl text-lg leading-relaxed text-graphite">
+                  {path.encouragement}
+                </p>
+              </div>
+              <Link
+                href={`/explore/${path.career.id}`}
+                className="group inline-flex items-center gap-2 self-start text-sm font-medium text-ink md:self-end"
+              >
+                <span className="underline-link">View full career profile</span>
+                <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </Link>
+            </div>
           </div>
 
-          <div className="quest-panel">
-            <h3 className="font-display text-lg font-bold text-quest-ink">Gaps to plan for</h3>
-            <ul className="mt-3 space-y-2 text-sm text-quest-muted">
-              {path.gaps.map((gap) => (
-                <li key={gap} className="flex gap-2">
-                  <Flag className="mt-0.5 h-4 w-4 shrink-0 text-quest-gold" />
-                  {gap}
+          {path.gaps.length > 0 && (
+            <div className="border-t border-ink/10 pt-10">
+              <SectionLabel>Gaps to plan for</SectionLabel>
+              <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+                {path.gaps.map((gap) => (
+                  <li
+                    key={gap}
+                    className="flex gap-3 border border-ink/10 bg-cream p-5 text-[15px] leading-relaxed text-graphite"
+                  >
+                    <Flag className="mt-0.5 h-4 w-4 shrink-0 text-tomato" />
+                    {gap}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="border-t border-ink/10 pt-10">
+            <SectionLabel>The roadmap</SectionLabel>
+            <ol className="mt-10 space-y-12">
+              {path.steps.map((step, i) => (
+                <li key={step.phase} className="grid gap-6 md:grid-cols-[auto_1fr_2fr]">
+                  <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato md:pt-2">
+                    Phase 0{i + 1}
+                  </span>
+                  <div className="md:pt-1">
+                    <p className="label">{step.phase}</p>
+                    <h3 className="mt-2 font-display text-2xl font-light tracking-tight text-ink md:text-3xl">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-[15px] leading-relaxed text-graphite">
+                      {step.description}
+                    </p>
+                  </div>
+                  <ul className="space-y-3 border-l border-ink/10 pl-6 md:pt-2">
+                    {step.actions.map((action) => (
+                      <li
+                        key={action}
+                        className="grid grid-cols-[auto_1fr] gap-3 text-[15px] leading-relaxed text-ink"
+                      >
+                        <span className="font-mono text-tomato">→</span>
+                        {action}
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            {path.steps.map((step, i) => (
-              <div key={step.phase} className="quest-panel relative pl-10">
-                <div className="absolute left-4 top-6 flex h-full flex-col items-center">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-quest-navy text-sm font-bold text-white shadow-soft">
-                    {i + 1}
-                  </div>
-                  {i < path.steps.length - 1 && (
-                    <div className="mt-2 w-px flex-1 bg-quest-border" />
-                  )}
-                </div>
-                <p className="text-xs font-bold uppercase tracking-wider text-quest-lavender">
-                  {step.phase}
-                </p>
-                <h3 className="mt-1 font-display text-lg font-bold text-quest-ink">
-                  {step.title}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-quest-muted">
-                  {step.description}
-                </p>
-                <ul className="mt-3 space-y-1.5 text-sm text-quest-ink/80">
-                  {step.actions.map((action) => (
-                    <li key={action} className="flex gap-2">
-                      <span className="text-quest-coral">✦</span>
-                      {action}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            </ol>
           </div>
         </section>
       )}

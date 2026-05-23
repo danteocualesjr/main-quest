@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type QuestButtonProps = {
   href?: string;
   onClick?: () => void;
-  variant?: "primary" | "secondary" | "ghost" | "navy";
+  variant?: "primary" | "ghost" | "ink" | "link";
   size?: "default" | "sm" | "lg";
   className?: string;
   children: React.ReactNode;
@@ -23,18 +23,18 @@ export function QuestButton({
   disabled,
 }: QuestButtonProps) {
   const styles = cn(
-    "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
-    size === "sm" && "px-4 py-2 text-sm",
-    size === "default" && "px-6 py-3 text-sm",
-    size === "lg" && "px-8 py-4 text-base",
+    "group/btn inline-flex items-center justify-center gap-2 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 disabled:opacity-50",
+    variant !== "link" && "rounded-full",
+    size === "sm" && variant !== "link" && "px-4 py-2 text-sm",
+    size === "default" && variant !== "link" && "px-6 py-3 text-[15px]",
+    size === "lg" && variant !== "link" && "px-7 py-3.5 text-base",
     variant === "primary" &&
-      "bg-quest-coral text-white shadow-glow hover:bg-quest-coral-dark focus-visible:outline-quest-coral",
-    variant === "secondary" &&
-      "bg-quest-mint/10 text-quest-mint ring-1 ring-quest-mint/25 hover:bg-quest-mint/15",
-    variant === "navy" &&
-      "bg-quest-navy text-white shadow-soft hover:bg-quest-navy/90 focus-visible:outline-quest-navy",
+      "bg-tomato text-cream hover:bg-ember focus-visible:outline-tomato shadow-paper",
+    variant === "ink" && "bg-ink text-cream hover:bg-graphite focus-visible:outline-ink",
     variant === "ghost" &&
-      "border border-quest-border bg-quest-surface text-quest-ink shadow-sm hover:border-quest-coral/25 hover:bg-quest-card",
+      "border border-ink/15 bg-transparent text-ink hover:bg-ink hover:text-cream focus-visible:outline-ink",
+    variant === "link" &&
+      "text-ink underline-offset-4 hover:text-tomato",
     className
   );
 

@@ -4,13 +4,17 @@ import { PageHeader } from "@/components/page-header";
 
 export default function ExplorePage() {
   return (
-    <Container className="space-y-10 py-10 md:py-14">
+    <Container className="pb-20">
       <PageHeader
-        eyebrow="Career map"
-        title="Explore every path on the map"
-        description="Filter by salary, education, growth, and category. Every card opens a full profile with day-in-the-life details."
+        number="03"
+        eyebrow="The Career Map"
+        title="Every path on the"
+        accent="map."
+        description="Filter by salary, education, growth, and category. Every card opens a full profile with day-in-the-life details and a roadmap builder."
       />
-      <ExploreCatalog />
+      <div className="mt-12 md:mt-16">
+        <ExploreCatalog />
+      </div>
     </Container>
   );
 }

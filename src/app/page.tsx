@@ -1,74 +1,62 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  CheckCircle2,
-  Map,
-  Quote,
-  Search,
-  Target,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Quote } from "lucide-react";
 import { Container } from "@/components/container";
-import { HeroVisual } from "@/components/hero-visual";
-import { PromptChip } from "@/components/prompt-chip";
+import { SectionLabel } from "@/components/section-label";
 import { QuestButton } from "@/components/quest-button";
 import { CareerCard } from "@/components/career-card";
+import { HeroPreview } from "@/components/hero-preview";
+import { Marquee } from "@/components/marquee";
 import { careers } from "@/lib/careers";
 import { getCareerStats } from "@/lib/explore";
 
 const featured = careers.filter((c) =>
-  ["ux-designer", "registered-nurse", "ai-researcher", "content-creator"].includes(c.id)
+  ["ai-researcher", "registered-nurse", "ux-designer", "content-creator"].includes(c.id)
 );
+
+const marqueeRoles = careers.slice(0, 12).map((c) => c.title);
 
 const paths = [
   {
+    n: "01",
     href: "/discover",
-    step: "01",
-    icon: Search,
-    accent: "bg-quest-lavender/15 text-quest-lavender ring-quest-lavender/20",
     title: "Discover Me",
-    hook: "No idea yet? Perfect.",
-    description:
-      "Describe what you enjoy and what you'd avoid. We match you to careers you might never have Googled.",
-    cta: "Find my matches",
+    sell: "When you have no idea where to start.",
+    body: "Describe what you enjoy and what you'd rather avoid. We surface careers that fit — including ones you'd never have Googled.",
+    cta: "Take the quiz",
+    sample: "I like art but I'm bad at math",
   },
   {
+    n: "02",
     href: "/path",
-    step: "02",
-    icon: Target,
-    accent: "bg-quest-coral/15 text-quest-coral ring-quest-coral/20",
     title: "Path to a Goal",
-    hook: "Already have a dream job?",
-    description:
-      "Reverse-engineer it — classes to take, skills to build, and milestones from high school to hire.",
+    sell: "When you already know the destination.",
+    body: "Type the role you're aiming for. We reverse-engineer the steps from high school through your first hire — courses, skills, milestones.",
     cta: "Build my roadmap",
+    sample: "I want to be an AI researcher",
   },
   {
+    n: "03",
     href: "/explore",
-    step: "03",
-    icon: Map,
-    accent: "bg-quest-mint/15 text-quest-mint ring-quest-mint/20",
-    title: "Explore Careers",
-    hook: "Want to browse first?",
-    description:
-      "Filter 30+ US careers by salary, education, and growth. Compare side by side before you commit.",
+    title: "Career Map",
+    sell: "When you'd rather browse first.",
+    body: "Filter 30+ US careers by salary, education, and growth. Compare side by side before you commit to anything.",
     cta: "Open the map",
+    sample: "Show me $90k+ healthcare roles",
   },
-];
-
-const steps = [
-  { title: "Tell us about you", body: "Interests, strengths, or a dream job — whatever you have." },
-  { title: "See real options", body: "Matches and roadmaps backed by US salary and growth data." },
-  { title: "Take the next step", body: "Know what to study, build, and explore — starting today." },
 ];
 
 const quotes = [
   {
     text: "I thought I had to pick one thing forever. Discover Me showed me four paths I'd never heard of.",
-    who: "11th grader · Texas",
+    who: "Maya · 11th grade · Texas",
   },
   {
-    text: "I typed 'AI researcher' and got a full roadmap. My counselor meeting actually had a plan in it.",
-    who: "12th grader · California",
+    text: "I typed 'AI researcher' and got a real roadmap. My counselor meeting actually had a plan in it.",
+    who: "Jordan · 12th grade · California",
+  },
+  {
+    text: "The salary data was the wake-up call my parents needed. Nursing made sense to all of us.",
+    who: "Priya · 12th grade · New Jersey",
   },
 ];
 
@@ -77,151 +65,159 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="quest-mesh overflow-hidden pb-16 pt-10 md:pb-24 md:pt-14">
+      {/* HERO */}
+      <section className="relative grain border-b border-ink/10 pb-20 pt-12 md:pb-28 md:pt-16">
         <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
+          <SectionLabel number="01" variant="accent">
+            An honest career guide for students
+          </SectionLabel>
+
+          <div className="mt-10 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-end">
             <div>
-              <p className="inline-flex items-center gap-2 rounded-full bg-quest-navy px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white">
-                Free · Built for students
-              </p>
-              <h1 className="mt-6 font-display text-[2.75rem] font-semibold leading-[1.08] tracking-tight text-quest-ink md:text-6xl lg:text-[4.25rem]">
-                You don&apos;t need to have it{" "}
-                <span className="quest-display-accent italic">all figured out.</span>
+              <h1 className="font-display font-light tracking-tightest text-ink text-display-1">
+                Pick your <em className="font-normal italic text-tomato">next move</em>
+                <br />
+                with clarity.
               </h1>
-              <p className="mt-6 max-w-lg text-lg leading-relaxed text-quest-muted md:text-xl">
-                Main Quest turns &ldquo;I don&apos;t know what to do&rdquo; into clear next
-                steps — careers that fit you, roadmaps to dream jobs, and real US salary data.
+              <p className="mt-8 max-w-xl text-lg leading-[1.55] text-graphite md:text-xl">
+                Main Quest turns &ldquo;I don&apos;t know what to do&rdquo; into
+                concrete next steps — careers that actually fit you, roadmaps
+                to dream jobs, and real US salary data. Two minutes. No sign-up.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
                 <QuestButton href="/discover" size="lg">
-                  Start Discover Me
+                  Start with Discover Me
                   <ArrowRight className="h-4 w-4" />
                 </QuestButton>
-                <QuestButton href="/explore" variant="ghost" size="lg">
-                  Browse careers
-                </QuestButton>
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-quest-muted">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4 text-quest-mint" />
-                  {stats.totalCareers}+ career paths
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4 text-quest-mint" />
-                  BLS-style salary data
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4 text-quest-mint" />
-                  No account needed
-                </span>
-              </div>
-            </div>
-
-            <HeroVisual />
-          </div>
-
-          <div className="mt-14 border-t border-quest-border/60 pt-10">
-            <p className="text-sm font-semibold text-quest-muted">
-              Try a prompt — tap to jump in
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <PromptChip
-                label="I like art but I'm bad at math"
-                href="/discover"
-              />
-              <PromptChip
-                label="I want to be an AI researcher"
-                href="/path?goal=AI%20Researcher"
-              />
-              <PromptChip label="Show me high-paying healthcare jobs" href="/explore" />
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="quest-section-band">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-3xl font-semibold text-quest-ink md:text-4xl">
-              Three doors in. One clear direction out.
-            </h2>
-            <p className="mt-3 text-lg text-quest-muted">
-              Wherever you are — confused, focused, or curious — start here.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {paths.map(({ href, step, icon: Icon, accent, title, hook, description, cta }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group relative flex flex-col rounded-3xl border border-quest-border bg-quest-surface p-7 shadow-card transition hover:-translate-y-1 hover:border-quest-coral/20 hover:shadow-lift"
-              >
-                <span className="absolute right-6 top-6 font-display text-4xl font-semibold text-quest-border">
-                  {step}
-                </span>
-                <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-2xl ring-1 ${accent}`}
+                <Link
+                  href="/explore"
+                  className="group inline-flex items-center gap-2 text-[15px] font-medium text-ink"
                 >
-                  <Icon className="h-5 w-5" />
-                </div>
-                <p className="mt-5 text-sm font-bold text-quest-coral">{hook}</p>
-                <h3 className="mt-1 font-display text-2xl font-semibold text-quest-ink">
-                  {title}
-                </h3>
-                <p className="mt-3 flex-1 leading-relaxed text-quest-muted">{description}</p>
-                <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-quest-coral">
-                  {cta}
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </span>
-              </Link>
-            ))}
+                  <span className="underline-link">Or browse all {stats.totalCareers} careers</span>
+                  <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              </div>
+
+              <div className="mt-12 grid grid-cols-3 gap-6 border-t border-ink/10 pt-8">
+                <Stat n={stats.totalCareers.toString()} label="Career paths" />
+                <Stat n={`$${(stats.avgMedianSalary / 1000).toFixed(0)}k`} label="Avg. median pay" />
+                <Stat n={stats.fastestGrowing.toString()} label="Fast-growing roles" />
+              </div>
+            </div>
+
+            <div className="lg:pl-4">
+              <HeroPreview />
+            </div>
           </div>
         </Container>
       </section>
 
-      <section className="py-16 md:py-20">
+      {/* MARQUEE */}
+      <section className="border-b border-ink/10 bg-cream py-6">
+        <Marquee items={marqueeRoles} />
+      </section>
+
+      {/* THREE DOORS */}
+      <section className="border-b border-ink/10 py-20 md:py-28">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
             <div>
-              <h2 className="font-display text-3xl font-semibold text-quest-ink md:text-4xl">
-                How it works
+              <SectionLabel number="02">Three doors in</SectionLabel>
+              <h2 className="mt-6 font-display text-display-2 font-light text-ink">
+                Wherever you are, <em className="italic text-tomato">start here.</em>
               </h2>
-              <p className="mt-3 text-lg text-quest-muted">
-                Less overwhelm. More &ldquo;oh, that actually makes sense.&rdquo;
+              <p className="mt-6 max-w-md text-base leading-relaxed text-smoke">
+                Confused, focused, or just curious — there&apos;s a way in that
+                meets you where you actually are today.
               </p>
-              <ol className="mt-10 space-y-8">
-                {steps.map(({ title, body }, i) => (
-                  <li key={title} className="flex gap-5">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-quest-navy text-sm font-bold text-white">
-                      {i + 1}
-                    </div>
+            </div>
+
+            <ul className="divide-y divide-ink/10 border-y border-ink/10">
+              {paths.map(({ n, href, title, sell, body, cta, sample }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className="group grid grid-cols-[auto_1fr_auto] items-start gap-6 py-8 transition hover:bg-cream/60"
+                  >
+                    <span className="font-mono text-sm font-medium tabular text-ash mt-1">
+                      {n}
+                    </span>
                     <div>
-                      <p className="font-display text-xl font-semibold text-quest-ink">
+                      <p className="label-accent">{sell}</p>
+                      <h3 className="mt-2 font-display text-3xl font-light tracking-tight text-ink md:text-4xl">
                         {title}
+                      </h3>
+                      <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-graphite">
+                        {body}
                       </p>
-                      <p className="mt-1 text-quest-muted">{body}</p>
+                      <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-smoke">
+                        <span className="font-mono text-ash">e.g.</span>
+                        &ldquo;{sample}&rdquo;
+                      </p>
                     </div>
-                  </li>
-                ))}
+                    <span className="inline-flex items-center gap-2 self-center text-sm font-medium text-ink">
+                      <span className="hidden md:inline">{cta}</span>
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 transition group-hover:border-tomato group-hover:bg-tomato group-hover:text-cream">
+                        <ArrowRight className="h-4 w-4" />
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Container>
+      </section>
+
+      {/* HOW IT WORKS + QUOTES */}
+      <section className="border-b border-ink/10 bg-cream py-20 md:py-28">
+        <Container>
+          <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+            <div>
+              <SectionLabel number="03">How it works</SectionLabel>
+              <h2 className="mt-6 font-display text-display-2 font-light text-ink">
+                Less overwhelm.
+                <br />
+                <em className="italic text-tomato">More &ldquo;oh, that makes sense.&rdquo;</em>
+              </h2>
+
+              <ol className="mt-12 space-y-10">
+                <Step
+                  n="i"
+                  title="Tell us about you"
+                  body="Interests, strengths, or a dream job. Whatever you have — even &ldquo;I don't know&rdquo; counts."
+                />
+                <Step
+                  n="ii"
+                  title="See real options"
+                  body="Matches and roadmaps backed by US salary and growth data. No vague platitudes."
+                />
+                <Step
+                  n="iii"
+                  title="Take the next step"
+                  body="Know what to study, what to build, and what to explore — starting today, not someday."
+                />
               </ol>
             </div>
 
-            <div className="grid gap-4">
-              {quotes.map(({ text, who }) => (
+            <div className="space-y-6 lg:pt-16">
+              {quotes.map(({ text, who }, i) => (
                 <figure
                   key={who}
-                  className="rounded-2xl border border-quest-border bg-quest-surface p-6 shadow-card"
+                  className="relative border-l-2 border-tomato bg-paper px-7 py-7 shadow-paper"
                 >
-                  <Quote className="h-8 w-8 text-quest-coral/40" />
-                  <blockquote className="mt-3 font-display text-lg leading-relaxed text-quest-ink">
-                    &ldquo;{text}&rdquo;
+                  <Quote
+                    className="absolute -left-px top-7 h-5 w-5 -translate-x-[10px] bg-cream text-tomato"
+                    aria-hidden
+                  />
+                  <blockquote className="font-display text-lg font-light italic leading-[1.45] text-ink md:text-xl">
+                    {text}
                   </blockquote>
-                  <figcaption className="mt-4 text-sm font-medium text-quest-muted">
-                    — {who}
-                  </figcaption>
+                  <figcaption className="mt-4 label">{who}</figcaption>
+                  <span className="absolute -right-3 -top-3 font-mono text-xs tabular text-ash">
+                    0{i + 1}
+                  </span>
                 </figure>
               ))}
             </div>
@@ -229,52 +225,82 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section className="border-t border-quest-border bg-quest-navy py-16 text-white md:py-20">
+      {/* FEATURED CAREERS */}
+      <section className="border-b border-ink/10 bg-ink py-20 text-cream md:py-28">
         <Container>
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <div>
-              <h2 className="font-display text-3xl font-semibold md:text-4xl">
-                Careers students explore first
+              <SectionLabel number="04" variant="accent">
+                Where students start
+              </SectionLabel>
+              <h2 className="mt-6 font-display text-display-2 font-light text-cream">
+                A few of the
+                <br />
+                <em className="italic text-clay">most-explored</em> roles.
               </h2>
-              <p className="mt-3 max-w-lg text-white/70">
-                Tap any role for salary ranges, day-in-the-life details, and a personalized
-                roadmap.
-              </p>
             </div>
-            <QuestButton href="/explore" variant="ghost" className="shrink-0 border-white/20 bg-white/10 text-white hover:bg-white/15">
-              View all {stats.totalCareers}+ paths
-            </QuestButton>
+            <Link
+              href="/explore"
+              className="group inline-flex items-center gap-2 self-start rounded-full border border-cream/20 px-5 py-3 text-sm font-medium text-cream transition hover:bg-cream hover:text-ink md:self-end"
+            >
+              View all {stats.totalCareers} paths
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          <ul className="mt-12 divide-y divide-cream/12 border-y border-cream/15">
             {featured.map((career, i) => (
-              <CareerCard
-                key={career.id}
-                career={career}
-                compact={i > 1}
-                featured={i === 0}
-              />
+              <CareerCard key={career.id} career={career} index={i + 1} dark />
             ))}
-          </div>
+          </ul>
         </Container>
       </section>
 
-      <section className="quest-mesh py-16 md:py-20">
-        <Container>
-          <div className="mx-auto max-w-2xl rounded-[2rem] border border-quest-border bg-quest-surface p-10 text-center shadow-lift md:p-14">
-            <h2 className="font-display text-3xl font-semibold text-quest-ink md:text-4xl">
-              Your next step is one conversation with yourself away.
-            </h2>
-            <p className="mt-4 text-lg text-quest-muted">
-              Two minutes. No sign-up. Just honest answers about what you like.
-            </p>
-            <QuestButton href="/discover" size="lg" className="mt-8">
-              Start Discover Me — it&apos;s free
+      {/* FINAL CTA */}
+      <section className="py-24 md:py-32">
+        <Container size="prose" className="text-center">
+          <SectionLabel number="05" variant="accent" className="justify-center">
+            Your move
+          </SectionLabel>
+          <h2 className="mt-8 font-display text-display-2 font-light text-ink">
+            Your next step is one honest{" "}
+            <em className="italic text-tomato">conversation</em> with yourself away.
+          </h2>
+          <p className="mt-6 text-lg leading-relaxed text-graphite">
+            Two minutes. No account. No emails. No pressure to have it figured out.
+          </p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <QuestButton href="/discover" size="lg">
+              Start Discover Me — free
               <ArrowRight className="h-4 w-4" />
+            </QuestButton>
+            <QuestButton href="/path" variant="ghost" size="lg">
+              I already have a goal
             </QuestButton>
           </div>
         </Container>
       </section>
     </>
+  );
+}
+
+function Stat({ n, label }: { n: string; label: string }) {
+  return (
+    <div>
+      <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">{n}</p>
+      <p className="label mt-1">{label}</p>
+    </div>
+  );
+}
+
+function Step({ n, title, body }: { n: string; title: string; body: string }) {
+  return (
+    <li className="grid grid-cols-[auto_1fr] gap-6 border-l-2 border-ink/10 pl-6">
+      <span className="font-mono text-sm uppercase tabular text-tomato pt-1">{n}</span>
+      <div>
+        <p className="font-display text-2xl font-light text-ink">{title}</p>
+        <p className="mt-2 text-[15px] leading-relaxed text-graphite">{body}</p>
+      </div>
+    </li>
   );
 }
