@@ -60,8 +60,13 @@ function overlapScore(tokens: string[], haystack: string[]): number {
   return hits / tokens.length;
 }
 
-function penalizeWeakness(career: Career, weaknessTokens: string[]): number {
+function penalizeWeakness(career: Career, weaknessTokens: string[], weaknessesRaw: string): number {
   let penalty = 0;
+  const weaknessesLower = weaknessesRaw.toLowerCase();
+  const anxiousAroundPeople = /\banxious\b.*\bpeople\b|\bpeople\b.*\banxious\b|social\s*anxiety/.test(
+    weaknessesLower
+  );
+
   for (const token of weaknessTokens) {
     if (career.strengths.some((s) => s.includes(token))) penalty += 0.15;
     if (
@@ -78,7 +83,7 @@ function penalizeWeakness(career: Career, weaknessTokens: string[]): number {
     }
     if (
       token.includes("people") &&
-      token.includes("anxious") === false &&
+      !anxiousAroundPeople &&
       career.avoids.some((a) => a.includes("people"))
     ) {
       penalty += 0.1;
@@ -132,7 +137,7 @@ export function discoverCareersKeyword(input: DiscoverInput): CareerMatch[] {
     const interestScore = overlapScore(likeTokens, career.interests) * 45;
     const strengthScore = overlapScore(strengthTokens, career.strengths) * 35;
     const taglineScore = overlapScore(likeTokens, [career.tagline, career.summary]) * 10;
-    const penalty = penalizeWeakness(career, weaknessTokens) * 30;
+    const penalty = penalizeWeakness(career, weaknessTokens, input.weaknesses) * 30;
     const score = Math.max(
       0,
       Math.min(100, interestScore + strengthScore + taglineScore - penalty + 10)
@@ -145,8 +150,14 @@ export function discoverCareersKeyword(input: DiscoverInput): CareerMatch[] {
     };
   });
 
-  return scored
+  const ranked = scored
     .filter((m) => m.score >= 25)
     .sort((a, b) => b.score - a.score)
     .slice(0, 6);
+
+  if (ranked.length > 0) return ranked;
+
+  return scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
 }

@@ -2,7 +2,7 @@ import { generateObject } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
 import { careers, getCareerById } from "./careers";
-import { buildCareerPath, suggestCareersForGoal } from "./path-builder";
+import { buildCareerPath, suggestCareersForGoal, inferGaps } from "./path-builder";
 import { GRADE_LABELS } from "./grade-levels";
 import type { Career, CareerPath, PathInput, PathStep } from "./types";
 
@@ -120,14 +120,28 @@ export async function buildCareerPathWithAI(input: PathInput): Promise<PathBuild
       prompt: buildPrompt({ ...input, goal: trimmed }),
     });
 
-    if (object.careerId && object.steps && object.encouragement && object.gaps?.length) {
+    if (object.careerId && object.steps && object.encouragement) {
       const career = getCareerById(object.careerId);
       if (career) {
+        const gaps =
+          object.gaps && object.gaps.length > 0
+            ? object.gaps
+            : inferGaps(career, trimmed);
         return {
           kind: "path",
-          path: toCareerPath(career, object.steps, object.gaps, object.encouragement),
+          path: toCareerPath(career, object.steps, gaps, object.encouragement),
           source: "ai",
         };
+      }
+    }
+
+    if (object.careerId) {
+      const career = getCareerById(object.careerId);
+      if (career) {
+        const built = buildCareerPath(career.title);
+        if (built) {
+          return { kind: "path", path: built, source: "template" };
+        }
       }
     }
 

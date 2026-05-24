@@ -77,14 +77,21 @@ export async function POST(req: Request) {
     context: CoachContext;
   };
 
-  const result = streamText({
-    model: openai("gpt-4o-mini"),
-    temperature: 0.4,
-    system: buildCoachSystemPrompt(context),
-    tools: buildCoachTools(),
-    stopWhen: stepCountIs(5),
-    messages: await convertToModelMessages(messages),
-  });
+  try {
+    const result = streamText({
+      model: openai("gpt-4o-mini"),
+      temperature: 0.4,
+      system: buildCoachSystemPrompt(context),
+      tools: buildCoachTools(),
+      stopWhen: stepCountIs(5),
+      messages: await convertToModelMessages(messages),
+    });
 
-  return result.toUIMessageStreamResponse();
+    return result.toUIMessageStreamResponse();
+  } catch {
+    return new Response(
+      JSON.stringify({ error: "bad_request", message: "Could not process coach messages." }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
+  }
 }

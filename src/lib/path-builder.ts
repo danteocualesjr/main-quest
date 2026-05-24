@@ -1,5 +1,6 @@
 import { getCareerByTitle, getRelatedCareers } from "./careers";
 import { careers } from "./careers";
+import { discoverCareersKeyword } from "./matching";
 import type { Career, CareerPath, PathStep } from "./types";
 
 function highSchoolSteps(career: Career): PathStep {
@@ -76,7 +77,7 @@ function entryStep(career: Career): PathStep {
   };
 }
 
-function inferGaps(career: Career, query: string): string[] {
+export function inferGaps(career: Career, query: string): string[] {
   const gaps: string[] = [];
   const q = query.toLowerCase();
 
@@ -130,24 +131,9 @@ export function suggestCareersForGoal(query: string): Career[] {
   const direct = getCareerByTitle(query);
   if (direct) return [direct];
 
-  const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
-  return careers
-    .map((career) => {
-      const haystack = [
-        career.title,
-        ...career.aliases,
-        ...career.interests,
-        career.category,
-      ]
-        .join(" ")
-        .toLowerCase();
-      const score = tokens.filter((t) => haystack.includes(t)).length;
-      return { career, score };
-    })
-    .filter((x) => x.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 5)
-    .map((x) => x.career);
+  return discoverCareersKeyword({ likes: query, strengths: "", weaknesses: "" })
+    .map((match) => match.career)
+    .slice(0, 5);
 }
 
 export function getAllCareerTitles(): string[] {

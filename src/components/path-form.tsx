@@ -39,6 +39,8 @@ export function PathForm() {
   const [buildingCareerId, setBuildingCareerId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [noMatch, setNoMatch] = useState(false);
+  const [submittedGoal, setSubmittedGoal] = useState<string | null>(null);
+  const [submittedGrade, setSubmittedGrade] = useState<string | null>(null);
 
   const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
 
@@ -78,6 +80,8 @@ export function PathForm() {
           setPath(result.path);
           setSuggestions([]);
           setNoMatch(false);
+          setSubmittedGoal(goalQuery.trim());
+          setSubmittedGrade(gradeQuery);
           persistSession(goalQuery, gradeQuery, result.path, [], result.source);
           requestAnimationFrame(() => {
             document.getElementById("roadmap")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -86,6 +90,8 @@ export function PathForm() {
           setPath(null);
           setSuggestions(result.suggestions);
           setNoMatch(result.suggestions.length === 0);
+          setSubmittedGoal(goalQuery.trim());
+          setSubmittedGrade(gradeQuery);
           persistSession(goalQuery, gradeQuery, null, result.suggestions, result.source);
         }
       } catch {
@@ -121,14 +127,53 @@ export function PathForm() {
     setPath(saved.path);
     setSuggestions(saved.suggestions);
     setSource(saved.source);
+    if (saved.path || saved.suggestions.length > 0) {
+      setSubmittedGoal(saved.goal.trim());
+      setSubmittedGrade(saved.gradeLevel);
+    }
   }, [goalFromUrl]);
 
+  const resultsAreStale =
+    submittedGoal !== null &&
+    (submittedGoal !== goal.trim() || submittedGrade !== gradeLevel);
+
   useEffect(() => {
-    if (!goalFromUrl || goalFromUrl === lastBuiltUrlGoal.current) return;
-    lastBuiltUrlGoal.current = goalFromUrl;
+    if (resultsAreStale) {
+      setPath(null);
+      setSuggestions([]);
+      setSource(null);
+      setNoMatch(false);
+      setSubmittedGoal(null);
+      setSubmittedGrade(null);
+    }
+  }, [resultsAreStale, goal, gradeLevel]);
+
+  useEffect(() => {
+    if (!goalFromUrl) return;
 
     const saved = loadPathSession();
     const grade = saved?.gradeLevel ?? "";
+    const buildKey = `${goalFromUrl}|${grade}`;
+    if (buildKey === lastBuiltUrlGoal.current) return;
+
+    if (
+      saved &&
+      saved.goal === goalFromUrl &&
+      saved.gradeLevel === grade &&
+      (saved.path || saved.suggestions.length > 0)
+    ) {
+      lastBuiltUrlGoal.current = buildKey;
+      setGoal(goalFromUrl);
+      setGradeLevel(grade);
+      setPath(saved.path);
+      setSuggestions(saved.suggestions);
+      setSource(saved.source);
+      setSubmittedGoal(goalFromUrl.trim());
+      setSubmittedGrade(grade);
+      return;
+    }
+
+    lastBuiltUrlGoal.current = buildKey;
     setGoal(goalFromUrl);
     if (grade) setGradeLevel(grade);
     void runPathBuild(goalFromUrl, grade);
@@ -136,7 +181,11 @@ export function PathForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    await runPathBuild(goal);
+    if (!goal.trim()) {
+      setError("Enter a career goal before building your path.");
+      return;
+    }
+    await runPathBuild(goal.trim());
   }
 
   async function handleBuildSuggestion(career: Career) {
@@ -407,12 +456,12 @@ export function PathForm() {
             </div>
           </div>
 
-          {source === "ai" && (
+          {source === "ai" && submittedGoal === goal.trim() && submittedGrade === gradeLevel && (
             <CoachPanel
               context={{
                 mode: "path",
-                goal,
-                gradeLevel: gradeLevel || undefined,
+                goal: submittedGoal,
+                gradeLevel: submittedGrade || undefined,
                 path: {
                   career: {
                     id: path.career.id,

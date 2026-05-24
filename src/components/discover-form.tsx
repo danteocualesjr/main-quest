@@ -33,6 +33,12 @@ export function DiscoverForm() {
   const [source, setSource] = useState<DiscoverSource | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [submittedProfile, setSubmittedProfile] = useState<{
+    likes: string;
+    strengths: string;
+    weaknesses: string;
+    gradeLevel: string;
+  } | null>(null);
 
   useEffect(() => {
     if (hydrated.current) return;
@@ -47,7 +53,40 @@ export function DiscoverForm() {
     setGradeLevel(saved.gradeLevel);
     setResults(saved.results);
     setSource(saved.source);
+    if (saved.results) {
+      setSubmittedProfile({
+        likes: saved.likes,
+        strengths: saved.strengths,
+        weaknesses: saved.weaknesses,
+        gradeLevel: saved.gradeLevel,
+      });
+    }
   }, []);
+
+  const profileSnapshot = useMemo(
+    () => ({
+      likes: likes.trim(),
+      strengths: strengths.trim(),
+      weaknesses: weaknesses.trim(),
+      gradeLevel,
+    }),
+    [likes, strengths, weaknesses, gradeLevel]
+  );
+
+  const resultsAreStale =
+    submittedProfile !== null &&
+    (submittedProfile.likes !== profileSnapshot.likes ||
+      submittedProfile.strengths !== profileSnapshot.strengths ||
+      submittedProfile.weaknesses !== profileSnapshot.weaknesses ||
+      submittedProfile.gradeLevel !== profileSnapshot.gradeLevel);
+
+  useEffect(() => {
+    if (resultsAreStale) {
+      setResults(null);
+      setSource(null);
+      setSubmittedProfile(null);
+    }
+  }, [resultsAreStale]);
 
   // Progress: how many fields have meaningful input (0-4).
   const progress = useMemo(() => {
@@ -61,25 +100,34 @@ export function DiscoverForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!likes.trim()) {
+      setError("Tell us what you enjoy before searching for matches.");
+      return;
+    }
+
     const id = ++requestId.current;
     setLoading(true);
     setError(null);
 
     try {
       const { matches, source: matchSource } = await discoverAction({
-        likes,
-        strengths,
-        weaknesses,
+        likes: likes.trim(),
+        strengths: strengths.trim(),
+        weaknesses: weaknesses.trim(),
         gradeLevel,
       });
       if (id !== requestId.current) return;
+      const profile = {
+        likes: likes.trim(),
+        strengths: strengths.trim(),
+        weaknesses: weaknesses.trim(),
+        gradeLevel,
+      };
+      setSubmittedProfile(profile);
       setResults(matches);
       setSource(matchSource);
       saveDiscoverSession({
-        likes,
-        strengths,
-        weaknesses,
-        gradeLevel,
+        ...profile,
         results: matches,
         source: matchSource,
       });
@@ -295,11 +343,11 @@ export function DiscoverForm() {
             ))}
           </div>
 
-          {source === "ai" && results.length > 0 && (
+          {source === "ai" && results.length > 0 && submittedProfile && (
             <CoachPanel
               context={{
                 mode: "discover",
-                profile: { likes, strengths, weaknesses, gradeLevel },
+                profile: submittedProfile,
                 matches: results,
               }}
             />
