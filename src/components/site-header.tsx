@@ -16,15 +16,22 @@ const nav = [
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  function isActive(href: string) {
+    if (!mounted) return false;
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
 
   // Close the mobile menu on route change.
   useEffect(() => {
@@ -44,7 +51,7 @@ export function SiteHeader() {
     <header
       className={cn(
         "sticky top-0 z-50 border-b bg-paper/85 backdrop-blur-md transition-colors duration-300",
-        scrolled
+        mounted && scrolled
           ? "border-ink/15 shadow-[0_1px_0_rgba(20,19,18,0.04)]"
           : "border-ink/10"
       )}
@@ -75,7 +82,7 @@ export function SiteHeader() {
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 sm:flex">
           {nav.map(({ href, label }) => {
-            const active = pathname === href || pathname.startsWith(`${href}/`);
+            const active = isActive(href);
             return (
               <Link
                 key={href}
@@ -127,7 +134,7 @@ export function SiteHeader() {
         <Container className="py-2">
           <ul className="divide-y divide-ink/10">
             {nav.map(({ href, label, hint }) => {
-              const active = pathname === href || pathname.startsWith(`${href}/`);
+              const active = isActive(href);
               return (
                 <li key={href}>
                   <Link
