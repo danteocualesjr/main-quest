@@ -9,19 +9,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#F5F1EA",
-        cream: "#FBF8F1",
-        ink: "#141312",
-        graphite: "#3D3A36",
-        smoke: "#6B6660",
-        ash: "#A8A29A",
-        rule: "#1A1A180F",
-        ruleHard: "#1A1A1822",
-        tomato: "#D43E1A",
-        ember: "#9B2C0E",
-        moss: "#4F5E3D",
-        clay: "#C7956D",
+        // Aurora Quest palette - dark-mode native.
+        // The old token names are preserved so existing components
+        // inherit the new theme automatically. Semantics:
+        //   paper/cream/void   = surface tones (darker -> lighter)
+        //   ink/graphite/smoke = text tones (brightest -> dimmest)
+        //   tomato/ember       = primary accent (electric rose)
+        //   moss/clay          = secondary accents (mint / amber)
+        paper: "#08060F",       // page background (midnight)
+        void: "#050309",        // deepest surface (modals, header on scroll)
+        cream: "#13101F",       // elevated surface (cards)
+        nebula: "#1B1730",      // hover / chips
+        surface: "#100D1D",     // alt card
+        rule: "#FFFFFF14",      // hairline
+        ruleHard: "#FFFFFF22",  // stronger hairline
+        ink: "#F5F3FF",         // primary text (lavender white)
+        graphite: "#C7C2E5",    // secondary text
+        smoke: "#8C85B5",       // tertiary text
+        ash: "#5C557E",         // muted text
+        // Accents
+        tomato: "#F43F5E",      // rose - primary accent
+        ember: "#BE123C",       // deep rose hover
+        moss: "#34D399",        // mint - secondary
+        clay: "#FBBF24",        // amber - tertiary highlight
         slate: "#1F2937",
+        // Aurora ramp (used for gradients + glow)
+        electric: "#A78BFA",    // violet
+        magenta: "#EC4899",     // hot pink
+        flame: "#FB923C",       // sunset orange
+        cyan: "#22D3EE",        // electric cyan
       },
       fontFamily: {
         display: ["var(--font-display)", "Times New Roman", "serif"],
@@ -29,17 +45,29 @@ const config: Config = {
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {
-        "display-1": ["clamp(3rem, 9vw, 7.5rem)", { lineHeight: "0.95", letterSpacing: "-0.04em" }],
-        "display-2": ["clamp(2.25rem, 6vw, 4.5rem)", { lineHeight: "1.02", letterSpacing: "-0.03em" }],
+        "display-1": ["clamp(3rem, 9.5vw, 8rem)", { lineHeight: "0.95", letterSpacing: "-0.045em" }],
+        "display-2": ["clamp(2.25rem, 6vw, 4.75rem)", { lineHeight: "1.02", letterSpacing: "-0.035em" }],
         "display-3": ["clamp(1.75rem, 3.5vw, 2.75rem)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
       },
       letterSpacing: {
-        tightest: "-0.04em",
+        tightest: "-0.045em",
       },
       boxShadow: {
-        paper: "0 1px 0 rgba(20, 19, 18, 0.05)",
-        soft: "0 4px 24px rgba(20, 19, 18, 0.06)",
-        lift: "0 20px 60px -20px rgba(20, 19, 18, 0.18)",
+        paper: "0 1px 0 rgba(255, 255, 255, 0.04)",
+        soft: "0 4px 24px rgba(0, 0, 0, 0.4)",
+        lift: "0 24px 80px -24px rgba(167, 139, 250, 0.28), 0 8px 24px -8px rgba(244, 63, 94, 0.18)",
+        glow: "0 0 0 1px rgba(167, 139, 250, 0.35), 0 8px 32px -8px rgba(167, 139, 250, 0.6)",
+        "glow-rose": "0 0 0 1px rgba(244, 63, 94, 0.4), 0 12px 40px -8px rgba(244, 63, 94, 0.55)",
+      },
+      backgroundImage: {
+        aurora:
+          "linear-gradient(135deg, #A78BFA 0%, #EC4899 45%, #FB923C 100%)",
+        "aurora-soft":
+          "linear-gradient(135deg, rgba(167,139,250,0.18) 0%, rgba(236,72,153,0.15) 45%, rgba(251,146,60,0.12) 100%)",
+        "aurora-text":
+          "linear-gradient(120deg, #C4B5FD 0%, #F0ABFC 35%, #FDBA74 100%)",
+        grid:
+          "linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px)",
       },
       animation: {
         marquee: "marquee 40s linear infinite",
@@ -49,7 +77,11 @@ const config: Config = {
         "scale-in": "scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both",
         "draw-line": "draw-line 1.1s cubic-bezier(0.65, 0, 0.35, 1) both",
         "pulse-soft": "pulse-soft 2.4s ease-in-out infinite",
-        "shimmer": "shimmer 1.8s linear infinite",
+        shimmer: "shimmer 1.8s linear infinite",
+        aurora: "aurora 18s ease-in-out infinite",
+        float: "float 8s ease-in-out infinite",
+        "spin-slow": "spin 22s linear infinite",
+        twinkle: "twinkle 4s ease-in-out infinite",
       },
       keyframes: {
         marquee: {
@@ -79,6 +111,19 @@ const config: Config = {
         shimmer: {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(100%)" },
+        },
+        aurora: {
+          "0%, 100%": { transform: "translate(0, 0) scale(1)", opacity: "0.55" },
+          "33%": { transform: "translate(6%, -4%) scale(1.08)", opacity: "0.75" },
+          "66%": { transform: "translate(-5%, 5%) scale(0.95)", opacity: "0.6" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        twinkle: {
+          "0%, 100%": { opacity: "0.2" },
+          "50%": { opacity: "0.9" },
         },
       },
     },
