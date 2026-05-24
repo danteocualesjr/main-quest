@@ -70,7 +70,7 @@
   }
 
   .rule-hard {
-    @apply border-white/15;
+    @apply border-white/[0.15];
   }
 
   .label {
@@ -155,7 +155,7 @@
   }
 
   .input-bare {
-    @apply w-full border-b border-white/15 bg-transparent py-3 text-ink placeholder:text-ash outline-none transition focus:border-electric;
+    @apply w-full border-b border-white/[0.15] bg-transparent py-3 text-ink placeholder:text-ash outline-none transition focus:border-electric;
   }
 
   .input-block {
@@ -249,7 +249,7 @@
 
   /* Filter chip used in /explore. */
   .filter-chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.03] px-3 py-1 text-xs font-medium text-ink transition hover:border-electric/60 hover:bg-electric/10 hover:text-electric;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.03] px-3 py-1 text-xs font-medium text-ink transition hover:border-electric/60 hover:bg-electric/10 hover:text-electric;
   }
 
   /* Animated aurora blob - drop into a relative parent. */
@@ -267,7 +267,7 @@
 
   /* "Pill XP" style badge used to label sections in the new theme. */
   .badge-pill {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.04] px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-ink;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-ink;
     backdrop-filter: blur(8px);
   }
 }
