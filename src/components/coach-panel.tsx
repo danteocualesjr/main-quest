@@ -23,15 +23,24 @@ interface CoachPanelProps {
   context: CoachContext;
 }
 
-const STARTER_PROMPTS = [
+const DISCOVER_STARTER_PROMPTS = [
   "Why these matches?",
   "What if I'm not strong at math?",
   "Show me something more creative",
   "Which of these has the shortest path?",
 ];
 
+const PATH_STARTER_PROMPTS = [
+  "Walk me through phase 1",
+  "What if this timeline feels too long?",
+  "Are there similar careers with a shorter path?",
+  "What's the hardest part of this roadmap?",
+];
+
 export function CoachPanel({ context }: CoachPanelProps) {
-  const storageKey = useMemo(() => coachStorageKey(context.profile), [context.profile]);
+  const storageKey = useMemo(() => coachStorageKey(context), [context]);
+  const starterPrompts =
+    context.mode === "path" ? PATH_STARTER_PROMPTS : DISCOVER_STARTER_PROMPTS;
   const [open, setOpen] = useState(false);
   const [hydrated, setHydrated] = useState<CoachMessage[] | null>(null);
 
@@ -63,11 +72,20 @@ export function CoachPanel({ context }: CoachPanelProps) {
         <span className="flex-1">
           <span className="label-accent">Talk it through</span>
           <span className="mt-2 block font-display text-2xl font-light tracking-tight text-ink md:text-3xl">
-            Want to <em className="italic text-tomato">dig deeper</em> into these?
+            {context.mode === "path" ? (
+              <>
+                Want to <em className="italic text-tomato">stress-test</em> this roadmap?
+              </>
+            ) : (
+              <>
+                Want to <em className="italic text-tomato">dig deeper</em> into these?
+              </>
+            )}
           </span>
           <span className="mt-2 block max-w-xl text-[15px] leading-relaxed text-graphite">
-            Ask follow-ups about any match. A coach can compare paths, walk through a roadmap,
-            or suggest new directions if none of these feel right.
+            {context.mode === "path"
+              ? "Ask follow-ups about any phase. A coach can compare alternatives, tighten the timeline, or help you decide if this goal still fits."
+              : "Ask follow-ups about any match. A coach can compare paths, walk through a roadmap, or suggest new directions if none of these feel right."}
           </span>
         </span>
         <span
@@ -96,6 +114,7 @@ export function CoachPanel({ context }: CoachPanelProps) {
       storageKey={storageKey}
       initialMessages={hydrated}
       context={context}
+      starterPrompts={starterPrompts}
       onClose={() => setOpen(false)}
     />
   );
@@ -105,10 +124,17 @@ interface CoachChatProps {
   storageKey: string;
   initialMessages: CoachMessage[];
   context: CoachContext;
+  starterPrompts: string[];
   onClose: () => void;
 }
 
-function CoachChat({ storageKey, initialMessages, context, onClose }: CoachChatProps) {
+function CoachChat({
+  storageKey,
+  initialMessages,
+  context,
+  starterPrompts,
+  onClose,
+}: CoachChatProps) {
   const contextRef = useRef(context);
   useEffect(() => {
     contextRef.current = context;
@@ -225,10 +251,12 @@ function CoachChat({ storageKey, initialMessages, context, onClose }: CoachChatP
         {!hasMessages && (
           <div className="space-y-5">
             <p className="text-[15px] leading-relaxed text-graphite">
-              Ask anything about your matches — or pick a starter:
+              {context.mode === "path"
+                ? "Ask anything about this roadmap — or pick a starter:"
+                : "Ask anything about your matches — or pick a starter:"}
             </p>
             <div className="flex flex-wrap gap-2">
-              {STARTER_PROMPTS.map((prompt) => (
+              {starterPrompts.map((prompt) => (
                 <button
                   key={prompt}
                   type="button"

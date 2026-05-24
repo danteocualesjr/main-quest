@@ -299,6 +299,7 @@ export function DiscoverForm() {
           {source === "ai" && results.length > 0 && (
             <CoachPanel
               context={{
+                mode: "discover",
                 profile: { likes, strengths, weaknesses, gradeLevel },
                 matches: results,
               }}
