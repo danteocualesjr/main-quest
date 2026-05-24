@@ -24,7 +24,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Main Quest — Pick your next move with clarity",
+  title: "Main Quest | Pick your next move with clarity",
   description:
     "An honest career guide for US students. Match careers to who you are, reverse-engineer paths to dream jobs, and explore real salary and growth data.",
 };

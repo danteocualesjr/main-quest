@@ -252,8 +252,8 @@ function CoachChat({
           <div className="space-y-5">
             <p className="text-[15px] leading-relaxed text-graphite">
               {context.mode === "path"
-                ? "Ask anything about this roadmap — or pick a starter:"
-                : "Ask anything about your matches — or pick a starter:"}
+                ? "Ask anything about this roadmap, or pick a starter:"
+                : "Ask anything about your matches, or pick a starter:"}
             </p>
             <div className="flex flex-wrap gap-2">
               {starterPrompts.map((prompt) => (

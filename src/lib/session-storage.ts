@@ -16,7 +16,7 @@ function writeJson<T>(key: string, value: T): void {
   try {
     window.localStorage.setItem(`${PREFIX}${key}`, JSON.stringify(value));
   } catch {
-    // Quota exceeded or private browsing — ignore
+    // Quota exceeded or private browsing, ignore
   }
 }
 

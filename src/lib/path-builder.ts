@@ -12,7 +12,7 @@ function highSchoolSteps(career: Career): PathStep {
       "Join a club, volunteer, or part-time job in a related area",
       "Start a small project you can show later (portfolio, blog, GitHub, art reel)",
       career.education === "doctorate" || career.education === "master"
-        ? "Keep grades strong — competitive programs matter"
+        ? "Keep grades strong, competitive programs matter"
         : "Explore whether you prefer college, trade school, or self-taught paths",
     ],
   };
@@ -47,7 +47,7 @@ function skillsStep(career: Career): PathStep {
   return {
     phase: "Skills",
     title: "Build proof you can do the work",
-    description: "Employers and schools look for skills — not just grades.",
+    description: "Employers and schools look for skills, not just grades.",
     actions: career.skillsToBuild.map((s) => `Practice: ${s}`),
   };
 }
@@ -84,7 +84,7 @@ function inferGaps(career: Career, query: string): string[] {
     gaps.push("Strong math foundation (calculus, linear algebra, statistics)");
     gaps.push("Programming in Python and ML frameworks");
     if (!q.includes("phd") && !q.includes("master")) {
-      gaps.push("Research experience — labs, papers, or open-source ML projects");
+      gaps.push("Research experience, labs, papers, or open-source ML projects");
     }
   }
 
@@ -122,7 +122,7 @@ export function buildCareerPath(goalQuery: string): CareerPath | null {
     career,
     steps,
     gaps: inferGaps(career, goalQuery),
-    encouragement: `Becoming a ${career.title} is a marathon, not a sprint. Break it into quests — one semester, one skill, one project at a time.`,
+    encouragement: `Becoming a ${career.title} is a marathon, not a sprint. Break it into quests, one semester, one skill, one project at a time.`,
   };
 }
 

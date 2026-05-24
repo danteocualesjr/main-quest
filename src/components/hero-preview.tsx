@@ -33,7 +33,7 @@ export function HeroPreview() {
           </div>
         </div>
 
-        {/* Salary visualization — entry / median / top markers */}
+        {/* Salary visualization, entry / median / top markers */}
         <div className="mt-6">
           <div className="flex items-baseline justify-between">
             <p className="label">Salary range</p>
@@ -93,7 +93,7 @@ export function HeroPreview() {
             </li>
             <li className="flex gap-3">
               <span className="font-mono text-tomato">→</span>
-              You wanted to avoid heavy math — this role doesn&apos;t need it
+              You wanted to avoid heavy math, this role doesn&apos;t need it
             </li>
           </ul>
         </div>

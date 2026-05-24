@@ -11,7 +11,7 @@ export default function PathPage() {
         eyebrow="Path to a Goal"
         title="Reverse-engineer your"
         accent="dream job."
-        description="Type the role you're aiming for. We break it into phases — what to study, build, and do from now until your first hire."
+        description="Type the role you're aiming for. We break it into phases, what to study, build, and do from now until your first hire."
       />
       <Suspense
         fallback={

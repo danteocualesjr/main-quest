@@ -14,7 +14,7 @@ const MAX_MESSAGES = 40;
  * - Storage is best-effort: quota errors and SSR are swallowed silently.
  */
 
-/** djb2 — small, stable, fine for non-cryptographic keying. */
+/** djb2, small, stable, fine for non-cryptographic keying. */
 function hashString(raw: string): string {
   let hash = 5381;
   for (let i = 0; i < raw.length; i++) {
@@ -70,7 +70,7 @@ export async function saveCoachConversation(
     const trimmed = messages.slice(-MAX_MESSAGES);
     window.localStorage.setItem(`${PREFIX}${key}`, JSON.stringify(trimmed));
   } catch {
-    // Quota exceeded or private browsing — ignore.
+    // Quota exceeded or private browsing, ignore.
   }
 }
 

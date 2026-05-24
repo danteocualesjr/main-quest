@@ -205,7 +205,7 @@ export default async function CareerDetailPage({ params }: Props) {
         {related.length > 0 && <Related related={related} />}
       </Container>
 
-      {/* Sticky mobile CTA — appears on small screens only */}
+      {/* Sticky mobile CTA, appears on small screens only */}
       <div className="sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 backdrop-blur-md md:hidden">
         <Container className="flex items-center justify-between gap-3 py-3">
           <div className="min-w-0">

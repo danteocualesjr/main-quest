@@ -205,7 +205,7 @@ export function PathForm() {
         <div className="mt-10 grid gap-3 border-t border-ink/10 pt-8">
           <label htmlFor="path-grade" className="font-display text-xl font-light text-ink md:text-2xl">
             Grade level
-            <span className="ml-2 text-sm text-smoke">Optional — helps tailor your roadmap</span>
+            <span className="ml-2 text-sm text-smoke">Optional. Helps tailor your roadmap.</span>
           </label>
           <select
             id="path-grade"
@@ -394,8 +394,8 @@ export function PathForm() {
 
             <div className="mt-16 flex flex-col items-start gap-4 border-t border-ink/10 pt-8 md:flex-row md:items-center md:justify-between">
               <p className="max-w-md text-sm text-smoke">
-                Roadmaps are starting points, not contracts. Real careers branch
-                — and that&apos;s a feature, not a bug.
+                Roadmaps are starting points, not contracts. Real careers branch,
+                and that&apos;s a feature, not a bug.
               </p>
               <Link
                 href="/explore"

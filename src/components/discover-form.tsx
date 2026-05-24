@@ -15,8 +15,8 @@ import type { DiscoverSource } from "@/lib/discover-ai";
 
 const tips = [
   "Mention subjects you actually enjoy, not just what you're good at.",
-  "\u201cI hate math\u201d is a valid answer — it helps filter.",
-  "Include hobbies (gaming, sports, art) — they reveal career fits.",
+  "\u201cI hate math\u201d is a valid answer, it helps filter.",
+  "Include hobbies (gaming, sports, art), they reveal career fits.",
   "Be specific. \u201cI like helping people\u201d → \u201cI like tutoring my friends.\u201d",
 ];
 
@@ -121,7 +121,7 @@ export function DiscoverForm() {
           <Field
             n="i"
             label="What do you enjoy?"
-            hint="Hobbies, subjects, activities — be specific."
+            hint="Hobbies, subjects, activities, be specific."
           >
             <textarea
               className="input-bare min-h-[92px] resize-y font-display text-2xl font-light tracking-tight md:text-3xl"
@@ -165,7 +165,7 @@ export function DiscoverForm() {
           <Field
             n="iii"
             label="What do you want to avoid?"
-            hint="Be honest — this filters out poor fits."
+            hint="Be honest, this filters out poor fits."
           >
             <textarea
               className="input-bare min-h-[80px] resize-y font-display text-2xl font-light tracking-tight md:text-3xl"
@@ -235,7 +235,7 @@ export function DiscoverForm() {
             <div className="mt-10 border-t border-ink/10 pt-6">
               <p className="label">Privacy</p>
               <p className="mt-3 text-sm leading-relaxed text-smoke">
-                Answers are saved only in your browser on this device — not in a Main
+                Answers are saved only in your browser on this device, not in a Main
                 Quest account. When you submit, we process them to find matches (and
                 may use AI if enabled). Clear anytime via site data.
               </p>

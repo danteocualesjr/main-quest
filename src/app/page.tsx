@@ -21,7 +21,7 @@ const paths = [
     href: "/discover",
     title: "Discover Me",
     sell: "When you have no idea where to start.",
-    body: "Describe what you enjoy and what you'd rather avoid. We surface careers that fit — including ones you'd never have Googled.",
+    body: "Describe what you enjoy and what you'd rather avoid. We surface careers that fit, including ones you'd never have Googled.",
     cta: "Take the quiz",
     sample: "I like art but I'm bad at math",
   },
@@ -30,7 +30,7 @@ const paths = [
     href: "/path",
     title: "Path to a Goal",
     sell: "When you already know the destination.",
-    body: "Type the role you're aiming for. We reverse-engineer the steps from high school through your first hire — courses, skills, milestones.",
+    body: "Type the role you're aiming for. We reverse-engineer the steps from high school through your first hire, courses, skills, milestones.",
     cta: "Build my roadmap",
     sample: "I want to be an AI researcher",
   },
@@ -107,7 +107,7 @@ export default function HomePage() {
                 style={{ animationDelay: "180ms" }}
               >
                 Main Quest turns &ldquo;I don&apos;t know what to do&rdquo; into
-                concrete next steps — careers that actually fit you, roadmaps
+                concrete next steps, careers that actually fit you, roadmaps
                 to dream jobs, and real US salary data. Two minutes. No sign-up.
               </p>
 
@@ -184,7 +184,7 @@ export default function HomePage() {
                 Wherever you are, <em className="italic text-tomato">start here.</em>
               </h2>
               <p className="mt-6 max-w-md text-base leading-relaxed text-smoke">
-                Confused, focused, or just curious — there&apos;s a way in that
+                Confused, focused, or just curious, there&apos;s a way in that
                 meets you where you actually are today.
               </p>
             </div>
@@ -247,7 +247,7 @@ export default function HomePage() {
                 <Step
                   n="i"
                   title="Tell us about you"
-                  body="Interests, strengths, or a dream job. Whatever you have — even &ldquo;I don't know&rdquo; counts."
+                  body="Interests, strengths, or a dream job. Whatever you have, even &ldquo;I don't know&rdquo; counts."
                 />
                 <Step
                   n="ii"
@@ -257,7 +257,7 @@ export default function HomePage() {
                 <Step
                   n="iii"
                   title="Take the next step"
-                  body="Know what to study, what to build, and what to explore — starting today, not someday."
+                  body="Know what to study, what to build, and what to explore, starting today, not someday."
                 />
               </ol>
             </div>
@@ -332,7 +332,7 @@ export default function HomePage() {
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <QuestButton href="/discover" size="lg">
-              Start Discover Me — free
+              Start Discover Me (free)
               <ArrowRight className="h-4 w-4" />
             </QuestButton>
             <QuestButton href="/path" variant="ghost" size="lg">

@@ -10,7 +10,7 @@ export default function DiscoverPage() {
         eyebrow="Discover Me · Step 1 of 1"
         title="Let's find careers that actually"
         accent="fit you."
-        description="No wrong answers. The more honest you are about what you enjoy — and what you'd rather avoid — the better your matches will be."
+        description="No wrong answers. The more honest you are about what you enjoy, and what you'd rather avoid, the better your matches will be."
       />
       <div className="mt-12 md:mt-16">
         <DiscoverForm />
