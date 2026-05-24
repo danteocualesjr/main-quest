@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Loader2, Sparkles } from "lucide-react";
 import { discoverAction } from "@/app/actions/discover";
 import { CareerCard } from "@/components/career-card";
+import { CoachPanel } from "@/components/coach-panel";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
 import { SourceNote } from "@/components/source-note";
@@ -289,6 +290,15 @@ export function DiscoverForm() {
               </div>
             ))}
           </div>
+
+          {source === "ai" && results.length > 0 && (
+            <CoachPanel
+              context={{
+                profile: { likes, strengths, weaknesses, gradeLevel },
+                matches: results,
+              }}
+            />
+          )}
         </section>
       )}
     </div>

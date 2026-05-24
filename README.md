@@ -7,7 +7,8 @@
 - **Discover Me** — Share interests, strengths, and weaknesses; get matched careers (AI when configured, keyword fallback otherwise)
 - **Path to a Goal** — Enter a dream job (e.g. "AI researcher"); get a step-by-step roadmap tailored to your grade level
 - **Explore Careers** — Browse 30+ curated US careers with filters for salary, education, and growth
-- **Session memory** — Your last Discover and Path results persist in the browser across refreshes
+- **Career coach** — Streaming chat that opens after Discover results, with tool-calling access to the catalog so it can search, compare, and build roadmaps mid-conversation
+- **Session memory** — Your last Discover and Path results persist in the browser across refreshes; coach conversations persist alongside their matching session
 
 ## Getting started
 
@@ -56,7 +57,8 @@ Documents/Projects/Projects_2026/main-quest
 
 ## Roadmap
 
-- [ ] Cursor SDK integration for richer, conversational career coaching
-- [ ] Save progress across devices (accounts / `Agent.resume`)
+- [x] Conversational AI coaching (streaming chat with tool-calling — see `src/lib/coach/`)
+- [ ] Coach surface on `/path` (currently `/discover` only)
+- [ ] Save progress across devices (accounts; lets coach conversations sync)
 - [ ] Live BLS/O*NET API data
 - [ ] Parent/counselor dashboard
