@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Flag, Loader2, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Flag, Loader2 } from "lucide-react";
 import { pathAction } from "@/app/actions/path";
 import { CoachPanel } from "@/components/coach-panel";
 import { PathSuggestionCard } from "@/components/path-suggestion-card";
@@ -178,7 +178,6 @@ export function PathForm() {
               </>
             ) : (
               <>
-                <Sparkles className="h-4 w-4" />
                 Build the path
                 <ArrowRight className="h-4 w-4" />
               </>

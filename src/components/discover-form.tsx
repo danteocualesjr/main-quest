@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, Loader2, Sparkles } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { discoverAction } from "@/app/actions/discover";
 import { CareerCard } from "@/components/career-card";
 import { CoachPanel } from "@/components/coach-panel";
@@ -201,7 +201,6 @@ export function DiscoverForm() {
                 </>
               ) : (
                 <>
-                  <Sparkles className="h-4 w-4" />
                   Find my matches
                   <ArrowRight className="h-4 w-4" />
                 </>

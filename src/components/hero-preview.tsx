@@ -1,4 +1,4 @@
-import { ArrowUpRight, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowUpRight, TrendingUp } from "lucide-react";
 
 export function HeroPreview() {
   return (
@@ -12,10 +12,7 @@ export function HeroPreview() {
 
       <div className="relative rounded-xl border border-ink/12 bg-cream p-7 shadow-lift md:p-8">
         <div className="flex items-center justify-between">
-          <p className="label-accent inline-flex items-center gap-1.5">
-            <Sparkles className="h-3 w-3" />
-            Discover Me · Match
-          </p>
+          <p className="label-accent">Discover Me · Match</p>
           <span className="font-mono text-[10px] uppercase tracking-widest text-ash">
             Result 01 / 04
           </span>
@@ -125,11 +122,6 @@ export function HeroPreview() {
         </p>
       </div>
 
-      <div className="absolute -top-3 -left-3 -rotate-3 rounded-md border border-ink/15 bg-paper px-3 py-1.5 shadow-soft">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-smoke">
-          <span className="text-tomato">●</span> Live demo
-        </p>
-      </div>
     </div>
   );
 }

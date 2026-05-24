@@ -4,7 +4,6 @@ import {
   ArrowLeft,
   Briefcase,
   GraduationCap,
-  Sparkles,
   TrendingUp,
 } from "lucide-react";
 import { Container } from "@/components/container";
@@ -195,7 +194,6 @@ export default async function CareerDetailPage({ params }: Props) {
               href={`/path?goal=${encodeURIComponent(career.title)}`}
               className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-ink"
             >
-              <Sparkles className="h-4 w-4 text-tomato" />
               <span className="underline-link">
                 See how to build these in your roadmap
               </span>

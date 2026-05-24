@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Loader2, MessageCircleMore, RotateCcw, Send, Sparkles, X } from "lucide-react";
+import { Loader2, MessageCircleMore, RotateCcw, Send, X } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, isTextUIPart } from "ai";
 import type { CoachContext, CoachMessage } from "@/lib/coach/types";
@@ -210,7 +210,7 @@ function CoachChat({
             aria-hidden
             className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 bg-cream text-tomato"
           >
-            <Sparkles className="h-4 w-4" />
+            <MessageCircleMore className="h-4 w-4" />
           </span>
           <div>
             <p className="label-accent">Career coach</p>
