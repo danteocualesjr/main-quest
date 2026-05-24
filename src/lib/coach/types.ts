@@ -16,17 +16,43 @@ export interface CoachMatch {
   reasons: string[];
 }
 
-/**
- * Context passed from the client to the coach API on every request.
- * Lives in the request body, not the message history — keeps system prompt
- * fresh as the student's profile evolves without bloating the transcript.
- */
-export interface CoachContext {
+/** Lean roadmap snapshot for /path coach context. */
+export interface CoachPathStep {
+  phase: string;
+  title: string;
+  actions: string[];
+}
+
+export interface CoachPathSummary {
+  career: { id: string; title: string };
+  steps: CoachPathStep[];
+  gaps: string[];
+  encouragement: string;
+}
+
+export interface DiscoverCoachContext {
+  mode: "discover";
   /** Student's free-text profile from /discover. */
   profile: DiscoverInput;
   /** Top matches the student is currently looking at (typically 3–6). */
   matches: CoachMatch[];
 }
+
+export interface PathCoachContext {
+  mode: "path";
+  /** What the student typed as their goal. */
+  goal: string;
+  gradeLevel?: string;
+  /** Generated roadmap the student is looking at. */
+  path: CoachPathSummary;
+}
+
+/**
+ * Context passed from the client to the coach API on every request.
+ * Lives in the request body, not the message history — keeps system prompt
+ * fresh as the student's profile evolves without bloating the transcript.
+ */
+export type CoachContext = DiscoverCoachContext | PathCoachContext;
 
 /** UIMessage with no custom data parts — we render text and tool calls only. */
 export type CoachMessage = UIMessage;

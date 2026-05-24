@@ -58,7 +58,7 @@ Documents/Projects/Projects_2026/main-quest
 ## Roadmap
 
 - [x] Conversational AI coaching (streaming chat with tool-calling — see `src/lib/coach/`)
-- [ ] Coach surface on `/path` (currently `/discover` only)
+- [x] Coach surface on `/path` and `/discover`
 - [ ] Save progress across devices (accounts; lets coach conversations sync)
 - [ ] Live BLS/O*NET API data
 - [ ] Parent/counselor dashboard

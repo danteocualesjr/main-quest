@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Flag, Loader2, Sparkles } from "lucide-react";
 import { pathAction } from "@/app/actions/path";
+import { CoachPanel } from "@/components/coach-panel";
 import { PathSuggestionCard } from "@/components/path-suggestion-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
@@ -406,6 +407,29 @@ export function PathForm() {
               </Link>
             </div>
           </div>
+
+          {source === "ai" && (
+            <CoachPanel
+              context={{
+                mode: "path",
+                goal,
+                gradeLevel: gradeLevel || undefined,
+                path: {
+                  career: {
+                    id: path.career.id,
+                    title: path.career.title,
+                  },
+                  steps: path.steps.map((step) => ({
+                    phase: step.phase,
+                    title: step.title,
+                    actions: step.actions,
+                  })),
+                  gaps: path.gaps,
+                  encouragement: path.encouragement,
+                },
+              }}
+            />
+          )}
         </section>
       )}
     </div>

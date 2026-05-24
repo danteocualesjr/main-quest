@@ -8,23 +8,43 @@ import type { CoachContext } from "@/lib/coach/types";
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
-const contextSchema = z.object({
-  profile: z.object({
-    likes: z.string(),
-    strengths: z.string(),
-    weaknesses: z.string(),
-    gradeLevel: z.string().optional(),
+const contextSchema = z.discriminatedUnion("mode", [
+  z.object({
+    mode: z.literal("discover"),
+    profile: z.object({
+      likes: z.string(),
+      strengths: z.string(),
+      weaknesses: z.string(),
+      gradeLevel: z.string().optional(),
+    }),
+    matches: z
+      .array(
+        z.object({
+          career: z.object({ id: z.string(), title: z.string() }).passthrough(),
+          score: z.number(),
+          reasons: z.array(z.string()),
+        })
+      )
+      .max(8),
   }),
-  matches: z
-    .array(
-      z.object({
-        career: z.object({ id: z.string(), title: z.string() }).passthrough(),
-        score: z.number(),
-        reasons: z.array(z.string()),
-      })
-    )
-    .max(8),
-});
+  z.object({
+    mode: z.literal("path"),
+    goal: z.string(),
+    gradeLevel: z.string().optional(),
+    path: z.object({
+      career: z.object({ id: z.string(), title: z.string() }),
+      steps: z.array(
+        z.object({
+          phase: z.string(),
+          title: z.string(),
+          actions: z.array(z.string()),
+        })
+      ),
+      gaps: z.array(z.string()),
+      encouragement: z.string(),
+    }),
+  }),
+]);
 
 const bodySchema = z.object({
   messages: z.array(z.any()),
