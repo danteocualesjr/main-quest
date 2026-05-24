@@ -35,7 +35,7 @@ function buildCatalogForPrompt() {
 function buildPrompt(input: DiscoverInput) {
   const grade = input.gradeLevel ? GRADE_LABELS[input.gradeLevel] : null;
 
-  return `You match US students (ages 15–22) to careers from a fixed catalog.
+  return `You match US students (ages 15-22) to careers from a fixed catalog.
 
 STUDENT PROFILE:
 - Enjoys: ${input.likes.trim() || "(not provided)"}
@@ -44,12 +44,12 @@ STUDENT PROFILE:
 ${grade ? `- Grade level: ${grade}` : ""}
 
 RULES:
-1. Pick ONLY careers from the catalog below — use exact "id" values. Never invent careers.
-2. Return 4–6 matches, ordered by fit. Skip poor fits entirely.
+1. Pick ONLY careers from the catalog below. Use exact "id" values. Never invent careers.
+2. Return 4-6 matches, ordered by fit. Skip poor fits entirely.
 3. If the student names something they want to avoid (e.g. heavy math, blood, public speaking), exclude or heavily down-rank conflicting careers.
-4. Use semantic understanding — hobbies and vague phrases count (e.g. "crime documentaries" → forensic science, cybersecurity, investigative journalism).
-5. "reasons" must be 1–3 short, specific sentences in second person ("You…"). Reference the student's own words when possible. Do NOT mention salary or growth statistics.
-6. "score" is fit percentage (1–100). Top match should usually be 75–95; weaker fits 50–74.
+4. Use semantic understanding: hobbies and vague phrases count (e.g. "crime documentaries" → forensic science, cybersecurity, investigative journalism).
+5. "reasons" must be 1-3 short, specific sentences in second person ("You…"). Reference the student's own words when possible. Do NOT mention salary or growth statistics. Do not use em dashes or en dashes in reasons.
+6. "score" is fit percentage (1-100). Top match should usually be 75-95; weaker fits 50-74.
 
 CATALOG (pick careerId from "id" field only):
 ${JSON.stringify(buildCatalogForPrompt())}`;

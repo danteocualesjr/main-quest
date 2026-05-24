@@ -8,7 +8,7 @@ import { GROWTH_LABELS, type Career } from "../types";
 /**
  * Coach tool surface.
  *
- * Each tool wraps a deterministic lib function — no nested AI calls — so the
+ * Each tool wraps a deterministic lib function, no nested AI calls, so the
  * model can navigate the catalog cheaply and we never bill twice for the same
  * conversation step. Outputs are model-friendly: lean shapes, no internal IDs
  * that aren't useful for follow-up calls.
@@ -58,7 +58,7 @@ export function buildCoachTools() {
         gradeLevel: z
           .enum(["9", "10", "11", "12", "college"])
           .optional()
-          .describe("Optional grade level — does not change ranking but is logged."),
+          .describe("Optional grade level. Does not change ranking but is logged."),
       }),
       execute: async ({ interests, strengths = "", avoids = "", gradeLevel }) => {
         const matches = discoverCareersKeyword({
@@ -84,14 +84,14 @@ export function buildCoachTools() {
 
     get_career: tool({
       description:
-        "Get full details for a specific career — day in the life, skills, education, " +
+        "Get full details for a specific career: day in the life, skills, education, " +
         "salary, growth. Use when the student asks for depth on one of the listed careers.",
       inputSchema: z.object({
         id: z
           .string()
           .describe(
             "Career id from the catalog. Must be an id returned by search_careers " +
-              "or one of the matches in context — never invent ids."
+              "or one of the matches in context. Never invent ids."
           ),
       }),
       execute: async ({ id }) => {
@@ -123,7 +123,7 @@ export function buildCoachTools() {
         gradeLevel: z
           .enum(["9", "10", "11", "12", "college"])
           .optional()
-          .describe("Optional — current grade level tailors timeline language."),
+          .describe("Optional. Current grade level tailors timeline language."),
       }),
       execute: async ({ careerId }) => {
         if (!validCareerIds.has(careerId)) {
@@ -151,7 +151,7 @@ export function buildCoachTools() {
 
     compare_careers: tool({
       description:
-        "Compare 2–4 specific careers side by side on salary, growth, education, and " +
+        "Compare 2-4 specific careers side by side on salary, growth, education, and " +
         "skills. Use when the student is choosing between options.",
       inputSchema: z.object({
         ids: z

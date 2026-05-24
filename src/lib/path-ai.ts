@@ -45,7 +45,7 @@ function buildCatalogForPrompt() {
 function buildPrompt(input: PathInput) {
   const grade = input.gradeLevel ? GRADE_LABELS[input.gradeLevel] : null;
 
-  return `You build personalized career roadmaps for US students (ages 15–22) from a fixed catalog.
+  return `You build personalized career roadmaps for US students (ages 15-22) from a fixed catalog.
 
 STUDENT GOAL:
 "${input.goal.trim()}"
@@ -53,15 +53,15 @@ ${grade ? `\nGRADE LEVEL: ${grade}` : ""}
 
 RULES:
 1. If the goal clearly maps to ONE catalog career, set careerId to that career's exact "id" and fill encouragement, gaps, and steps.
-2. If the goal is vague or could mean several careers (e.g. "something in tech", "help people"), set careerId to null and list 3–5 suggestedCareerIds ordered by relevance.
+2. If the goal is vague or could mean several careers (e.g. "something in tech", "help people"), set careerId to null and list 3-5 suggestedCareerIds ordered by relevance.
 3. If the goal doesn't match any catalog career, set careerId to null and return the closest suggestedCareerIds (at least 1 if any are reasonable).
-4. Never invent careers — only use "id" values from the catalog.
+4. Never invent careers. Only use "id" values from the catalog.
 5. Use semantic understanding (e.g. "work with robots" → robotics-adjacent roles, "make TikToks for a living" → content creator).
 6. steps must use exactly these four phases in order: "High school", "Education & training", "Skills", "Break in".
-7. actions must be concrete, actionable, and specific to the career — not generic platitudes.
+7. actions must be concrete, actionable, and specific to the career. Not generic platitudes.
 8. gaps highlight honest hurdles (math requirements, long schooling, portfolio needs, certifications) tailored to the student's goal wording when possible.
-9. encouragement is 1–2 warm sentences in second person. Do NOT mention salary or growth statistics.
-10. Respect catalog facts for education and timeline — do not contradict educationLabel or timeToEntry.
+9. encouragement is 1-2 warm sentences in second person. Do NOT mention salary or growth statistics. Do not use em dashes or en dashes in encouragement, gaps, actions, or descriptions.
+10. Respect catalog facts for education and timeline. Do not contradict educationLabel or timeToEntry.
 11. When grade level is provided, tailor phase timing and actions (e.g. 9th graders focus on exploration and coursework; seniors on applications and deadlines; college students on internships and portfolios).
 
 CATALOG:
