@@ -26,7 +26,9 @@ const goalExamples = [
 
 export function PathForm() {
   const searchParams = useSearchParams();
-  const hydrated = useRef(false);
+  const sessionRestored = useRef(false);
+  const lastBuiltUrlGoal = useRef<string | null>(null);
+  const requestId = useRef(0);
   const [goal, setGoal] = useState("");
   const [gradeLevel, setGradeLevel] = useState("");
   const [path, setPath] = useState<CareerPath | null>(null);
@@ -35,6 +37,7 @@ export function PathForm() {
   const [loading, setLoading] = useState(false);
   const [buildingCareerId, setBuildingCareerId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [noMatch, setNoMatch] = useState(false);
 
   const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
 
@@ -59,16 +62,21 @@ export function PathForm() {
 
   const runPathBuild = useCallback(
     async (goalQuery: string, gradeQuery = gradeLevel) => {
+      const id = ++requestId.current;
       setLoading(true);
       setError(null);
+      setNoMatch(false);
 
       try {
         const result = await pathAction({ goal: goalQuery, gradeLevel: gradeQuery || undefined });
+        if (id !== requestId.current) return;
+
         setSource(result.source);
 
         if (result.kind === "path") {
           setPath(result.path);
           setSuggestions([]);
+          setNoMatch(false);
           persistSession(goalQuery, gradeQuery, result.path, [], result.source);
           requestAnimationFrame(() => {
             document.getElementById("roadmap")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -76,31 +84,33 @@ export function PathForm() {
         } else {
           setPath(null);
           setSuggestions(result.suggestions);
+          setNoMatch(result.suggestions.length === 0);
           persistSession(goalQuery, gradeQuery, null, result.suggestions, result.source);
         }
       } catch {
+        if (id !== requestId.current) return;
         setError("Something went wrong building your path. Try again in a moment.");
         setPath(null);
         setSuggestions([]);
         setSource(null);
+        setNoMatch(false);
       } finally {
-        setLoading(false);
-        setBuildingCareerId(null);
+        if (id === requestId.current) {
+          setLoading(false);
+          setBuildingCareerId(null);
+        }
       }
     },
     [gradeLevel, persistSession]
   );
 
-  useEffect(() => {
-    if (hydrated.current) return;
-    hydrated.current = true;
+  const goalFromUrl = searchParams.get("goal");
 
-    const preset = searchParams.get("goal");
-    if (preset) {
-      setGoal(preset);
-      void runPathBuild(preset, gradeLevel);
-      return;
-    }
+  useEffect(() => {
+    if (sessionRestored.current) return;
+    sessionRestored.current = true;
+
+    if (goalFromUrl) return;
 
     const saved = loadPathSession();
     if (!saved) return;
@@ -110,7 +120,18 @@ export function PathForm() {
     setPath(saved.path);
     setSuggestions(saved.suggestions);
     setSource(saved.source);
-  }, [searchParams, runPathBuild, gradeLevel]);
+  }, [goalFromUrl]);
+
+  useEffect(() => {
+    if (!goalFromUrl || goalFromUrl === lastBuiltUrlGoal.current) return;
+    lastBuiltUrlGoal.current = goalFromUrl;
+
+    const saved = loadPathSession();
+    const grade = saved?.gradeLevel ?? "";
+    setGoal(goalFromUrl);
+    if (grade) setGradeLevel(grade);
+    void runPathBuild(goalFromUrl, grade);
+  }, [goalFromUrl, runPathBuild]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -237,6 +258,26 @@ export function PathForm() {
         </section>
       )}
 
+      {noMatch && !loading && !path && (
+        <section className="animate-fade-up border-t border-ink/10 pt-12">
+          <SectionLabel variant="accent">No match found</SectionLabel>
+          <h2 className="mt-4 font-display text-3xl font-light tracking-tight text-ink md:text-4xl">
+            We couldn&apos;t match that goal
+          </h2>
+          <p className="mt-3 max-w-2xl text-[15px] text-graphite">
+            Try a role from our career library, pick an example above, or use a more
+            specific title like &quot;Registered nurse&quot; or &quot;UX designer&quot;.
+          </p>
+          <Link
+            href="/explore"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink"
+          >
+            <span className="underline-link">Browse all careers</span>
+            <ArrowRight className="h-4 w-4 text-tomato" />
+          </Link>
+        </section>
+      )}
+
       {suggestions.length > 0 && !loading && (
         <section className="animate-fade-up">
           <SectionLabel variant="accent">No exact match</SectionLabel>
@@ -289,9 +330,9 @@ export function PathForm() {
             <div className="border-t border-ink/10 pt-10">
               <SectionLabel>Gaps to plan for</SectionLabel>
               <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-                {path.gaps.map((gap) => (
+                {path.gaps.map((gap, gapIndex) => (
                   <li
-                    key={gap}
+                    key={`${gap}-${gapIndex}`}
                     className="card-lift flex gap-3 border border-ink/10 bg-cream p-5 text-[15px] leading-relaxed text-graphite"
                   >
                     <Flag className="mt-0.5 h-4 w-4 shrink-0 text-tomato" />
@@ -337,9 +378,9 @@ export function PathForm() {
                     </p>
                   </div>
                   <ul className="space-y-3 border-l border-ink/10 pl-6 md:pt-2">
-                    {step.actions.map((action) => (
+                    {step.actions.map((action, actionIndex) => (
                       <li
-                        key={action}
+                        key={`${action}-${actionIndex}`}
                         className="grid grid-cols-[auto_1fr] gap-3 text-[15px] leading-relaxed text-ink"
                       >
                         <span className="font-mono text-tomato">→</span>

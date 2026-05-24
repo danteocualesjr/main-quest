@@ -131,7 +131,7 @@
     "strengths": ["empathy", "communication", "problem solving"],
     "avoids": ["desk-only work"],
     "skillsToBuild": ["anatomy", "biology", "volunteer in clinics", "kinesiology"],
-    "relatedIds": ["registered-nurse", "occupational-therapist", "athletic-trainer"],
+    "relatedIds": ["registered-nurse", "occupational-therapist", "physician-assistant"],
     "aliases": ["pt", "physiotherapist"]
   },
   {
@@ -590,7 +590,7 @@
     "strengths": ["problem solving", "customer service", "physical work"],
     "avoids": ["office-only work"],
     "skillsToBuild": ["mechanics basics", "EPA certification path", "trade school"],
-    "relatedIds": ["electrician", "solar-installer", "plumber"],
+    "relatedIds": ["electrician", "solar-installer"],
     "aliases": ["hvac tech", "heating and cooling technician"]
   },
   {

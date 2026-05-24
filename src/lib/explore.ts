@@ -32,7 +32,7 @@ export function exploreCareers(
     results = results.filter((c) => c.category === filters.category);
   }
 
-  if (filters.minSalary) {
+  if (filters.minSalary != null) {
     results = results.filter((c) => c.salaryMedian >= filters.minSalary!);
   }
 

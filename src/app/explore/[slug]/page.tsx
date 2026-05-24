@@ -160,7 +160,7 @@ export default async function CareerDetailPage({ params }: Props) {
           <ol className="space-y-6">
             {career.dayInLife.map((item, i) => (
               <li
-                key={item}
+                key={`${item}-${i}`}
                 className="grid grid-cols-[auto_1fr] gap-5 border-b border-ink/10 pb-6 last:border-0"
               >
                 <span className="font-mono text-xs tabular text-tomato pt-1">
