@@ -5,43 +5,38 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
     @apply bg-paper text-ink antialiased font-body;
     font-feature-settings: "ss01", "ss02", "cv11";
     min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(167, 139, 250, 0.18), transparent 60%),
-      radial-gradient(ellipse 60% 50% at 90% 10%, rgba(236, 72, 153, 0.10), transparent 55%),
-      radial-gradient(ellipse 70% 60% at 0% 30%, rgba(34, 211, 238, 0.07), transparent 60%);
-    background-attachment: fixed;
   }
 
   ::selection {
-    @apply bg-magenta/40 text-ink;
+    @apply bg-tomato/90 text-cream;
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-electric/60 ring-offset-2 ring-offset-paper;
+    @apply outline-none ring-2 ring-tomato/45 ring-offset-2 ring-offset-paper;
   }
 
-  /* Slim, vibrant scrollbar. */
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(167, 139, 250, 0.28) transparent;
+    scrollbar-color: rgba(28, 25, 23, 0.18) transparent;
   }
+
   *::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
   *::-webkit-scrollbar-thumb {
-    background: rgba(167, 139, 250, 0.28);
+    background: rgba(28, 25, 23, 0.18);
     border-radius: 999px;
   }
   *::-webkit-scrollbar-thumb:hover {
-    background: rgba(236, 72, 153, 0.55);
+    background: rgba(200, 60, 26, 0.45);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -66,23 +61,23 @@
   }
 
   .rule {
-    @apply border-white/10;
+    @apply border-ink/10;
   }
 
   .rule-hard {
-    @apply border-white/[0.15];
+    @apply border-ink/15;
   }
 
   .label {
-    @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-smoke;
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-smoke;
   }
 
   .label-ink {
-    @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-ink;
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-ink;
   }
 
   .label-accent {
-    @apply font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-electric;
+    @apply font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-tomato;
   }
 
   .tabular {
@@ -90,76 +85,12 @@
     font-feature-settings: "tnum";
   }
 
-  /* Aurora gradient text - signature display effect. */
-  .aurora-text {
-    @apply bg-aurora-text bg-clip-text text-transparent;
-  }
-
-  /* Glass card surface used throughout. */
-  .glass {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.015) 100%),
-      rgba(19, 16, 31, 0.6);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .glass-strong {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%),
-      rgba(27, 23, 48, 0.78);
-    backdrop-filter: blur(22px) saturate(160%);
-    -webkit-backdrop-filter: blur(22px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-  }
-
-  /* Gradient ring border - shows on hover/focus of cards. */
-  .ring-aurora {
-    position: relative;
-  }
-  .ring-aurora::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0), rgba(236, 72, 153, 0), rgba(251, 146, 60, 0));
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    transition: background 0.4s ease;
-  }
-  .ring-aurora:hover::before,
-  .ring-aurora:focus-within::before {
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.9), rgba(236, 72, 153, 0.7), rgba(251, 146, 60, 0.6));
-  }
-
-  /* Always-on aurora ring. */
-  .ring-aurora-on::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.9), rgba(236, 72, 153, 0.7), rgba(251, 146, 60, 0.6));
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
   .input-bare {
-    @apply w-full border-b border-white/[0.15] bg-transparent py-3 text-ink placeholder:text-ash outline-none transition focus:border-electric;
+    @apply w-full border-b border-ink/15 bg-transparent py-3 text-ink placeholder:text-ash outline-none transition focus:border-tomato;
   }
 
   .input-block {
-    @apply w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-ink placeholder:text-ash outline-none transition focus:border-electric focus:bg-white/[0.05] focus:ring-2 focus:ring-electric/30;
+    @apply w-full rounded-lg border border-ink/15 bg-cream px-4 py-3 text-ink placeholder:text-ash outline-none transition focus:border-tomato focus:ring-1 focus:ring-tomato/30;
   }
 
   .underline-link {
@@ -168,38 +99,25 @@
   }
 
   .underline-link:hover {
-    @apply text-magenta;
+    @apply text-tomato;
   }
 
-  /* Stardust grain overlay - subtle dust + noise. */
   .grain {
     position: relative;
   }
+
   .grain::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.85 0 0 0 0 0.82 0 0 0 0 1 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.18;
-    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.07 0 0 0 0 0.07 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    mix-blend-mode: multiply;
   }
 
-  /* Starfield - tiny twinkling points on dark backgrounds. */
-  .starfield {
-    background-image:
-      radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.55), transparent 50%),
-      radial-gradient(1px 1px at 78% 32%, rgba(255, 255, 255, 0.45), transparent 50%),
-      radial-gradient(1px 1px at 42% 65%, rgba(255, 255, 255, 0.5), transparent 50%),
-      radial-gradient(1.4px 1.4px at 88% 78%, rgba(167, 139, 250, 0.7), transparent 50%),
-      radial-gradient(1px 1px at 22% 88%, rgba(255, 255, 255, 0.5), transparent 50%),
-      radial-gradient(1px 1px at 64% 12%, rgba(236, 72, 153, 0.55), transparent 50%);
-    background-size: 100% 100%;
-  }
-
-  /* Editorial drop cap (kept from previous design, retuned for dark). */
   .drop-cap::first-letter {
-    @apply font-display text-magenta;
+    @apply font-display text-tomato;
     font-size: 3.4em;
     line-height: 0.85;
     float: left;
@@ -208,26 +126,23 @@
     font-style: italic;
   }
 
-  /* Card lift used throughout. */
   .card-lift {
     @apply transition duration-300 ease-out;
   }
   .card-lift:hover {
-    @apply -translate-y-1 shadow-lift;
+    @apply -translate-y-0.5 shadow-lift;
   }
 
-  /* Dotted hairline. */
   .dot-rule {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.18) 1px, transparent 1.2px);
+    background-image: radial-gradient(circle, rgba(28, 25, 23, 0.28) 1px, transparent 1.2px);
     background-size: 8px 1px;
     background-repeat: repeat-x;
     background-position: center;
     height: 1px;
   }
 
-  /* Skeleton shimmer. */
   .skeleton {
-    @apply relative overflow-hidden bg-white/[0.04];
+    @apply relative overflow-hidden bg-ink/[0.04];
   }
   .skeleton::after {
     content: "";
@@ -236,7 +151,7 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.08) 50%,
+      rgba(28, 25, 23, 0.06) 50%,
       transparent 100%
     );
     animation: shimmer 1.8s linear infinite;
@@ -247,27 +162,26 @@
     100% { transform: translateX(100%); }
   }
 
-  /* Filter chip used in /explore. */
   .filter-chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.03] px-3 py-1 text-xs font-medium text-ink transition hover:border-electric/60 hover:bg-electric/10 hover:text-electric;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato;
   }
 
-  /* Animated aurora blob - drop into a relative parent. */
-  .aurora-blob {
-    @apply absolute rounded-full blur-[110px] opacity-60 mix-blend-screen pointer-events-none;
-  }
-
-  /* Subtle hex glow used on small chips / pills. */
-  .glow-violet {
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.3), 0 8px 32px -12px rgba(167, 139, 250, 0.5);
-  }
-  .glow-rose {
-    box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.35), 0 10px 36px -12px rgba(244, 63, 94, 0.55);
-  }
-
-  /* "Pill XP" style badge used to label sections in the new theme. */
-  .badge-pill {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-ink;
-    backdrop-filter: blur(8px);
+  .corner-ticks {
+    background-image:
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor);
+    background-size: 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px;
+    background-position:
+      top left, top left,
+      top right, top right,
+      bottom left, bottom left,
+      bottom right, bottom right;
+    background-repeat: no-repeat;
   }
 }

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X, ArrowRight, Sparkles } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { QuestButton } from "@/components/quest-button";
 import { Container } from "@/components/container";
 import { cn } from "@/lib/utils";
@@ -48,10 +48,10 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 transition-all duration-300",
+        "sticky top-0 z-50 border-b bg-paper/90 backdrop-blur-md transition-colors duration-300",
         mounted && scrolled
-          ? "border-b border-white/10 bg-paper/70 backdrop-blur-xl shadow-soft"
-          : "border-b border-white/5 bg-paper/30 backdrop-blur-md"
+          ? "border-ink/15 shadow-[0_1px_0_rgba(28,25,23,0.04)]"
+          : "border-ink/10"
       )}
     >
       <Container className="flex items-center justify-between py-4">
@@ -60,30 +60,19 @@ export function SiteHeader() {
           className="group flex items-center gap-3"
           aria-label="Main Quest, home"
         >
-          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl">
-            <span
-              aria-hidden
-              className="absolute inset-0 rounded-xl bg-aurora"
-            />
-            <span
-              aria-hidden
-              className="absolute inset-0 rounded-xl bg-aurora opacity-60 blur-md transition-opacity duration-300 group-hover:opacity-100"
-            />
-            <span className="relative font-display text-lg font-semibold leading-none text-white">
-              M
-            </span>
+          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-ink text-cream transition group-hover:bg-tomato">
+            <span className="font-display text-lg font-semibold leading-none">M</span>
           </span>
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg font-semibold tracking-tight text-ink">
               Main Quest
             </span>
-            <span className="hidden font-mono text-[9px] uppercase tracking-[0.24em] text-smoke sm:inline-block">
+            <span className="hidden font-mono text-[9px] uppercase tracking-[0.22em] text-smoke sm:inline-block">
               Pick your path
             </span>
           </span>
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden items-center gap-1 sm:flex">
           {nav.map(({ href, label }) => {
             const active = isActive(href);
@@ -93,38 +82,30 @@ export function SiteHeader() {
                 href={href}
                 className={cn(
                   "group/nav relative rounded-full px-4 py-2 text-sm font-medium transition",
-                  active ? "text-ink" : "text-graphite hover:text-ink"
+                  active ? "text-ink" : "text-smoke hover:text-ink"
                 )}
               >
-                {active && (
-                  <span
-                    aria-hidden
-                    className="absolute inset-0 -z-10 rounded-full bg-white/[0.06] ring-1 ring-white/10"
-                  />
-                )}
                 <span>{label}</span>
                 <span
                   className={cn(
-                    "ml-2 inline-block h-1.5 w-1.5 rounded-full align-middle transition",
+                    "ml-2 inline-block h-1 w-1 rounded-full align-middle transition",
                     active
-                      ? "bg-magenta shadow-[0_0_10px_rgba(236,72,153,0.8)]"
-                      : "bg-magenta opacity-0 group-hover/nav:opacity-70"
+                      ? "bg-tomato opacity-100"
+                      : "bg-tomato opacity-0 group-hover/nav:opacity-100"
                   )}
                 />
               </Link>
             );
           })}
-          <QuestButton href="/discover" size="sm" className="ml-3">
-            <Sparkles className="h-3.5 w-3.5" />
+          <QuestButton href="/discover" size="sm" className="ml-2">
             Start free
           </QuestButton>
         </nav>
 
-        {/* Mobile hamburger */}
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-ink transition hover:border-electric/60 hover:text-electric sm:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink transition hover:border-tomato hover:text-tomato sm:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-nav"
@@ -133,17 +114,16 @@ export function SiteHeader() {
         </button>
       </Container>
 
-      {/* Mobile sheet */}
       <div
         id="mobile-nav"
         className={cn(
           "sm:hidden",
-          "overflow-hidden border-t border-white/10 bg-paper/95 backdrop-blur-xl transition-[max-height,opacity] duration-300 ease-out",
+          "overflow-hidden border-t border-ink/10 bg-paper transition-[max-height,opacity] duration-300 ease-out",
           open ? "max-h-[420px] opacity-100" : "pointer-events-none max-h-0 opacity-0"
         )}
       >
         <Container className="py-2">
-          <ul className="divide-y divide-white/10">
+          <ul className="divide-y divide-ink/10">
             {nav.map(({ href, label, hint }) => {
               const active = isActive(href);
               return (
@@ -165,8 +145,8 @@ export function SiteHeader() {
                       className={cn(
                         "inline-flex h-9 w-9 items-center justify-center rounded-full border transition",
                         active
-                          ? "border-electric/60 bg-electric/15 text-electric shadow-glow"
-                          : "border-white/15 text-ink"
+                          ? "border-tomato bg-tomato text-cream"
+                          : "border-ink/15 text-ink"
                       )}
                     >
                       <ArrowRight className="h-4 w-4" />
@@ -176,7 +156,7 @@ export function SiteHeader() {
               );
             })}
           </ul>
-          <div className="border-t border-white/10 py-4">
+          <div className="border-t border-ink/10 py-4">
             <QuestButton href="/discover" size="lg" className="w-full">
               Start free
               <ArrowRight className="h-4 w-4" />

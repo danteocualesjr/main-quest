@@ -18,11 +18,10 @@ export function PageHeader({
   meta,
 }: PageHeaderProps) {
   return (
-    <header className="relative border-b border-white/10 pb-12 pt-10 md:pb-16 md:pt-14">
-      {/* Corner accent line */}
+    <header className="relative border-b border-ink/10 pb-12 pt-8 md:pb-16 md:pt-12">
       <div
         aria-hidden
-        className="pointer-events-none absolute right-0 top-6 hidden h-px w-40 bg-gradient-to-l from-electric/60 via-magenta/30 to-transparent md:block"
+        className="pointer-events-none absolute right-0 top-6 hidden h-px w-32 bg-gradient-to-l from-tomato/40 to-transparent md:block"
       />
 
       <div className="animate-fade-up">
@@ -39,11 +38,11 @@ export function PageHeader({
         {accent && (
           <>
             {" "}
-            <em className="relative inline-block italic">
-              <span className="aurora-text">{accent}</span>
+            <em className="relative italic text-tomato">
+              {accent}
               <span
                 aria-hidden
-                className="absolute -bottom-1 left-0 right-0 h-[3px] origin-left animate-draw-line rounded-full bg-aurora opacity-80"
+                className="absolute -bottom-1 left-0 right-0 h-[2px] origin-left animate-draw-line rounded-full bg-tomato/30"
                 style={{ animationDelay: "650ms" }}
               />
             </em>
@@ -60,13 +59,10 @@ export function PageHeader({
 
       {meta && (
         <div
-          className="mt-8 inline-flex animate-fade-up items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-graphite backdrop-blur"
+          className="mt-8 inline-flex animate-fade-up items-center gap-2 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-smoke"
           style={{ animationDelay: "200ms" }}
         >
-          <span className="relative inline-flex h-1.5 w-1.5">
-            <span className="absolute inset-0 animate-pulse-soft rounded-full bg-moss" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moss shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
-          </span>
+          <span className="h-1.5 w-1.5 rounded-full bg-moss" />
           {meta}
         </div>
       )}

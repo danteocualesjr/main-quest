@@ -43,7 +43,7 @@ export function HeroPreview() {
           </div>
           <div className="relative mt-3 h-1.5 rounded-full bg-ink/10">
             <span
-              className="absolute inset-y-0 left-[15%] right-[10%] rounded-full bg-gradient-to-r from-tomato/50 via-tomato to-tomato/80"
+              className="absolute inset-y-0 left-[15%] right-[10%] rounded-full bg-tomato"
               aria-hidden
             />
             {/* Median marker */}
