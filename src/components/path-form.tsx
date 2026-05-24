@@ -9,6 +9,7 @@ import { CoachPanel } from "@/components/coach-panel";
 import { PathSuggestionCard } from "@/components/path-suggestion-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
+import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
 import { SourceNote } from "@/components/source-note";
 import { careers } from "@/lib/careers";
 import { GRADE_OPTIONS } from "@/lib/grade-levels";
@@ -196,7 +197,7 @@ export function PathForm() {
 
   return (
     <div className="space-y-20">
-      <form onSubmit={handleSubmit} className="border-t border-ink/10 pt-12">
+      <form id="page-form" onSubmit={handleSubmit} className="border-t border-ink/10 pt-12">
         <SectionLabel variant="accent">Your goal</SectionLabel>
         <div className="mt-4 grid items-end gap-6 md:grid-cols-[1fr_auto]">
           <div>
@@ -479,6 +480,10 @@ export function PathForm() {
             />
           )}
         </section>
+      )}
+
+      {!loading && (path || suggestions.length > 0) && (
+        <ScrollToFormBar label="Change your goal" />
       )}
     </div>
   );

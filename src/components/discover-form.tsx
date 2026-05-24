@@ -7,6 +7,7 @@ import { CareerCard } from "@/components/career-card";
 import { CoachPanel } from "@/components/coach-panel";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
+import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
 import { SourceNote } from "@/components/source-note";
 import { GRADE_OPTIONS } from "@/lib/grade-levels";
 import { loadDiscoverSession, saveDiscoverSession } from "@/lib/session-storage";
@@ -145,7 +146,7 @@ export function DiscoverForm() {
   return (
     <div className="space-y-20">
       <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr]">
-        <form onSubmit={handleSubmit} className="space-y-12">
+        <form id="page-form" onSubmit={handleSubmit} className="space-y-12">
           {/* Progress indicator */}
           <div
             className="flex items-center gap-4 border-t border-ink/10 pt-6"
@@ -353,6 +354,10 @@ export function DiscoverForm() {
             />
           )}
         </section>
+      )}
+
+      {results && !loading && (
+        <ScrollToFormBar label="Edit your answers" />
       )}
     </div>
   );

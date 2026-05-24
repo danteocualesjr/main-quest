@@ -55,6 +55,54 @@ function SalaryBar({ career, dark = false }: { career: Career; dark?: boolean })
   );
 }
 
+function MatchScoreRing({ score }: { score: number }) {
+  const radius = 26;
+  const size = 64;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (Math.min(100, Math.max(0, score)) / 100) * circumference;
+
+  return (
+    <div
+      className="relative flex h-16 w-16 shrink-0 items-center justify-center"
+      aria-label={`${score}% match`}
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className="-rotate-90"
+        aria-hidden
+      >
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          className="text-ink/10"
+          strokeWidth="3"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          className="text-tomato transition-[stroke-dashoffset] duration-700 ease-out"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+        />
+      </svg>
+      <div className="absolute text-center">
+        <p className="font-display text-xl font-light tabular leading-none text-tomato">{score}</p>
+        <p className="mt-0.5 font-mono text-[8px] uppercase tracking-widest text-smoke">fit</p>
+      </div>
+    </div>
+  );
+}
+
 export function CareerCard({
   career,
   matchScore,
@@ -114,10 +162,7 @@ export function CareerCard({
       <div className="flex items-start justify-between gap-3">
         <p className="label-accent">{career.category}</p>
         {matchScore !== undefined ? (
-          <div className="text-right">
-            <p className="font-display text-3xl font-light tabular text-tomato">{matchScore}</p>
-            <p className="font-mono text-[9px] uppercase tracking-widest text-smoke">% fit</p>
-          </div>
+          <MatchScoreRing score={matchScore} />
         ) : (
           <ArrowUpRight className="h-4 w-4 text-ink/40 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-tomato" />
         )}

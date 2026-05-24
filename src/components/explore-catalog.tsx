@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpDown, Search, SlidersHorizontal, X } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
 import { SectionLabel } from "@/components/section-label";
@@ -25,6 +25,7 @@ const SALARY_PRESETS = [
 ];
 
 export function ExploreCatalog() {
+  const searchRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
   const [minSalary, setMinSalary] = useState("");
@@ -74,6 +75,26 @@ export function ExploreCatalog() {
     });
 
   const hasFilters = activeFilters.length > 0;
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+      e.preventDefault();
+      searchRef.current?.focus();
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   function clearAll() {
     setQuery("");
@@ -125,20 +146,28 @@ export function ExploreCatalog() {
           <div className="relative">
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-smoke" />
             <input
+              ref={searchRef}
               className="w-full border border-ink/15 bg-cream py-3.5 pl-12 pr-12 font-display text-lg font-light tracking-tight placeholder:text-ash focus:border-tomato focus:outline-none focus:ring-1 focus:ring-tomato/30 md:text-xl"
               placeholder="Search careers, fields, or aliases…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Search careers"
+              aria-keyshortcuts="/"
             />
             {query && (
               <button
+                type="button"
                 onClick={() => setQuery("")}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-smoke transition hover:text-tomato"
                 aria-label="Clear search"
               >
                 <X className="h-4 w-4" />
               </button>
+            )}
+            {!query && (
+              <kbd className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 rounded border border-ink/15 bg-paper px-1.5 py-0.5 font-mono text-[10px] text-smoke sm:inline-block">
+                /
+              </kbd>
             )}
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
