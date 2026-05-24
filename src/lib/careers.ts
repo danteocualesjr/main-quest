@@ -87,5 +87,5 @@ export function formatSalary(amount: number): string {
 }
 
 export function formatSalaryRange(career: Career): string {
-  return `${formatSalary(career.salaryMin)} – ${formatSalary(career.salaryMax)}`;
+  return `${formatSalary(career.salaryMin)} - ${formatSalary(career.salaryMax)}`;
 }
