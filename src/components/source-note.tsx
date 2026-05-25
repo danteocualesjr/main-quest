@@ -22,5 +22,10 @@ export function SourceNote(props: SourceNoteProps) {
       ? DISCOVER_MESSAGES[props.source]
       : PATH_MESSAGES[props.source];
 
-  return <p className="mt-3 label text-smoke">{message}</p>;
+  return (
+    <p className="mt-4 inline-flex max-w-2xl items-start gap-2 rounded-xl border border-ink/10 bg-cream/80 px-4 py-3 text-sm leading-relaxed text-smoke">
+      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-tomato/70" aria-hidden />
+      <span>{message}</span>
+    </p>
+  );
 }
