@@ -13,7 +13,7 @@ export function Marquee({ items, speed = "default" }: MarqueeProps) {
       >
         {sequence.map((item, i) => (
           <div key={`${item}-${i}`} className="flex items-center gap-12 shrink-0">
-            <span className="font-display text-2xl font-light tracking-tight text-ink transition hover:text-tomato md:text-3xl">
+            <span className="font-display text-2xl font-light tracking-tight text-ink transition hover:scale-[1.02] hover:text-tomato md:text-3xl">
               {item}
             </span>
             <span aria-hidden className="inline-flex items-center gap-2">
