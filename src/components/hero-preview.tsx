@@ -116,7 +116,7 @@ export function HeroPreview() {
         className="absolute -top-8 -left-6 hidden h-24 w-24 rounded-full bg-moss/20 blur-3xl md:block"
       />
 
-      <div className="absolute -bottom-3 right-8 rotate-1 rounded-md border border-ink/15 bg-paper px-3 py-1.5 shadow-soft">
+      <div className="absolute -bottom-3 right-8 rotate-1 rounded-md border border-ink/15 bg-paper px-3 py-1.5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift">
         <p className="font-mono text-[10px] uppercase tracking-widest text-ink">
           + 3 more matches
         </p>
