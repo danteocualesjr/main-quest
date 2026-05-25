@@ -114,7 +114,7 @@ export function ExploreCatalog() {
       </dl>
 
       {/* Filters */}
-      <div className="sticky top-[68px] z-30 -mx-6 rounded-b-2xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-paper backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
+      <div className="sticky top-[68px] z-30 -mx-6 rounded-b-2xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
         <div className="flex items-center justify-between gap-4">
           <SectionLabel>
             <span className="inline-flex items-center gap-2">
@@ -256,7 +256,7 @@ export function ExploreCatalog() {
       )}
 
       {/* Result count */}
-      <div className="flex items-end justify-between border-y border-ink/10 py-5">
+      <div className="flex items-end justify-between border-y border-ink/10 py-6">
         <p className="label">
           Showing{" "}
           <span className="text-ink tabular">
@@ -272,7 +272,7 @@ export function ExploreCatalog() {
       </div>
 
       {results.length === 0 ? (
-        <div className="grid gap-6 rounded-2xl border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
+        <div className="grid gap-6 rounded-3xl border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
           <div>
             <p className="font-display text-3xl font-light text-ink">
               No careers match those filters.
