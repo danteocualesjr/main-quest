@@ -18,7 +18,7 @@ export function PageHeader({
   meta,
 }: PageHeaderProps) {
   return (
-    <header className="page-wash relative border-b border-ink/10 pb-12 pt-8 md:pb-16 md:pt-12">
+    <header className="page-wash relative border-b border-ink/10 pb-14 pt-8 md:pb-16 md:pt-12">
       <div
         aria-hidden
         className="pointer-events-none absolute right-0 top-6 hidden h-px w-32 bg-gradient-to-l from-tomato/40 to-transparent md:block"
