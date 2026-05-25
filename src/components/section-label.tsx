@@ -26,7 +26,7 @@ export function SectionLabel({
       {number && (
         <span className="font-mono text-xs font-medium tabular tracking-tight">{number}</span>
       )}
-      {number && <span className="h-px w-8 bg-current opacity-30" />}
+      {number && <span className="h-px w-10 bg-current opacity-30" />}
       <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em]">
         {children}
       </span>
