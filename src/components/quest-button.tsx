@@ -23,7 +23,7 @@ export function QuestButton({
   disabled,
 }: QuestButtonProps) {
   const styles = cn(
-    "group/btn inline-flex items-center justify-center gap-2 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
+    "group/btn inline-flex items-center justify-center gap-2 font-medium transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
     variant !== "link" && "rounded-full",
     size === "sm" && variant !== "link" && "px-4 py-2 text-sm",
     size === "default" && variant !== "link" && "px-6 py-3 text-[15px]",
