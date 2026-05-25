@@ -188,7 +188,7 @@ export function DiscoverForm() {
                     type="button"
                     key={word}
                     onClick={() => setLikes((v) => (v ? v : `I like ${word}`))}
-                    className="rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato"
+                    className="rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98]"
                   >
                     {word}
                   </button>
