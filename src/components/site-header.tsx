@@ -82,7 +82,7 @@ export function SiteHeader() {
                 href={href}
                 className={cn(
                   "group/nav relative rounded-full px-4 py-2 text-sm font-medium transition",
-                  active ? "nav-pill-active text-ink" : "text-smoke hover:bg-ink/[0.04] hover:text-ink"
+                  active ? "nav-pill-active text-ink" : "text-smoke transition duration-200 hover:bg-ink/[0.04] hover:text-ink"
                 )}
               >
                 <span>{label}</span>
