@@ -7,8 +7,10 @@ export function Marquee({ items, speed = "default" }: MarqueeProps) {
   const animation = speed === "slow" ? "animate-marquee-slow" : "animate-marquee";
   const sequence = [...items, ...items];
   return (
-    <div className="relative overflow-hidden">
-      <div className={`flex w-max items-center gap-12 ${animation}`}>
+    <div className="group/marquee relative overflow-hidden">
+      <div
+        className={`flex w-max items-center gap-12 ${animation} group-hover/marquee:[animation-play-state:paused]`}
+      >
         {sequence.map((item, i) => (
           <div key={`${item}-${i}`} className="flex items-center gap-12 shrink-0">
             <span className="font-display text-2xl font-light tracking-tight text-ink transition hover:text-tomato md:text-3xl">
@@ -22,8 +24,8 @@ export function Marquee({ items, speed = "default" }: MarqueeProps) {
           </div>
         ))}
       </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-cream via-cream/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-cream via-cream/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-cream via-cream/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-cream via-cream/80 to-transparent" />
     </div>
   );
 }

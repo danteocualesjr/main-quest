@@ -46,7 +46,7 @@ export default async function CareerDetailPage({ params }: Props) {
       <Container className="pb-32 md:pb-20">
         <Link
           href="/explore"
-          className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-smoke transition hover:text-tomato"
+          className="mt-8 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium text-smoke transition hover:bg-cream hover:text-tomato"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to the map
@@ -181,7 +181,7 @@ export default async function CareerDetailPage({ params }: Props) {
               {career.skillsToBuild.map((skill, i) => (
                 <li
                   key={skill}
-                  className="group inline-flex items-center gap-2 border border-ink/15 bg-cream px-4 py-2 text-[15px] font-medium text-ink transition hover:border-tomato hover:text-tomato"
+                  className="group inline-flex items-center gap-2 rounded-full border border-ink/15 bg-cream px-4 py-2 text-[15px] font-medium text-ink transition hover:border-tomato hover:bg-tomato/5 hover:text-tomato"
                 >
                   <span className="font-mono text-[10px] tabular text-ash group-hover:text-tomato">
                     0{i + 1}
@@ -206,7 +206,7 @@ export default async function CareerDetailPage({ params }: Props) {
       </Container>
 
       {/* Sticky mobile CTA, appears on small screens only */}
-      <div className="sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 backdrop-blur-md md:hidden">
+      <div className="sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 shadow-[0_-8px_32px_-12px_rgba(28,25,23,0.12)] backdrop-blur-lg md:hidden">
         <Container className="flex items-center justify-between gap-3 py-3">
           <div className="min-w-0">
             <p className="label">Ready?</p>
@@ -238,7 +238,7 @@ function Detail({
   sub?: string;
 }) {
   return (
-    <div className="px-2 py-7 first:pl-0 md:px-7">
+    <div className="px-2 py-8 first:pl-0 md:px-7">
       <p className="label">{label}</p>
       <p className="mt-3 font-display text-2xl font-light tracking-tight text-ink md:text-3xl">
         {value}

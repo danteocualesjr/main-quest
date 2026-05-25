@@ -66,7 +66,7 @@ export default function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative grain overflow-hidden border-b border-ink/10 pb-20 pt-12 md:pb-28 md:pt-16">
+      <section className="relative grain overflow-hidden border-b border-ink/10 pb-24 pt-12 md:pb-28 md:pt-16">
         {/* Decorative ambient blobs (very subtle) */}
         <div
           aria-hidden
@@ -129,7 +129,7 @@ export default function HomePage() {
               </div>
 
               <div
-                className="mt-12 grid animate-fade-up grid-cols-3 gap-6 border-t border-ink/10 pt-8"
+                className="mt-12 grid animate-fade-up grid-cols-1 gap-3 border-t border-ink/10 pt-8 sm:grid-cols-3 sm:gap-6"
                 style={{ animationDelay: "360ms" }}
               >
                 <Stat
@@ -194,7 +194,7 @@ export default function HomePage() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group relative grid grid-cols-[auto_1fr_auto] items-start gap-6 py-8 transition hover:bg-cream/60"
+                    className="group relative grid grid-cols-[auto_1fr] items-start gap-5 rounded-lg py-8 transition hover:bg-cream/60 sm:grid-cols-[auto_1fr_auto] sm:gap-6 md:px-2"
                   >
                     {/* Hover accent rail */}
                     <span
@@ -217,9 +217,9 @@ export default function HomePage() {
                         &ldquo;{sample}&rdquo;
                       </p>
                     </div>
-                    <span className="inline-flex items-center gap-2 self-center text-sm font-medium text-ink">
+                    <span className="col-span-2 inline-flex items-center gap-2 self-center text-sm font-medium text-ink sm:col-span-1 sm:col-start-3">
                       <span className="hidden md:inline">{cta}</span>
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 transition group-hover:border-tomato group-hover:bg-tomato group-hover:text-cream">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 transition group-hover:border-tomato group-hover:bg-tomato group-hover:text-cream group-hover:shadow-soft">
                         <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                       </span>
                     </span>
@@ -266,7 +266,7 @@ export default function HomePage() {
               {quotes.map(({ text, who }, i) => (
                 <figure
                   key={who}
-                  className="relative border-l-2 border-tomato bg-paper px-7 py-7 shadow-paper"
+                  className="relative rounded-r-xl border-l-2 border-tomato bg-paper px-7 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft"
                 >
                   <Quote
                     className="absolute -left-px top-7 h-5 w-5 -translate-x-[10px] bg-cream text-tomato"
@@ -318,7 +318,7 @@ export default function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="py-24 md:py-32">
+      <section className="page-wash py-24 md:py-32">
         <Container size="prose" className="text-center">
           <SectionLabel number="05" variant="accent" className="justify-center">
             Your move
@@ -347,7 +347,7 @@ export default function HomePage() {
 
 function Stat({ n, label, unit }: { n: string; label: string; unit?: string }) {
   return (
-    <div>
+    <div className="stat-tile">
       <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
         {n}
         {unit && (

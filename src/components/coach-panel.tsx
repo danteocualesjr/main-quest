@@ -59,7 +59,7 @@ export function CoachPanel({ context }: CoachPanelProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group mt-12 flex w-full items-start gap-5 border border-ink/15 bg-cream p-6 text-left transition hover:border-tomato hover:shadow-lift md:p-8"
+        className="group mt-12 flex w-full items-start gap-5 rounded-2xl border border-ink/15 bg-cream p-6 text-left transition hover:border-tomato hover:shadow-lift md:p-8"
         aria-expanded={false}
         aria-controls="coach-panel"
       >
@@ -200,7 +200,7 @@ function CoachChat({
   return (
     <section
       id="coach-panel"
-      className="mt-12 border border-ink/15 bg-cream animate-fade-up"
+      className="mt-12 overflow-hidden rounded-2xl border border-ink/15 bg-cream animate-fade-up"
       aria-label="Career coach"
       aria-busy={isBusy}
     >
@@ -262,7 +262,7 @@ function CoachChat({
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isBusy}
-                  className="rounded-full border border-ink/15 bg-paper px-3 py-1.5 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato disabled:opacity-50"
+                  className="rounded-full border border-ink/15 bg-paper px-3 py-1.5 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98] disabled:opacity-50"
                 >
                   {prompt}
                 </button>

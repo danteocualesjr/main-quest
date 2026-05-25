@@ -45,7 +45,7 @@ const config: Config = {
       animation: {
         marquee: "marquee 40s linear infinite",
         "marquee-slow": "marquee 60s linear infinite",
-        "fade-up": "fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "fade-up": "fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both",
         "fade-in": "fade-in 0.6s ease-out both",
         "scale-in": "scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both",
         "draw-line": "draw-line 1.1s cubic-bezier(0.65, 0, 0.35, 1) both",

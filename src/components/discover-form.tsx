@@ -156,7 +156,7 @@ export function DiscoverForm() {
               {[0, 1, 2, 3].map((i) => (
                 <span
                   key={i}
-                  className={`h-1 flex-1 rounded-full transition ${
+                  className={`h-1.5 flex-1 rounded-full transition ${
                     i < progress ? "bg-tomato" : "bg-ink/10"
                   }`}
                 />
@@ -265,7 +265,7 @@ export function DiscoverForm() {
         </form>
 
         <aside className="lg:pl-8 lg:pt-2">
-          <div className="sticky top-24 border-l border-ink/10 pl-8">
+          <div className="sticky top-24 rounded-2xl border border-ink/10 bg-cream/50 p-6 lg:border-l lg:border-ink/10 lg:pl-8">
             <SectionLabel number="*" variant="accent">
               Tips for honest answers
             </SectionLabel>
@@ -375,7 +375,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-3 border-t border-ink/10 pt-8">
+    <div className="field-focus grid gap-3 rounded-lg border-t border-ink/10 pt-8">
       <div className="grid grid-cols-[auto_1fr] gap-3">
         <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato pt-1">
           {n}
@@ -392,7 +392,7 @@ function Field({
 
 function SkeletonCard() {
   return (
-    <div className="border border-ink/10 bg-cream p-6">
+    <div className="rounded-2xl border border-ink/10 bg-cream p-6">
       <div className="flex items-start justify-between gap-3">
         <div className="skeleton h-3 w-20 rounded" />
         <div className="skeleton h-8 w-12 rounded" />

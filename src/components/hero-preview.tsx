@@ -10,7 +10,7 @@ export function HeroPreview() {
       />
       <div className="absolute inset-x-1.5 -bottom-1.5 top-1.5 rounded-xl border border-ink/10 bg-cream/80 shadow-paper" />
 
-      <div className="relative rounded-xl border border-ink/12 bg-cream p-7 shadow-lift md:p-8">
+      <div className="corner-ticks relative rounded-2xl border border-ink/12 bg-cream p-7 text-ink/20 shadow-lift md:p-8">
         <div className="flex items-center justify-between">
           <p className="label-accent">Discover Me · Match</p>
           <span className="font-mono text-[10px] uppercase tracking-widest text-ash">
@@ -116,7 +116,7 @@ export function HeroPreview() {
         className="absolute -top-8 -left-6 hidden h-24 w-24 rounded-full bg-moss/20 blur-3xl md:block"
       />
 
-      <div className="absolute -bottom-3 right-8 rotate-2 rounded-md border border-ink/15 bg-paper px-3 py-1.5 shadow-soft">
+      <div className="absolute -bottom-3 right-8 rotate-1 rounded-md border border-ink/15 bg-paper px-3 py-1.5 shadow-soft">
         <p className="font-mono text-[10px] uppercase tracking-widest text-ink">
           + 3 more matches
         </p>

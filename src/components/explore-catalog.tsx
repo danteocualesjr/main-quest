@@ -107,14 +107,14 @@ export function ExploreCatalog() {
   return (
     <div className="space-y-12">
       {/* Stats strip */}
-      <dl className="grid grid-cols-3 divide-x divide-ink/10 border-y border-ink/10">
+      <dl className="grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-cream/60">
         <Stat n={stats.totalCareers.toString()} label="Career paths" />
         <Stat n={`$${(stats.avgMedianSalary / 1000).toFixed(0)}k`} label="Avg. median salary" />
         <Stat n={stats.fastestGrowing.toString()} label="Fast-growing roles" />
       </dl>
 
       {/* Filters */}
-      <div className="sticky top-[68px] z-30 -mx-6 border-y border-ink/10 bg-paper/90 px-6 py-5 backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
+      <div className="sticky top-[68px] z-30 -mx-6 rounded-b-2xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-paper backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
         <div className="flex items-center justify-between gap-4">
           <SectionLabel>
             <span className="inline-flex items-center gap-2">
@@ -147,7 +147,7 @@ export function ExploreCatalog() {
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-smoke" />
             <input
               ref={searchRef}
-              className="w-full border border-ink/15 bg-cream py-3.5 pl-12 pr-12 font-display text-lg font-light tracking-tight placeholder:text-ash focus:border-tomato focus:outline-none focus:ring-1 focus:ring-tomato/30 md:text-xl"
+              className="w-full rounded-2xl border border-ink/15 bg-cream py-3.5 pl-12 pr-12 font-display text-lg font-light tracking-tight shadow-paper placeholder:text-ash transition focus:border-tomato focus:outline-none focus:ring-2 focus:ring-tomato/20 md:text-xl"
               placeholder="Search careers, fields, or aliases…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -239,7 +239,7 @@ export function ExploreCatalog() {
             <button
               key={f.key}
               onClick={f.clear}
-              className="filter-chip"
+              className="filter-chip filter-chip-active"
               aria-label={`Remove filter ${f.label}`}
             >
               {f.label}
@@ -272,7 +272,7 @@ export function ExploreCatalog() {
       </div>
 
       {results.length === 0 ? (
-        <div className="grid gap-6 border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
+        <div className="grid gap-6 rounded-2xl border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
           <div>
             <p className="font-display text-3xl font-light text-ink">
               No careers match those filters.

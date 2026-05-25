@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/page-header";
 
 export default function PathPage() {
   return (
-    <Container className="pb-20">
+    <Container className="pb-24">
       <PageHeader
         number="02"
         eyebrow="Path to a Goal"

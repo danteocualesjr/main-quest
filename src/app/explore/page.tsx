@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/page-header";
 
 export default function ExplorePage() {
   return (
-    <Container className="pb-20">
+    <Container className="pb-24">
       <PageHeader
         number="03"
         eyebrow="The Career Map"
