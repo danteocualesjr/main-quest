@@ -48,7 +48,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <SiteHeader />
-        <main id="main-content" className="min-h-[calc(100vh-12rem)]">
+        <main id="main-content" className="min-h-[calc(100vh-12rem)] pb-8">
           {children}
         </main>
         <SiteFooter />
