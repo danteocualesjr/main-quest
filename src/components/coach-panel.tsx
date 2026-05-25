@@ -200,7 +200,7 @@ function CoachChat({
   return (
     <section
       id="coach-panel"
-      className="mt-12 border border-ink/15 bg-cream animate-fade-up"
+      className="mt-12 overflow-hidden rounded-2xl border border-ink/15 bg-cream animate-fade-up"
       aria-label="Career coach"
       aria-busy={isBusy}
     >
