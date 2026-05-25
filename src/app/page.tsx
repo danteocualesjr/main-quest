@@ -302,7 +302,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/explore"
-              className="group inline-flex items-center gap-2 self-start rounded-full border border-cream/20 px-5 py-3 text-sm font-medium text-cream transition hover:bg-cream hover:text-ink md:self-end"
+              className="group inline-flex items-center gap-2 self-start rounded-full border border-cream/20 px-5 py-3 text-sm font-medium text-cream transition hover:bg-cream hover:text-ink hover:shadow-soft md:self-end"
             >
               View all {stats.totalCareers} paths
               <ArrowRight className="h-4 w-4" />
