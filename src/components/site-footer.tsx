@@ -88,7 +88,7 @@ export function SiteFooter() {
           </div>
         </div>
       </Container>
-      <div className="border-t border-ink/10">
+      <div className="border-t border-ink/10 bg-paper/50">
         <Container className="flex flex-col items-start justify-between gap-3 py-6 text-xs text-smoke md:flex-row md:items-center">
           <p className="label">© Main Quest · Built for students choosing their next step</p>
           <p className="label">Made with care · Open to feedback</p>
