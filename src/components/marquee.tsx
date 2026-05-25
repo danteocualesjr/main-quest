@@ -9,7 +9,7 @@ export function Marquee({ items, speed = "default" }: MarqueeProps) {
   return (
     <div className="group/marquee relative overflow-hidden">
       <div
-        className={`flex w-max items-center gap-12 ${animation} group-hover/marquee:[animation-play-state:paused]`}
+        className={`flex w-max items-center gap-12 md:gap-14 ${animation} group-hover/marquee:[animation-play-state:paused]`}
       >
         {sequence.map((item, i) => (
           <div key={`${item}-${i}`} className="flex items-center gap-12 shrink-0">
