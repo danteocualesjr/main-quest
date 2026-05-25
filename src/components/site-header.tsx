@@ -60,7 +60,7 @@ export function SiteHeader() {
           className="group flex items-center gap-3"
           aria-label="Main Quest, home"
         >
-          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-ink text-cream transition group-hover:bg-tomato">
+          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-ink text-cream transition group-hover:scale-105 group-hover:bg-tomato">
             <span className="font-display text-lg font-semibold leading-none">M</span>
           </span>
           <span className="flex flex-col leading-none">
