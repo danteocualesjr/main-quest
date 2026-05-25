@@ -107,12 +107,12 @@
   }
 
   .underline-link {
-    @apply relative inline-block bg-[length:100%_1px] bg-bottom bg-no-repeat pb-0.5 font-medium transition;
+    @apply relative inline-block bg-[length:0%_1px] bg-bottom bg-no-repeat pb-0.5 font-medium transition duration-300;
     background-image: linear-gradient(currentColor, currentColor);
   }
 
   .underline-link:hover {
-    @apply text-tomato;
+    @apply bg-[length:100%_1px] text-tomato;
   }
 
   .grain {
