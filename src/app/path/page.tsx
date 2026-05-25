@@ -15,7 +15,7 @@ export default function PathPage() {
       />
       <Suspense
         fallback={
-          <div className="mt-12 border border-ink/10 bg-cream p-12 md:p-16">
+          <div className="mt-12 rounded-2xl border border-ink/10 bg-cream p-12 md:p-16">
             <div className="skeleton h-3 w-24 rounded" />
             <div className="skeleton mt-6 h-12 w-3/4 rounded" />
             <div className="mt-10 grid gap-3">
