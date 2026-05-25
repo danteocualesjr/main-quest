@@ -107,14 +107,14 @@ export function ExploreCatalog() {
   return (
     <div className="space-y-12">
       {/* Stats strip */}
-      <dl className="grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-cream/60">
+      <dl className="grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-cream/60 transition hover:bg-cream">
         <Stat n={stats.totalCareers.toString()} label="Career paths" />
         <Stat n={`$${(stats.avgMedianSalary / 1000).toFixed(0)}k`} label="Avg. median salary" />
         <Stat n={stats.fastestGrowing.toString()} label="Fast-growing roles" />
       </dl>
 
       {/* Filters */}
-      <div className="sticky top-[68px] z-30 -mx-6 rounded-b-2xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-paper backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
+      <div className="sticky top-[68px] z-30 -mx-6 rounded-b-2xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
         <div className="flex items-center justify-between gap-4">
           <SectionLabel>
             <span className="inline-flex items-center gap-2">
@@ -158,7 +158,7 @@ export function ExploreCatalog() {
               <button
                 type="button"
                 onClick={() => setQuery("")}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-smoke transition hover:text-tomato"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-smoke transition hover:text-tomato active:scale-90"
                 aria-label="Clear search"
               >
                 <X className="h-4 w-4" />
@@ -172,7 +172,7 @@ export function ExploreCatalog() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <select
-              className="input-block text-sm"
+              className="input-block text-sm transition hover:border-ink/25"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               aria-label="Filter by category"
@@ -256,7 +256,7 @@ export function ExploreCatalog() {
       )}
 
       {/* Result count */}
-      <div className="flex items-end justify-between border-y border-ink/10 py-5">
+      <div className="flex items-end justify-between border-y border-ink/10 py-6">
         <p className="label">
           Showing{" "}
           <span className="text-ink tabular">
@@ -272,7 +272,7 @@ export function ExploreCatalog() {
       </div>
 
       {results.length === 0 ? (
-        <div className="grid gap-6 rounded-2xl border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
+        <div className="grid gap-6 rounded-3xl border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
           <div>
             <p className="font-display text-3xl font-light text-ink">
               No careers match those filters.

@@ -13,7 +13,7 @@ type PathSuggestionCardProps = {
 
 export function PathSuggestionCard({ career, onBuildPath, building }: PathSuggestionCardProps) {
   return (
-    <article className="card-lift flex flex-col rounded-2xl border border-ink/10 bg-cream p-5 hover:border-tomato/25 hover:shadow-soft">
+    <article className="card-lift flex flex-col rounded-2xl border border-ink/10 bg-cream p-5 hover:border-tomato/25 hover:shadow-lift">
       <p className="label-accent">{career.category}</p>
       <h3 className="mt-4 font-display text-2xl font-light tracking-tight text-ink">
         {career.title}

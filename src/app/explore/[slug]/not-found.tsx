@@ -18,7 +18,7 @@ export default function CareerNotFound() {
         </p>
         <Link
           href="/explore"
-          className="mt-8 inline-flex items-center gap-2 text-base font-medium text-ink"
+          className="mt-8 inline-flex items-center gap-2 rounded-full border border-ink/15 px-5 py-2.5 text-base font-medium text-ink transition hover:border-tomato hover:text-tomato"
         >
           <span className="underline-link">Browse all careers</span>
           <ArrowRight className="h-4 w-4" />

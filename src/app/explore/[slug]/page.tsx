@@ -46,7 +46,7 @@ export default async function CareerDetailPage({ params }: Props) {
       <Container className="pb-32 md:pb-20">
         <Link
           href="/explore"
-          className="mt-8 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium text-smoke transition hover:bg-cream hover:text-tomato"
+          className="mt-8 inline-flex items-center gap-2 rounded-full border border-transparent px-3 py-1.5 text-sm font-medium text-smoke transition hover:border-ink/15 hover:bg-cream hover:text-tomato"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to the map

@@ -28,8 +28,8 @@ export function SiteFooter() {
     <footer className="mt-16 border-t border-ink/10 bg-cream md:mt-24">
       <Container className="grid gap-14 py-16 md:grid-cols-[1.2fr_1.4fr_1fr]">
         <div>
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-cream">
+          <div className="group/logo flex items-center gap-3">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-cream transition group-hover/logo:scale-105">
               <span className="font-display text-lg font-semibold leading-none">M</span>
             </span>
             <span className="font-display text-lg font-semibold text-ink">Main Quest</span>
@@ -88,7 +88,7 @@ export function SiteFooter() {
           </div>
         </div>
       </Container>
-      <div className="border-t border-ink/10">
+      <div className="border-t border-ink/10 bg-paper/50">
         <Container className="flex flex-col items-start justify-between gap-3 py-6 text-xs text-smoke md:flex-row md:items-center">
           <p className="label">© Main Quest · Built for students choosing their next step</p>
           <p className="label">Made with care · Open to feedback</p>

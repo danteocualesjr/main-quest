@@ -9,11 +9,11 @@ export function Marquee({ items, speed = "default" }: MarqueeProps) {
   return (
     <div className="group/marquee relative overflow-hidden">
       <div
-        className={`flex w-max items-center gap-12 ${animation} group-hover/marquee:[animation-play-state:paused]`}
+        className={`flex w-max items-center gap-12 md:gap-14 ${animation} group-hover/marquee:[animation-play-state:paused]`}
       >
         {sequence.map((item, i) => (
           <div key={`${item}-${i}`} className="flex items-center gap-12 shrink-0">
-            <span className="font-display text-2xl font-light tracking-tight text-ink transition hover:text-tomato md:text-3xl">
+            <span className="font-display text-2xl font-light tracking-tight text-ink transition hover:scale-[1.02] hover:text-tomato md:text-3xl">
               {item}
             </span>
             <span aria-hidden className="inline-flex items-center gap-2">
