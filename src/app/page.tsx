@@ -266,7 +266,7 @@ export default function HomePage() {
               {quotes.map(({ text, who }, i) => (
                 <figure
                   key={who}
-                  className="relative rounded-r-xl border-l-2 border-tomato bg-paper px-7 py-7 shadow-paper transition hover:shadow-soft"
+                  className="relative rounded-r-xl border-l-2 border-tomato bg-paper px-7 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft"
                 >
                   <Quote
                     className="absolute -left-px top-7 h-5 w-5 -translate-x-[10px] bg-cream text-tomato"
