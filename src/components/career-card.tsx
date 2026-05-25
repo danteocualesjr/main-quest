@@ -116,7 +116,7 @@ export function CareerCard({
       <li>
         <Link
           href={`/explore/${career.id}`}
-          className="group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 py-7 transition hover:bg-cream/5 md:gap-10"
+          className="group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 py-7 transition duration-300 hover:bg-cream/5 md:gap-10"
         >
           {index !== undefined && (
             <span className="font-mono text-sm font-medium tabular text-cream/40 md:text-base">
