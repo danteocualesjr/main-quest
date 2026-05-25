@@ -143,7 +143,7 @@ export function CareerCard({
               <SalaryBar career={career} dark />
             </div>
           </div>
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/20 text-cream transition group-hover:border-tomato group-hover:bg-tomato">
+          <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/20 text-cream transition group-hover:border-tomato group-hover:bg-tomato active:scale-95">
             <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </span>
         </Link>
