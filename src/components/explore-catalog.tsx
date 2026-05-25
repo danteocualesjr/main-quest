@@ -107,7 +107,7 @@ export function ExploreCatalog() {
   return (
     <div className="space-y-12">
       {/* Stats strip */}
-      <dl className="grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-cream/60">
+      <dl className="grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-cream/60 transition hover:bg-cream">
         <Stat n={stats.totalCareers.toString()} label="Career paths" />
         <Stat n={`$${(stats.avgMedianSalary / 1000).toFixed(0)}k`} label="Avg. median salary" />
         <Stat n={stats.fastestGrowing.toString()} label="Fast-growing roles" />
@@ -158,7 +158,7 @@ export function ExploreCatalog() {
               <button
                 type="button"
                 onClick={() => setQuery("")}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-smoke transition hover:text-tomato"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-smoke transition hover:text-tomato active:scale-90"
                 aria-label="Clear search"
               >
                 <X className="h-4 w-4" />
@@ -172,7 +172,7 @@ export function ExploreCatalog() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <select
-              className="input-block text-sm"
+              className="input-block text-sm transition hover:border-ink/25"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               aria-label="Filter by category"
