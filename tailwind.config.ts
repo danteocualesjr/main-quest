@@ -41,6 +41,7 @@ const config: Config = {
         paper: "0 1px 0 rgba(28, 25, 23, 0.05)",
         soft: "0 4px 24px rgba(28, 25, 23, 0.07)",
         lift: "0 20px 60px -20px rgba(28, 25, 23, 0.14)",
+        glow: "0 0 40px -8px rgba(200, 60, 26, 0.25)",
       },
       animation: {
         marquee: "marquee 40s linear infinite",
