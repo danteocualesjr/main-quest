@@ -318,7 +318,7 @@ export default function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="py-24 md:py-32">
+      <section className="page-wash py-24 md:py-32">
         <Container size="prose" className="text-center">
           <SectionLabel number="05" variant="accent" className="justify-center">
             Your move
