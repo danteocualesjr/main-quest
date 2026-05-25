@@ -66,7 +66,7 @@ export default function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative grain overflow-hidden border-b border-ink/10 pb-24 pt-12 md:pb-28 md:pt-16">
+      <section className="relative grain overflow-hidden border-b border-ink/10 pb-24 pt-14 md:pb-28 md:pt-16">
         {/* Decorative ambient blobs (very subtle) */}
         <div
           aria-hidden
@@ -194,7 +194,7 @@ export default function HomePage() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group relative grid grid-cols-[auto_1fr] items-start gap-5 rounded-lg py-8 transition hover:bg-cream/60 sm:grid-cols-[auto_1fr_auto] sm:gap-6 md:px-2"
+                    className="group relative grid grid-cols-[auto_1fr] items-start gap-5 rounded-lg py-8 transition hover:bg-cream/60 focus-visible:ring-2 focus-visible:ring-tomato/30 sm:grid-cols-[auto_1fr_auto] sm:gap-6 md:px-2"
                   >
                     {/* Hover accent rail */}
                     <span
@@ -266,7 +266,7 @@ export default function HomePage() {
               {quotes.map(({ text, who }, i) => (
                 <figure
                   key={who}
-                  className="relative rounded-r-xl border-l-2 border-tomato bg-paper px-7 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft"
+                  className="relative rounded-r-xl border-l-2 border-tomato bg-paper px-8 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft"
                 >
                   <Quote
                     className="absolute -left-px top-7 h-5 w-5 -translate-x-[10px] bg-cream text-tomato"
