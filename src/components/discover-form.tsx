@@ -156,7 +156,7 @@ export function DiscoverForm() {
               {[0, 1, 2, 3].map((i) => (
                 <span
                   key={i}
-                  className={`h-1 flex-1 rounded-full transition ${
+                  className={`h-1.5 flex-1 rounded-full transition ${
                     i < progress ? "bg-tomato" : "bg-ink/10"
                   }`}
                 />
