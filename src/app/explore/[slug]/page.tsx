@@ -238,7 +238,7 @@ function Detail({
   sub?: string;
 }) {
   return (
-    <div className="px-2 py-7 first:pl-0 md:px-7">
+    <div className="px-2 py-8 first:pl-0 md:px-7">
       <p className="label">{label}</p>
       <p className="mt-3 font-display text-2xl font-light tracking-tight text-ink md:text-3xl">
         {value}
