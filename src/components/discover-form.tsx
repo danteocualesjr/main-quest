@@ -375,7 +375,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-3 border-t border-ink/10 pt-8">
+    <div className="field-focus grid gap-3 rounded-lg border-t border-ink/10 pt-8">
       <div className="grid grid-cols-[auto_1fr] gap-3">
         <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato pt-1">
           {n}
@@ -392,7 +392,7 @@ function Field({
 
 function SkeletonCard() {
   return (
-    <div className="border border-ink/10 bg-cream p-6">
+    <div className="rounded-2xl border border-ink/10 bg-cream p-6">
       <div className="flex items-start justify-between gap-3">
         <div className="skeleton h-3 w-20 rounded" />
         <div className="skeleton h-8 w-12 rounded" />

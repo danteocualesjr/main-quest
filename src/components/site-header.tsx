@@ -48,9 +48,9 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-paper/90 backdrop-blur-md transition-colors duration-300",
+        "sticky top-0 z-50 border-b bg-paper/92 backdrop-blur-lg transition-[border-color,box-shadow,background-color] duration-300",
         mounted && scrolled
-          ? "border-ink/15 shadow-[0_1px_0_rgba(28,25,23,0.04)]"
+          ? "border-ink/15 shadow-[0_4px_24px_-8px_rgba(28,25,23,0.08)]"
           : "border-ink/10"
       )}
     >
@@ -82,18 +82,16 @@ export function SiteHeader() {
                 href={href}
                 className={cn(
                   "group/nav relative rounded-full px-4 py-2 text-sm font-medium transition",
-                  active ? "text-ink" : "text-smoke hover:text-ink"
+                  active ? "nav-pill-active text-ink" : "text-smoke hover:bg-ink/[0.04] hover:text-ink"
                 )}
               >
                 <span>{label}</span>
-                <span
-                  className={cn(
-                    "ml-2 inline-block h-1 w-1 rounded-full align-middle transition",
-                    active
-                      ? "bg-tomato opacity-100"
-                      : "bg-tomato opacity-0 group-hover/nav:opacity-100"
-                  )}
-                />
+                {active && (
+                  <span
+                    aria-hidden
+                    className="absolute bottom-1 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-tomato"
+                  />
+                )}
               </Link>
             );
           })}

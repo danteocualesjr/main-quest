@@ -155,7 +155,7 @@ export function CareerCard({
     <Link
       href={`/explore/${career.id}`}
       className={cn(
-        "group card-lift relative flex flex-col border border-ink/10 bg-cream p-6 transition hover:border-ink/30",
+        "group card-lift relative flex flex-col rounded-2xl border border-ink/10 bg-cream p-6 transition hover:border-tomato/25 hover:shadow-soft",
         compact && "p-5"
       )}
     >

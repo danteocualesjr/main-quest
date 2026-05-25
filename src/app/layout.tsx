@@ -41,8 +41,16 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-cream"
+        >
+          Skip to main content
+        </a>
         <SiteHeader />
-        <main>{children}</main>
+        <main id="main-content" className="min-h-[calc(100vh-12rem)]">
+          {children}
+        </main>
         <SiteFooter />
       </body>
     </html>

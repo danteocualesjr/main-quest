@@ -10,7 +10,7 @@ export function HeroPreview() {
       />
       <div className="absolute inset-x-1.5 -bottom-1.5 top-1.5 rounded-xl border border-ink/10 bg-cream/80 shadow-paper" />
 
-      <div className="relative rounded-xl border border-ink/12 bg-cream p-7 shadow-lift md:p-8">
+      <div className="corner-ticks relative rounded-2xl border border-ink/12 bg-cream p-7 text-ink/20 shadow-lift md:p-8">
         <div className="flex items-center justify-between">
           <p className="label-accent">Discover Me · Match</p>
           <span className="font-mono text-[10px] uppercase tracking-widest text-ash">

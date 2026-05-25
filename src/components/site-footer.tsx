@@ -25,7 +25,7 @@ const quickLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-ink/10 bg-cream">
+    <footer className="mt-16 border-t border-ink/10 bg-cream md:mt-24">
       <Container className="grid gap-14 py-16 md:grid-cols-[1.2fr_1.4fr_1fr]">
         <div>
           <div className="flex items-center gap-3">

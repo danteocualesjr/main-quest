@@ -86,11 +86,19 @@
   }
 
   .input-bare {
-    @apply w-full border-b border-ink/15 bg-transparent py-3 text-ink placeholder:text-ash outline-none transition focus:border-tomato;
+    @apply w-full border-b border-ink/15 bg-transparent py-3 text-ink placeholder:text-ash outline-none transition focus:border-tomato focus:ring-0;
   }
 
   .input-block {
-    @apply w-full rounded-lg border border-ink/15 bg-cream px-4 py-3 text-ink placeholder:text-ash outline-none transition focus:border-tomato focus:ring-1 focus:ring-tomato/30;
+    @apply w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink placeholder:text-ash outline-none transition focus:border-tomato focus:ring-2 focus:ring-tomato/20;
+  }
+
+  .field-focus {
+    @apply transition-colors duration-200;
+  }
+
+  .field-focus:focus-within {
+    @apply border-tomato/30;
   }
 
   .underline-link {
@@ -164,6 +172,34 @@
 
   .filter-chip {
     @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato;
+  }
+
+  .filter-chip-active {
+    @apply border-tomato/40 bg-tomato/5 text-tomato;
+  }
+
+  .surface-card {
+    @apply rounded-2xl border border-ink/10 bg-cream shadow-paper transition;
+  }
+
+  .surface-card:hover {
+    @apply border-ink/20 shadow-soft;
+  }
+
+  .nav-pill-active {
+    @apply bg-ink/[0.06] text-ink;
+  }
+
+  .page-wash {
+    background-image: radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(200, 60, 26, 0.06),
+      transparent 70%
+    );
+  }
+
+  .stat-tile {
+    @apply rounded-xl border border-ink/10 bg-cream/80 px-4 py-5 md:border-0 md:bg-transparent md:px-0 md:py-0;
   }
 
   .corner-ticks {
