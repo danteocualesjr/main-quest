@@ -318,7 +318,7 @@ export default function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="page-wash py-24 md:py-32">
+      <section className="page-wash py-28 md:py-36">
         <Container size="prose" className="text-center">
           <SectionLabel number="05" variant="accent" className="justify-center">
             Your move
@@ -363,7 +363,7 @@ function Stat({ n, label, unit }: { n: string; label: string; unit?: string }) {
 
 function Step({ n, title, body }: { n: string; title: string; body: string }) {
   return (
-    <li className="grid grid-cols-[auto_1fr] gap-6 border-l-2 border-ink/10 pl-6">
+    <li className="grid grid-cols-[auto_1fr] gap-6 border-l-2 border-ink/10 pl-6 transition hover:border-tomato/40">
       <span className="font-mono text-sm uppercase tabular text-tomato pt-1">{n}</span>
       <div>
         <p className="font-display text-2xl font-light text-ink">{title}</p>
