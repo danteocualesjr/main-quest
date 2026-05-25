@@ -262,7 +262,7 @@ function CoachChat({
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isBusy}
-                  className="rounded-full border border-ink/15 bg-paper px-3 py-1.5 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato disabled:opacity-50"
+                  className="rounded-full border border-ink/15 bg-paper px-3 py-1.5 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98] disabled:opacity-50"
                 >
                   {prompt}
                 </button>
