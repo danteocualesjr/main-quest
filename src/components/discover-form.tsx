@@ -265,7 +265,7 @@ export function DiscoverForm() {
         </form>
 
         <aside className="lg:pl-8 lg:pt-2">
-          <div className="sticky top-24 border-l border-ink/10 pl-8">
+          <div className="sticky top-24 rounded-2xl border border-ink/10 bg-cream/50 p-6 lg:border-l lg:border-ink/10 lg:pl-8">
             <SectionLabel number="*" variant="accent">
               Tips for honest answers
             </SectionLabel>
