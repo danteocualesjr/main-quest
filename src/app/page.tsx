@@ -66,7 +66,7 @@ export default function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative grain overflow-hidden border-b border-ink/10 pb-20 pt-12 md:pb-28 md:pt-16">
+      <section className="relative grain overflow-hidden border-b border-ink/10 pb-24 pt-12 md:pb-28 md:pt-16">
         {/* Decorative ambient blobs (very subtle) */}
         <div
           aria-hidden
