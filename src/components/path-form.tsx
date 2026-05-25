@@ -244,7 +244,7 @@ export function PathForm() {
                 type="button"
                 key={example}
                 onClick={() => setGoal(example)}
-                className="rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato"
+                className="rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98]"
               >
                 {example}
               </button>
