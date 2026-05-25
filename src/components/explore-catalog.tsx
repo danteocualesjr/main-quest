@@ -272,7 +272,7 @@ export function ExploreCatalog() {
       </div>
 
       {results.length === 0 ? (
-        <div className="grid gap-6 border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
+        <div className="grid gap-6 rounded-2xl border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
           <div>
             <p className="font-display text-3xl font-light text-ink">
               No careers match those filters.
