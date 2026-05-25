@@ -142,8 +142,10 @@
   .card-lift {
     @apply transition duration-300 ease-out;
   }
-  .card-lift:hover {
-    @apply -translate-y-0.5 shadow-lift;
+  @media (hover: hover) {
+    .card-lift:hover {
+      @apply -translate-y-0.5 shadow-lift;
+    }
   }
 
   .dot-rule {
