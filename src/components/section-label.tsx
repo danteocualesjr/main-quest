@@ -16,7 +16,7 @@ export function SectionLabel({
   return (
     <div
       className={cn(
-        "flex items-center gap-3",
+        "flex items-center gap-4",
         variant === "default" && "text-smoke",
         variant === "accent" && "text-tomato",
         variant === "ink" && "text-ink",
