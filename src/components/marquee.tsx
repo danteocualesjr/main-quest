@@ -24,8 +24,8 @@ export function Marquee({ items, speed = "default" }: MarqueeProps) {
           </div>
         ))}
       </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-cream via-cream/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-cream via-cream/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-cream via-cream/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-cream via-cream/80 to-transparent" />
     </div>
   );
 }
