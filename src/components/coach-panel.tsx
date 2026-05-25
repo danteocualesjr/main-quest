@@ -59,7 +59,7 @@ export function CoachPanel({ context }: CoachPanelProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group mt-12 flex w-full items-start gap-5 rounded-2xl border border-ink/15 bg-cream p-6 text-left transition hover:border-tomato hover:shadow-lift md:p-8"
+        className="group mt-12 flex w-full items-start gap-5 rounded-2xl border border-ink/15 bg-cream p-6 text-left transition hover:border-tomato hover:shadow-lift active:scale-[0.995] md:p-8"
         aria-expanded={false}
         aria-controls="coach-panel"
       >
