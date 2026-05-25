@@ -32,7 +32,7 @@ export function QuestButton({
       "bg-tomato text-cream shadow-paper hover:bg-ember hover:shadow-soft focus-visible:outline-tomato",
     variant === "ink" && "bg-ink text-cream hover:bg-graphite focus-visible:outline-ink",
     variant === "ghost" &&
-      "border border-ink/15 bg-transparent text-ink hover:bg-ink hover:text-cream focus-visible:outline-ink",
+      "border border-ink/15 bg-transparent text-ink hover:bg-ink hover:text-cream hover:shadow-paper focus-visible:outline-ink",
     variant === "link" && "text-ink underline-offset-4 hover:text-tomato",
     className
   );
