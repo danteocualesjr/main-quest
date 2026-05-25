@@ -194,7 +194,7 @@ export default function HomePage() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group relative grid grid-cols-[auto_1fr] items-start gap-5 py-8 transition hover:bg-cream/60 sm:grid-cols-[auto_1fr_auto] sm:gap-6"
+                    className="group relative grid grid-cols-[auto_1fr] items-start gap-5 rounded-lg py-8 transition hover:bg-cream/60 sm:grid-cols-[auto_1fr_auto] sm:gap-6 md:px-2"
                   >
                     {/* Hover accent rail */}
                     <span
