@@ -18,15 +18,26 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      const top = window.scrollY;
+      setScrolled(top > 8);
+      const doc = document.documentElement;
+      const scrollable = doc.scrollHeight - doc.clientHeight;
+      setProgress(scrollable > 0 ? Math.min(1, Math.max(0, top / scrollable)) : 0);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
 
   function isActive(href: string) {
     if (!mounted) return false;
@@ -162,6 +173,15 @@ export function SiteHeader() {
           </div>
         </Container>
       </div>
+
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left bg-gradient-to-r from-tomato to-ember transition-opacity duration-300",
+          mounted && scrolled ? "opacity-100" : "opacity-0"
+        )}
+        style={{ transform: `scaleX(${mounted ? progress : 0})` }}
+      />
     </header>
   );
 }

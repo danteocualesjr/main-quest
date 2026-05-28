@@ -131,6 +131,12 @@ export function CareerCard({
               {career.title}
             </h3>
             <p className="mt-1 hidden text-sm text-cream/60 md:block">{career.tagline}</p>
+            <p className="mt-2 font-display text-base font-light tabular text-cream/90 md:hidden">
+              {formatSalaryRange(career)}
+              <span className="ml-1.5 font-mono text-[10px] uppercase tracking-widest text-cream/40">
+                /yr
+              </span>
+            </p>
           </div>
           <div className="hidden text-right md:block">
             <p className="font-display text-xl font-light tabular text-cream">
