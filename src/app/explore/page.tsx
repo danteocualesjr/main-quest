@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { Container } from "@/components/container";
 import { ExploreCatalog } from "@/components/explore-catalog";
 import { PageHeader } from "@/components/page-header";
+
+export const metadata: Metadata = {
+  title: "Explore Careers",
+  description:
+    "Browse 30+ curated US careers. Filter by salary, education, and growth, then open a full profile with day-in-the-life details.",
+};
 
 export default function ExplorePage() {
   return (

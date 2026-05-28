@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Container } from "@/components/container";
 import { PathForm } from "@/components/path-form";
 import { PageHeader } from "@/components/page-header";
+
+export const metadata: Metadata = {
+  title: "Path to a Goal",
+  description:
+    "Type the role you're aiming for and get a step-by-step roadmap — what to study, build, and do from now until your first hire.",
+};
 
 export default function PathPage() {
   return (
