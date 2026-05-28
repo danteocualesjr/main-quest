@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { Container } from "@/components/container";
 import { DiscoverForm } from "@/components/discover-form";
 import { PageHeader } from "@/components/page-header";
+
+export const metadata: Metadata = {
+  title: "Discover Me",
+  description:
+    "Share what you enjoy, what you're good at, and what you'd rather avoid — get matched to careers that actually fit you.",
+};
 
 export default function DiscoverPage() {
   return (
