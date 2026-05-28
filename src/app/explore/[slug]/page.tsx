@@ -19,9 +19,25 @@ import {
 import { EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
 import type { Career } from "@/lib/types";
 
+import type { Metadata } from "next";
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const career = getCareerById(slug);
+
+  if (!career) {
+    return { title: "Career not found" };
+  }
+
+  return {
+    title: career.title,
+    description: `${career.tagline} — ${formatSalaryRange(career)} typical US salary, ${EDUCATION_LABELS[career.education].toLowerCase()}, and a roadmap from high school to your first hire.`,
+  };
+}
 
 const SALARY_CEILING = 220_000;
 function pct(n: number) {
