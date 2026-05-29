@@ -318,7 +318,9 @@ export function ExploreCatalog() {
 function Stat({ n, label }: { n: React.ReactNode; label: string }) {
   return (
     <div className="px-4 py-6 first:pl-0 md:px-8">
-      <p className="font-display text-3xl font-light tabular text-ink md:text-5xl">{n}</p>
+      <p className="font-display text-3xl font-light tabular text-ink md:text-5xl">
+        <CountUp value={value} prefix={prefix} suffix={suffix} />
+      </p>
       <p className="label mt-2">{label}</p>
     </div>
   );

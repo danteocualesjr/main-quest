@@ -1,8 +1,52 @@
+"use client";
+
+import { useRef } from "react";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
 
 export function HeroPreview() {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const frame = useRef<number | null>(null);
+
+  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const el = cardRef.current;
+    if (!el) return;
+    if (typeof window !== "undefined") {
+      // Coarse pointers (touch) and reduced-motion users get the static card.
+      if (
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        window.matchMedia("(hover: none)").matches
+      ) {
+        return;
+      }
+    }
+
+    const rect = el.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width; // 0 → 1
+    const py = (e.clientY - rect.top) / rect.height; // 0 → 1
+
+    if (frame.current) cancelAnimationFrame(frame.current);
+    frame.current = requestAnimationFrame(() => {
+      const rotateY = (px - 0.5) * 7; // left/right tilt
+      const rotateX = (0.5 - py) * 7; // up/down tilt
+      el.style.setProperty("--rx", `${rotateX.toFixed(2)}deg`);
+      el.style.setProperty("--ry", `${rotateY.toFixed(2)}deg`);
+      el.style.setProperty("--mx", `${(px * 100).toFixed(1)}%`);
+      el.style.setProperty("--my", `${(py * 100).toFixed(1)}%`);
+      el.style.setProperty("--spot", "1");
+    });
+  }
+
+  function reset() {
+    const el = cardRef.current;
+    if (!el) return;
+    if (frame.current) cancelAnimationFrame(frame.current);
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+    el.style.setProperty("--spot", "0");
+  }
+
   return (
-    <div className="relative">
+    <div className="relative [perspective:1400px]">
       {/* Faint stacked card behind for depth */}
       <div
         aria-hidden
@@ -10,7 +54,30 @@ export function HeroPreview() {
       />
       <div className="absolute inset-x-1.5 -bottom-1.5 top-1.5 rounded-xl border border-ink/10 bg-cream/80 shadow-paper" />
 
-      <div className="group corner-ticks relative rounded-2xl border border-ink/12 bg-cream p-7 text-ink/20 shadow-lift transition duration-300 hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-soft md:p-8">
+      <div
+        ref={cardRef}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={reset}
+        style={
+          {
+            transform:
+              "rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))",
+            transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+            transformStyle: "preserve-3d",
+          } as React.CSSProperties
+        }
+        className="group corner-ticks relative rounded-2xl border border-ink/12 bg-cream p-7 text-ink/20 shadow-lift will-change-transform hover:border-ink/20 md:p-8"
+      >
+        {/* Pointer-tracked spotlight */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-300"
+          style={{
+            opacity: "var(--spot, 0)",
+            background:
+              "radial-gradient(420px circle at var(--mx,50%) var(--my,0%), rgb(var(--c-tomato) / 0.10), transparent 60%)",
+          }}
+        />
         <div className="flex items-center justify-between">
           <p className="label-accent">Discover Me · Match</p>
           <span className="font-mono text-[10px] uppercase tracking-widest text-ash">
@@ -121,7 +188,6 @@ export function HeroPreview() {
           + 3 more matches
         </p>
       </div>
-
     </div>
   );
 }

@@ -80,6 +80,23 @@
     scrollbar-color: rgb(var(--c-ink) / 0.22) transparent;
   }
 
+  /* When toggling light/dark we briefly opt every element into a color
+     transition so the palette eases instead of snapping. Driven by JS adding
+     `.theme-transition` to <html>, then removing it once the tween completes. */
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition:
+      background-color 0.4s ease,
+      border-color 0.4s ease,
+      color 0.4s ease,
+      fill 0.4s ease,
+      stroke 0.4s ease,
+      box-shadow 0.4s ease !important;
+    transition-delay: 0ms !important;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -136,6 +153,22 @@
 
   .input-block:hover {
     @apply border-ink/25;
+  }
+
+  /* Replace the inconsistent native select arrow with a uniform chevron. */
+  select.input-block {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23787169' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
+    background-size: 1rem;
+  }
+
+  .dark select.input-block {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a69d92' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   }
 
   .field-focus {

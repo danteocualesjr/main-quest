@@ -4,6 +4,7 @@ import { Container } from "@/components/container";
 import { SectionLabel } from "@/components/section-label";
 import { QuestButton } from "@/components/quest-button";
 import { CareerCard } from "@/components/career-card";
+import { CountUp } from "@/components/count-up";
 import { HeroPreview } from "@/components/hero-preview";
 import { Marquee } from "@/components/marquee";
 import { Reveal } from "@/components/reveal";
@@ -280,8 +281,8 @@ export default function HomePage() {
                   <figcaption className="mt-4 label">{who}</figcaption>
                   <span className="absolute -right-3 -top-3 font-mono text-xs tabular text-ash">
                     0{i + 1}
-                  </span>
-                </figure>
+                </span>
+              </figure>
               ))}
             </div>
           </Reveal>
@@ -311,11 +312,13 @@ export default function HomePage() {
             </Link>
           </Reveal>
 
-          <ul className="mt-12 divide-y divide-cream/12 border-y border-cream/15">
-            {featured.map((career, i) => (
-              <CareerCard key={career.id} career={career} index={i + 1} dark />
-            ))}
-          </ul>
+          <Reveal as="div" delay={80}>
+            <ul className="mt-12 divide-y divide-cream/12 border-y border-cream/15">
+              {featured.map((career, i) => (
+                <CareerCard key={career.id} career={career} index={i + 1} dark />
+              ))}
+            </ul>
+          </Reveal>
         </Container>
       </section>
 
@@ -361,7 +364,7 @@ function Stat({
   return (
     <div className="stat-tile">
       <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
-        {n}
+        <CountUp value={value} prefix={prefix} />
         {unit && (
           <span className="ml-1 font-mono text-xs font-medium uppercase tracking-widest text-smoke">
             {unit}
