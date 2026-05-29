@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpDown, Search, SlidersHorizontal, X } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
+import { CountUp } from "@/components/count-up";
 import { SectionLabel } from "@/components/section-label";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
@@ -108,9 +109,12 @@ export function ExploreCatalog() {
     <div className="space-y-12">
       {/* Stats strip */}
       <dl className="grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-cream/60 transition hover:bg-cream">
-        <Stat n={stats.totalCareers.toString()} label="Career paths" />
-        <Stat n={`$${(stats.avgMedianSalary / 1000).toFixed(0)}k`} label="Avg. median salary" />
-        <Stat n={stats.fastestGrowing.toString()} label="Fast-growing roles" />
+        <Stat n={<CountUp value={stats.totalCareers} />} label="Career paths" />
+        <Stat
+          n={<CountUp value={Math.round(stats.avgMedianSalary / 1000)} prefix="$" suffix="k" />}
+          label="Avg. median salary"
+        />
+        <Stat n={<CountUp value={stats.fastestGrowing} />} label="Fast-growing roles" />
       </dl>
 
       {/* Filters */}
@@ -311,7 +315,7 @@ export function ExploreCatalog() {
   );
 }
 
-function Stat({ n, label }: { n: string; label: string }) {
+function Stat({ n, label }: { n: React.ReactNode; label: string }) {
   return (
     <div className="px-4 py-6 first:pl-0 md:px-8">
       <p className="font-display text-3xl font-light tabular text-ink md:text-5xl">{n}</p>
