@@ -1,6 +1,11 @@
 import type { Config } from "tailwindcss";
 
+// Tokens resolve to CSS variables (space-separated RGB channels) so the same
+// utility classes — including `/opacity` modifiers — work in light and dark.
+const token = (name: string) => `rgb(var(${name}) / <alpha-value>)`;
+
 const config: Config = {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,20 +14,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Campus — warm, human, no purple gradients.
-        paper: "#F3EDE4",
-        cream: "#FFFCF8",
-        ink: "#1C1917",
-        graphite: "#44403C",
-        smoke: "#78716C",
-        ash: "#A8A29E",
-        rule: "#1C19170F",
-        ruleHard: "#1C191722",
-        tomato: "#C83C1A",
-        ember: "#9A2E14",
-        moss: "#2F6B4F",
-        clay: "#C9956D",
-        slate: "#292524",
+        // Campus — warm, human, no purple gradients. Values live in globals.css.
+        paper: token("--c-paper"),
+        cream: token("--c-cream"),
+        ink: token("--c-ink"),
+        graphite: token("--c-graphite"),
+        smoke: token("--c-smoke"),
+        ash: token("--c-ash"),
+        rule: "rgb(var(--c-ink) / 0.06)",
+        ruleHard: "rgb(var(--c-ink) / 0.13)",
+        tomato: token("--c-tomato"),
+        ember: token("--c-ember"),
+        moss: token("--c-moss"),
+        clay: token("--c-clay"),
+        slate: token("--c-slate"),
       },
       fontFamily: {
         display: ["var(--font-display)", "Times New Roman", "serif"],

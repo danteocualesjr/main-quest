@@ -3,9 +3,41 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Campus — warm light theme. Channels are space-separated RGB. */
+    --c-paper: 243 237 228;
+    --c-cream: 255 252 248;
+    --c-ink: 28 25 23;
+    --c-graphite: 68 64 60;
+    --c-smoke: 120 113 108;
+    --c-ash: 168 162 158;
+    --c-tomato: 200 60 26;
+    --c-ember: 154 46 20;
+    --c-moss: 47 107 79;
+    --c-clay: 201 149 109;
+    --c-slate: 41 37 36;
+    color-scheme: light;
+  }
+
+  .dark {
+    /* Campus after dark — same warmth, inverted for low light. */
+    --c-paper: 23 19 16;
+    --c-cream: 34 29 25;
+    --c-ink: 244 238 230;
+    --c-graphite: 213 205 195;
+    --c-smoke: 166 157 146;
+    --c-ash: 120 112 103;
+    --c-tomato: 232 99 62;
+    --c-ember: 245 142 110;
+    --c-moss: 108 180 140;
+    /* Deeper terracotta: clay only sits on the inverted (now light) accent band. */
+    --c-clay: 158 92 48;
+    --c-slate: 232 226 217;
+    color-scheme: dark;
+  }
+
   html {
     scroll-behavior: smooth;
-    color-scheme: light;
   }
 
   body {
@@ -29,7 +61,7 @@
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(28, 25, 23, 0.18) transparent;
+    scrollbar-color: rgb(var(--c-ink) / 0.18) transparent;
   }
 
   *::-webkit-scrollbar {
@@ -37,11 +69,15 @@
     height: 8px;
   }
   *::-webkit-scrollbar-thumb {
-    background: rgba(28, 25, 23, 0.18);
+    background: rgb(var(--c-ink) / 0.18);
     border-radius: 999px;
   }
   *::-webkit-scrollbar-thumb:hover {
-    background: rgba(200, 60, 26, 0.45);
+    background: rgb(var(--c-tomato) / 0.5);
+  }
+
+  .dark * {
+    scrollbar-color: rgb(var(--c-ink) / 0.22) transparent;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -133,6 +169,11 @@
     mix-blend-mode: multiply;
   }
 
+  .dark .grain::after {
+    opacity: 0.45;
+    mix-blend-mode: soft-light;
+  }
+
   .drop-cap::first-letter {
     @apply font-display text-tomato;
     font-size: 3.4em;
@@ -153,7 +194,7 @@
   }
 
   .dot-rule {
-    background-image: radial-gradient(circle, rgba(28, 25, 23, 0.28) 1px, transparent 1.2px);
+    background-image: radial-gradient(circle, rgb(var(--c-ink) / 0.28) 1px, transparent 1.2px);
     background-size: 8px 1px;
     background-repeat: repeat-x;
     background-position: center;
@@ -170,7 +211,7 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(28, 25, 23, 0.06) 50%,
+      rgb(var(--c-ink) / 0.06) 50%,
       transparent 100%
     );
     animation: shimmer 1.8s linear infinite;

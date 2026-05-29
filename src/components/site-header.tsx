@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { QuestButton } from "@/components/quest-button";
 import { Container } from "@/components/container";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -106,21 +107,25 @@ export function SiteHeader() {
               </Link>
             );
           })}
-          <QuestButton href="/discover" size="sm" className="ml-2">
+          <ThemeToggle className="ml-1" />
+          <QuestButton href="/discover" size="sm" className="ml-1">
             Start free
           </QuestButton>
         </nav>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98] sm:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-        >
-          {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-        </button>
+        <div className="flex items-center gap-2 sm:hidden">
+          <ThemeToggle className="h-10 w-10" />
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98]"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+          >
+            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
       </Container>
 
       <div
