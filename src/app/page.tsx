@@ -4,6 +4,7 @@ import { Container } from "@/components/container";
 import { SectionLabel } from "@/components/section-label";
 import { QuestButton } from "@/components/quest-button";
 import { CareerCard } from "@/components/career-card";
+import { CountUp } from "@/components/count-up";
 import { HeroPreview } from "@/components/hero-preview";
 import { Marquee } from "@/components/marquee";
 import { careers } from "@/lib/careers";
@@ -133,17 +134,18 @@ export default function HomePage() {
                 style={{ animationDelay: "360ms" }}
               >
                 <Stat
-                  n={stats.totalCareers.toString()}
+                  value={stats.totalCareers}
                   unit="paths"
                   label="Career paths"
                 />
                 <Stat
-                  n={`$${(stats.avgMedianSalary / 1000).toFixed(0)}`}
+                  value={Math.round(stats.avgMedianSalary / 1000)}
+                  prefix="$"
                   unit="k median"
                   label="Avg. pay"
                 />
                 <Stat
-                  n={stats.fastestGrowing.toString()}
+                  value={stats.fastestGrowing}
                   unit="fast-growing"
                   label="Above-average roles"
                 />
@@ -345,11 +347,21 @@ export default function HomePage() {
   );
 }
 
-function Stat({ n, label, unit }: { n: string; label: string; unit?: string }) {
+function Stat({
+  value,
+  label,
+  unit,
+  prefix,
+}: {
+  value: number;
+  label: string;
+  unit?: string;
+  prefix?: string;
+}) {
   return (
     <div className="stat-tile">
       <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
-        {n}
+        <CountUp value={value} prefix={prefix} />
         {unit && (
           <span className="ml-1 font-mono text-xs font-medium uppercase tracking-widest text-smoke">
             {unit}
