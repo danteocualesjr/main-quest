@@ -7,9 +7,9 @@ export function Marquee({ items, speed = "default" }: MarqueeProps) {
   const animation = speed === "slow" ? "animate-marquee-slow" : "animate-marquee";
   const sequence = [...items, ...items];
   return (
-    <div className="group/marquee relative overflow-hidden">
+    <div className="group/marquee relative overflow-hidden" aria-hidden="true">
       <div
-        className={`flex w-max items-center gap-12 md:gap-14 ${animation} group-hover/marquee:[animation-play-state:paused]`}
+        className={`flex w-max items-center gap-12 motion-reduce:!translate-x-0 motion-reduce:flex-wrap motion-reduce:justify-center md:gap-14 ${animation} group-hover/marquee:[animation-play-state:paused]`}
       >
         {sequence.map((item, i) => (
           <div key={`${item}-${i}`} className="flex items-center gap-12 shrink-0">
