@@ -11,8 +11,25 @@ function getInitialTheme(): Theme {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
 
+let themeTransitionTimer: ReturnType<typeof setTimeout> | undefined;
+
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
+
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+  // Ease the palette change instead of snapping. The class is removed once the
+  // tween finishes so it never interferes with ordinary hover transitions.
+  if (!prefersReducedMotion) {
+    root.classList.add("theme-transition");
+    clearTimeout(themeTransitionTimer);
+    themeTransitionTimer = setTimeout(() => {
+      root.classList.remove("theme-transition");
+    }, 450);
+  }
+
   root.classList.toggle("dark", theme === "dark");
   try {
     localStorage.setItem("theme", theme);

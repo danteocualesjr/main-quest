@@ -7,6 +7,7 @@ import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
 import { HeroPreview } from "@/components/hero-preview";
 import { Marquee } from "@/components/marquee";
+import { Reveal } from "@/components/reveal";
 import { careers } from "@/lib/careers";
 import { getCareerStats } from "@/lib/explore";
 
@@ -179,7 +180,7 @@ export default function HomePage() {
       {/* THREE DOORS */}
       <section className="border-b border-ink/10 py-20 md:py-28">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
+          <Reveal className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
             <div>
               <SectionLabel number="02">Three doors in</SectionLabel>
               <h2 className="mt-6 font-display text-display-2 font-light text-ink">
@@ -229,14 +230,14 @@ export default function HomePage() {
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
         </Container>
       </section>
 
       {/* HOW IT WORKS + QUOTES */}
       <section className="border-b border-ink/10 bg-cream py-20 md:py-28">
         <Container>
-          <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+          <Reveal className="grid gap-16 lg:grid-cols-2 lg:gap-24">
             <div>
               <SectionLabel number="03">How it works</SectionLabel>
               <h2 className="mt-6 font-display text-display-2 font-light text-ink">
@@ -280,18 +281,18 @@ export default function HomePage() {
                   <figcaption className="mt-4 label">{who}</figcaption>
                   <span className="absolute -right-3 -top-3 font-mono text-xs tabular text-ash">
                     0{i + 1}
-                  </span>
-                </figure>
+                </span>
+              </figure>
               ))}
             </div>
-          </div>
+          </Reveal>
         </Container>
       </section>
 
       {/* FEATURED CAREERS */}
       <section className="border-b border-ink/10 bg-ink py-20 text-cream md:py-28">
         <Container>
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <Reveal className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <div>
               <SectionLabel number="04" variant="accent">
                 Where students start
@@ -309,19 +310,22 @@ export default function HomePage() {
               View all {stats.totalCareers} paths
               <ArrowRight className="h-4 w-4" />
             </Link>
-          </div>
+          </Reveal>
 
-          <ul className="mt-12 divide-y divide-cream/12 border-y border-cream/15">
-            {featured.map((career, i) => (
-              <CareerCard key={career.id} career={career} index={i + 1} dark />
-            ))}
-          </ul>
+          <Reveal as="div" delay={80}>
+            <ul className="mt-12 divide-y divide-cream/12 border-y border-cream/15">
+              {featured.map((career, i) => (
+                <CareerCard key={career.id} career={career} index={i + 1} dark />
+              ))}
+            </ul>
+          </Reveal>
         </Container>
       </section>
 
       {/* FINAL CTA */}
       <section className="page-wash py-28 md:py-36">
         <Container size="prose" className="text-center">
+          <Reveal>
           <SectionLabel number="05" variant="accent" className="justify-center">
             Your move
           </SectionLabel>
@@ -341,6 +345,7 @@ export default function HomePage() {
               I already have a goal
             </QuestButton>
           </div>
+          </Reveal>
         </Container>
       </section>
     </>

@@ -80,6 +80,23 @@
     scrollbar-color: rgb(var(--c-ink) / 0.22) transparent;
   }
 
+  /* When toggling light/dark we briefly opt every element into a color
+     transition so the palette eases instead of snapping. Driven by JS adding
+     `.theme-transition` to <html>, then removing it once the tween completes. */
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition:
+      background-color 0.4s ease,
+      border-color 0.4s ease,
+      color 0.4s ease,
+      fill 0.4s ease,
+      stroke 0.4s ease,
+      box-shadow 0.4s ease !important;
+    transition-delay: 0ms !important;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
