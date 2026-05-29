@@ -109,14 +109,12 @@ export function ExploreCatalog() {
     <div className="space-y-12">
       {/* Stats strip */}
       <dl className="grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-cream/60 transition hover:bg-cream">
-        <Stat value={stats.totalCareers} label="Career paths" />
+        <Stat n={<CountUp value={stats.totalCareers} />} label="Career paths" />
         <Stat
-          value={Math.round(stats.avgMedianSalary / 1000)}
-          prefix="$"
-          suffix="k"
+          n={<CountUp value={Math.round(stats.avgMedianSalary / 1000)} prefix="$" suffix="k" />}
           label="Avg. median salary"
         />
-        <Stat value={stats.fastestGrowing} label="Fast-growing roles" />
+        <Stat n={<CountUp value={stats.fastestGrowing} />} label="Fast-growing roles" />
       </dl>
 
       {/* Filters */}
@@ -317,17 +315,7 @@ export function ExploreCatalog() {
   );
 }
 
-function Stat({
-  value,
-  label,
-  prefix,
-  suffix,
-}: {
-  value: number;
-  label: string;
-  prefix?: string;
-  suffix?: string;
-}) {
+function Stat({ n, label }: { n: React.ReactNode; label: string }) {
   return (
     <div className="px-4 py-6 first:pl-0 md:px-8">
       <p className="font-display text-3xl font-light tabular text-ink md:text-5xl">

@@ -8,6 +8,7 @@ import { CountUp } from "@/components/count-up";
 import { HeroPreview } from "@/components/hero-preview";
 import { Marquee } from "@/components/marquee";
 import { Reveal } from "@/components/reveal";
+import { CountUp } from "@/components/count-up";
 import { careers } from "@/lib/careers";
 import { getCareerStats } from "@/lib/explore";
 
@@ -135,18 +136,17 @@ export default function HomePage() {
                 style={{ animationDelay: "360ms" }}
               >
                 <Stat
-                  value={stats.totalCareers}
+                  n={<CountUp value={stats.totalCareers} />}
                   unit="paths"
                   label="Career paths"
                 />
                 <Stat
-                  value={Math.round(stats.avgMedianSalary / 1000)}
-                  prefix="$"
+                  n={<CountUp value={Math.round(stats.avgMedianSalary / 1000)} prefix="$" />}
                   unit="k median"
                   label="Avg. pay"
                 />
                 <Stat
-                  value={stats.fastestGrowing}
+                  n={<CountUp value={stats.fastestGrowing} />}
                   unit="fast-growing"
                   label="Above-average roles"
                 />
@@ -353,15 +353,13 @@ export default function HomePage() {
 }
 
 function Stat({
-  value,
+  n,
   label,
   unit,
-  prefix,
 }: {
-  value: number;
+  n: React.ReactNode;
   label: string;
   unit?: string;
-  prefix?: string;
 }) {
   return (
     <div className="stat-tile">
