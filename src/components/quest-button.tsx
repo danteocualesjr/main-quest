@@ -29,10 +29,10 @@ export function QuestButton({
     size === "default" && variant !== "link" && "px-6 py-3 text-[15px]",
     size === "lg" && variant !== "link" && "px-7 py-3.5 text-base",
     variant === "primary" &&
-      "bg-tomato text-cream shadow-paper hover:bg-ember hover:shadow-soft focus-visible:outline-tomato",
-    variant === "ink" && "bg-ink text-cream shadow-paper hover:bg-graphite hover:shadow-soft focus-visible:outline-ink",
+      "bg-tomato text-cream shadow-paper hover:-translate-y-0.5 hover:bg-ember hover:shadow-soft focus-visible:outline-tomato",
+    variant === "ink" && "bg-ink text-cream shadow-paper hover:-translate-y-0.5 hover:bg-graphite hover:shadow-soft focus-visible:outline-ink",
     variant === "ghost" &&
-      "border border-ink/15 bg-transparent text-ink hover:bg-ink hover:text-cream hover:shadow-paper focus-visible:outline-ink",
+      "border border-ink/15 bg-transparent text-ink hover:-translate-y-0.5 hover:bg-ink hover:text-cream hover:shadow-paper focus-visible:outline-ink",
     variant === "link" && "text-ink underline-offset-4 hover:text-tomato",
     className
   );

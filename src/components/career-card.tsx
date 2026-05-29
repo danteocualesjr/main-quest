@@ -116,10 +116,15 @@ export function CareerCard({
       <li>
         <Link
           href={`/explore/${career.id}`}
-          className="group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 py-7 transition duration-300 hover:bg-cream/5 md:gap-10"
+          className="group relative grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 rounded-lg py-7 transition duration-300 hover:bg-cream/[0.06] md:gap-10 md:px-4"
         >
+          {/* Hover accent rail, matches the light-theme list pattern */}
+          <span
+            aria-hidden
+            className="absolute inset-y-3 left-0 w-0.5 origin-top scale-y-0 rounded-full bg-tomato transition duration-300 group-hover:scale-y-100"
+          />
           {index !== undefined && (
-            <span className="font-mono text-sm font-medium tabular text-cream/40 md:text-base">
+            <span className="font-mono text-sm font-medium tabular text-cream/40 transition group-hover:text-clay md:text-base">
               {String(index).padStart(2, "0")}
             </span>
           )}
@@ -148,6 +153,10 @@ export function CareerCard({
             <div className="mt-3 w-40">
               <SalaryBar career={career} dark />
             </div>
+            <p className="mt-2.5 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest tabular text-cream/60">
+              <TrendingUp className="h-3 w-3 text-moss" />
+              +{career.growthPercent}% by 2032
+            </p>
           </div>
           <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/20 text-cream transition group-hover:border-tomato group-hover:bg-tomato active:scale-95">
             <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
