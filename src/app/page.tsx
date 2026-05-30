@@ -8,7 +8,6 @@ import { CountUp } from "@/components/count-up";
 import { HeroPreview } from "@/components/hero-preview";
 import { Marquee } from "@/components/marquee";
 import { Reveal } from "@/components/reveal";
-import { CountUp } from "@/components/count-up";
 import { careers } from "@/lib/careers";
 import { getCareerStats } from "@/lib/explore";
 
@@ -364,7 +363,7 @@ function Stat({
   return (
     <div className="stat-tile">
       <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
-        <CountUp value={value} prefix={prefix} />
+        {n}
         {unit && (
           <span className="ml-1 font-mono text-xs font-medium uppercase tracking-widest text-smoke">
             {unit}
