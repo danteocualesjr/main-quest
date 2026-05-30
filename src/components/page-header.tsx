@@ -31,7 +31,7 @@ export function PageHeader({
       </div>
 
       <h1
-        className="mt-6 max-w-3xl animate-fade-up font-display text-display-2 font-light tracking-tight text-ink"
+        className="mt-6 max-w-3xl animate-fade-up text-balance font-display text-display-2 font-light tracking-tight text-ink"
         style={{ animationDelay: "60ms" }}
       >
         {title}
@@ -51,7 +51,7 @@ export function PageHeader({
       </h1>
 
       <p
-        className="mt-6 max-w-2xl animate-fade-up text-lg leading-relaxed text-graphite"
+        className="mt-6 max-w-2xl animate-fade-up text-pretty text-lg leading-relaxed text-graphite"
         style={{ animationDelay: "140ms" }}
       >
         {description}

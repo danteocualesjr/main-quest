@@ -35,11 +35,11 @@ export default function NotFound() {
         <p className="mt-8 font-display text-display-1 font-light leading-none tracking-tightest text-ink">
           <span className="tabular">404</span>
         </p>
-        <h1 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
+        <h1 className="mt-6 text-balance font-display text-display-2 font-light tracking-tight text-ink">
           This page isn&apos;t on the{" "}
           <em className="italic text-tomato">map.</em>
         </h1>
-        <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-graphite">
+        <p className="mx-auto mt-6 max-w-lg text-pretty text-lg leading-relaxed text-graphite">
           The link may be broken or the page may have moved. No dead ends here,
           pick a door below and keep going.
         </p>

@@ -24,11 +24,11 @@ export default function Error({
         <SectionLabel variant="accent" className="justify-center">
           Something broke
         </SectionLabel>
-        <h1 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
+        <h1 className="mt-6 text-balance font-display text-display-2 font-light tracking-tight text-ink">
           That step hit an{" "}
           <em className="italic text-tomato">unexpected detour.</em>
         </h1>
-        <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-graphite">
+        <p className="mx-auto mt-6 max-w-lg text-pretty text-lg leading-relaxed text-graphite">
           A part of the page failed to load. Your saved answers are kept in this
           browser, so trying again usually picks up right where you were.
         </p>

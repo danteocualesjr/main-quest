@@ -71,7 +71,7 @@ export default async function CareerDetailPage({ params }: Props) {
         {/* Header */}
         <header className="mt-8 border-b border-ink/10 pb-12">
           <SectionLabel variant="accent">{career.category}</SectionLabel>
-          <h1 className="mt-6 max-w-4xl animate-fade-up font-display text-display-1 font-light tracking-tightest text-ink">
+          <h1 className="mt-6 max-w-4xl animate-fade-up text-balance font-display text-display-1 font-light tracking-tightest text-ink">
             {career.title}
           </h1>
           <p

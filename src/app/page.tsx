@@ -105,7 +105,7 @@ export default function HomePage() {
                 with clarity.
               </h1>
               <p
-                className="mt-8 max-w-xl animate-fade-up text-lg leading-[1.55] text-graphite md:text-xl"
+                className="mt-8 max-w-xl animate-fade-up text-pretty text-lg leading-[1.55] text-graphite md:text-xl"
                 style={{ animationDelay: "180ms" }}
               >
                 Main Quest turns &ldquo;I don&apos;t know what to do&rdquo; into
@@ -329,7 +329,7 @@ export default function HomePage() {
           <SectionLabel number="05" variant="accent" className="justify-center">
             Your move
           </SectionLabel>
-          <h2 className="mt-8 font-display text-display-2 font-light text-ink">
+          <h2 className="mt-8 text-balance font-display text-display-2 font-light text-ink">
             Your next step is one honest{" "}
             <em className="italic text-tomato">conversation</em> with yourself away.
           </h2>
