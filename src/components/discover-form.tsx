@@ -146,7 +146,7 @@ export function DiscoverForm() {
   return (
     <div className="space-y-20">
       <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr]">
-        <form id="page-form" onSubmit={handleSubmit} className="space-y-12">
+        <form id="page-form" onSubmit={handleSubmit} className="scroll-mt-24 space-y-12">
           {/* Progress indicator */}
           <div
             className="flex items-center gap-4 border-t border-ink/10 pt-6"
@@ -311,7 +311,7 @@ export function DiscoverForm() {
       )}
 
       {results && !loading && (
-        <section id="matches" className="border-t border-ink/10 pt-16 animate-fade-up">
+        <section id="matches" className="scroll-mt-24 border-t border-ink/10 pt-16 animate-fade-up">
           <SectionLabel variant="accent">Results</SectionLabel>
           <h2 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
             {results.length > 0 ? (

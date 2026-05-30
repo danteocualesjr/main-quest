@@ -3,7 +3,6 @@ import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
 
 const display = Fraunces({
@@ -91,7 +90,6 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ScrollProgress />
         <SiteHeader />
         <main id="main-content" className="min-h-[calc(100vh-12rem)] pb-10">
           {children}
