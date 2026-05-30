@@ -183,10 +183,10 @@ export default function HomePage() {
           <Reveal className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
             <div>
               <SectionLabel number="02">Three doors in</SectionLabel>
-              <h2 className="mt-6 font-display text-display-2 font-light text-ink">
+              <h2 className="mt-6 text-balance font-display text-display-2 font-light text-ink">
                 Wherever you are, <em className="italic text-tomato">start here.</em>
               </h2>
-              <p className="mt-6 max-w-md text-base leading-relaxed text-smoke">
+              <p className="mt-6 max-w-md text-pretty text-base leading-relaxed text-smoke">
                 Confused, focused, or just curious, there&apos;s a way in that
                 meets you where you actually are today.
               </p>

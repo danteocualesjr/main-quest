@@ -313,7 +313,7 @@ export function DiscoverForm() {
       {results && !loading && (
         <section id="matches" className="scroll-mt-24 border-t border-ink/10 pt-16 animate-fade-up">
           <SectionLabel variant="accent">Results</SectionLabel>
-          <h2 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
+          <h2 className="mt-6 text-balance font-display text-display-2 font-light tracking-tight text-ink">
             {results.length > 0 ? (
               <>
                 Your top <em className="italic text-tomato">{results.length} matches</em>
