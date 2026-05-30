@@ -158,16 +158,17 @@ export default function HomePage() {
           </div>
 
           {/* Scroll hint */}
-          <div
-            className="mt-16 hidden animate-fade-in items-center gap-3 text-smoke md:flex"
+          <a
+            href="#doors"
+            className="group/hint mt-16 hidden w-fit animate-fade-in items-center gap-3 text-smoke transition hover:text-tomato md:flex"
             style={{ animationDelay: "520ms" }}
           >
-            <span className="h-px w-12 bg-ink/15" />
-            <span className="label inline-flex items-center gap-2">
-              <ArrowDown className="h-3 w-3 animate-pulse-soft" />
+            <span className="h-px w-12 bg-ink/15 transition group-hover/hint:w-16 group-hover/hint:bg-tomato/40" />
+            <span className="label inline-flex items-center gap-2 transition group-hover/hint:text-tomato">
+              <ArrowDown className="h-3 w-3 animate-pulse-soft transition group-hover/hint:translate-y-0.5" />
               Scroll for the three doors
             </span>
-          </div>
+          </a>
         </Container>
       </section>
 
@@ -177,7 +178,7 @@ export default function HomePage() {
       </section>
 
       {/* THREE DOORS */}
-      <section className="border-b border-ink/10 py-20 md:py-28">
+      <section id="doors" className="scroll-mt-24 border-b border-ink/10 py-20 md:py-28">
         <Container>
           <Reveal className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
             <div>
