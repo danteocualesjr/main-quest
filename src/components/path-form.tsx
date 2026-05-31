@@ -45,6 +45,13 @@ export function PathForm() {
 
   const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
 
+  const progress = useMemo(() => {
+    let n = 0;
+    if (goal.trim().length > 2) n++;
+    if (gradeLevel) n++;
+    return n;
+  }, [goal, gradeLevel]);
+
   const persistSession = useCallback(
     (
       nextGoal: string,
@@ -199,6 +206,22 @@ export function PathForm() {
     <div className="space-y-20">
       <form id="page-form" onSubmit={handleSubmit} className="scroll-mt-24 border-t border-ink/10 pt-12">
         <SectionLabel variant="accent">Your goal</SectionLabel>
+        <div
+          className="mt-6 flex items-center gap-4 rounded-2xl border border-ink/10 bg-cream/55 px-4 py-3"
+          aria-label="Path form completeness"
+        >
+          <div className="flex flex-1 gap-1.5">
+            {[0, 1].map((i) => (
+              <span
+                key={i}
+                className={`h-1.5 flex-1 rounded-full transition ${
+                  i < progress ? "bg-tomato" : "bg-ink/10"
+                }`}
+              />
+            ))}
+          </div>
+          <p className="label tabular">{progress}/2 fields</p>
+        </div>
         <div className="mt-4 grid items-end gap-6 md:grid-cols-[1fr_auto]">
           <div>
             <label htmlFor="goal" className="sr-only">
@@ -244,7 +267,7 @@ export function PathForm() {
                 type="button"
                 key={example}
                 onClick={() => setGoal(example)}
-                className="prompt-chip"
+                className="filter-chip"
               >
                 {example}
               </button>
@@ -259,7 +282,7 @@ export function PathForm() {
           </label>
           <select
             id="path-grade"
-            className="input-block max-w-md font-display text-xl font-light tracking-tight md:text-2xl"
+            className="input-block max-w-md font-display text-lg font-light tracking-tight md:text-xl"
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
             disabled={loading}

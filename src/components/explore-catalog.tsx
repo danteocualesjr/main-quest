@@ -118,7 +118,7 @@ export function ExploreCatalog() {
       </dl>
 
       {/* Filters */}
-      <div className="sticky top-[68px] z-30 -mx-6 rounded-b-3xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
+      <div className="sticky top-[var(--header-height)] z-30 -mx-6 rounded-b-2xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
         <div className="flex items-center justify-between gap-4">
           <SectionLabel>
             <span className="inline-flex items-center gap-2">
