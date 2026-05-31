@@ -18,6 +18,12 @@ export default function ExplorePage() {
         title="Every path on the"
         accent="map."
         description="Filter by salary, education, growth, and category. Every card opens a full profile with day-in-the-life details and a roadmap builder."
+        meta="Compare pay, education, time-to-entry, and projected growth"
+        highlights={[
+          { label: "Browse", value: "30+ roles" },
+          { label: "Filter by", value: "4 signals" },
+          { label: "Open", value: "Full profiles" },
+        ]}
       />
       <div className="mt-12 md:mt-16">
         <ExploreCatalog />

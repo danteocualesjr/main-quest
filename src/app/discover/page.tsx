@@ -18,6 +18,12 @@ export default function DiscoverPage() {
         title="Let's find careers that actually"
         accent="fit you."
         description="No wrong answers. The more honest you are about what you enjoy, and what you'd rather avoid, the better your matches will be."
+        meta="Answers are saved in your browser, not an account"
+        highlights={[
+          { label: "Start with", value: "4 prompts" },
+          { label: "See", value: "Top matches" },
+          { label: "Then", value: "Build a path" },
+        ]}
       />
       <div className="mt-12 md:mt-16">
         <DiscoverForm />

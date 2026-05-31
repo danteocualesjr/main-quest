@@ -25,6 +25,13 @@ const SALARY_PRESETS = [
   { value: "110000", label: "$110k+" },
 ];
 
+const QUICK_FILTERS = [
+  { key: "salary", label: "$90k+ median", kind: "salary", value: "90000" },
+  { key: "growth", label: "Fastest growth", kind: "growth", value: "much_faster" },
+  { key: "healthcare", label: "Healthcare", kind: "category", value: "Healthcare" },
+  { key: "certificate", label: "Certificate paths", kind: "education", value: "certificate" },
+] as const;
+
 export function ExploreCatalog() {
   const searchRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
@@ -232,24 +239,37 @@ export function ExploreCatalog() {
               )}
             </select>
           </div>
-          <div className="flex flex-wrap items-center gap-2 border-t border-ink/10 pt-3">
-            <span className="label">Median pay shortcuts</span>
-            {SALARY_PRESETS.map((preset) => (
-              <button
-                key={preset.value}
-                type="button"
-                onClick={() =>
-                  setMinSalary((current) => (current === preset.value ? "" : preset.value))
-                }
-                className={cn(
-                  "prompt-chip",
-                  minSalary === preset.value && "filter-chip-active"
-                )}
-                aria-pressed={minSalary === preset.value}
-              >
-                {preset.label}
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="label">Quick picks</span>
+            {QUICK_FILTERS.map((filter) => {
+              const active =
+                (filter.kind === "salary" && minSalary === filter.value) ||
+                (filter.kind === "growth" && growth === filter.value) ||
+                (filter.kind === "category" && category === filter.value) ||
+                (filter.kind === "education" && education === filter.value);
+
+              return (
+                <button
+                  key={filter.key}
+                  type="button"
+                  className={cn("filter-chip", active && "filter-chip-active")}
+                  onClick={() => {
+                    if (filter.kind === "salary") {
+                      setMinSalary(active ? "" : filter.value);
+                    } else if (filter.kind === "growth") {
+                      setGrowth(active ? "" : filter.value);
+                    } else if (filter.kind === "category") {
+                      setCategory(active ? "" : filter.value);
+                    } else {
+                      setEducation(active ? "" : filter.value);
+                    }
+                  }}
+                  aria-pressed={active}
+                >
+                  {filter.label}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -279,15 +299,21 @@ export function ExploreCatalog() {
       )}
 
       {/* Result count */}
-      <div className="flex items-end justify-between border-y border-ink/10 py-6">
-        <p className="label">
-          Showing{" "}
-          <span className="text-ink tabular">
-            {String(results.length).padStart(2, "0")}
-          </span>{" "}
-          {results.length === 1 ? "career" : "careers"}
-          {hasFilters && <span className="ml-2 text-ash">· filtered</span>}
-        </p>
+      <div className="flex flex-col gap-3 border-y border-ink/10 py-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="label">
+            Showing{" "}
+            <span className="text-ink tabular">
+              {String(results.length).padStart(2, "0")}
+            </span>{" "}
+            {results.length === 1 ? "career" : "careers"}
+            {hasFilters && <span className="ml-2 text-ash">· filtered</span>}
+          </p>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-smoke">
+            Cards now surface pay, education, time-to-entry, and outlook so you can
+            compare paths without opening every profile.
+          </p>
+        </div>
         <p className="label hidden sm:block">
           Sorted by{" "}
           <span className="text-ink">{SORT_LABELS[sortBy].toLowerCase()}</span>

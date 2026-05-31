@@ -224,7 +224,22 @@ export function CareerCard({
         </div>
       </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-ink/10 pt-4 text-[13px] text-graphite">
+      <div className="mt-5 grid grid-cols-2 gap-3 border-t border-ink/10 pt-4">
+        <div className="rounded-xl bg-paper/70 px-3 py-3">
+          <p className="label">Education</p>
+          <p className="mt-1 line-clamp-2 text-[13px] font-medium leading-snug text-ink">
+            {EDUCATION_LABELS[career.education]}
+          </p>
+        </div>
+        <div className="rounded-xl bg-paper/70 px-3 py-3">
+          <p className="label">Time</p>
+          <p className="mt-1 text-[13px] font-medium leading-snug text-ink">
+            {career.timeToEntry}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 flex items-center justify-between border-t border-ink/10 pt-4 text-[13px] text-graphite">
         <span className="inline-flex items-center gap-1.5">
           <TrendingUp className="h-3.5 w-3.5 text-moss" />
           {GROWTH_LABELS[career.growthOutlook].replace(" than average", "")}

@@ -7,6 +7,7 @@ type PageHeaderProps = {
   accent?: string;
   description: string;
   meta?: string;
+  highlights?: { label: string; value: string }[];
 };
 
 const headerSignals = ["No sign-up", "Student-first", "US salary data"];
@@ -18,6 +19,7 @@ export function PageHeader({
   accent,
   description,
   meta,
+  highlights,
 }: PageHeaderProps) {
   return (
     <header className="page-wash relative overflow-hidden border-b border-ink/10 pb-14 pt-8 md:pb-16 md:pt-12">
@@ -27,10 +29,10 @@ export function PageHeader({
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 top-10 hidden h-64 w-64 rounded-full bg-tomato/8 blur-3xl lg:block"
+        className="pointer-events-none absolute -right-28 -top-28 hidden h-72 w-72 rounded-full bg-tomato/10 blur-3xl lg:block"
       />
 
-      <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-end">
+      <div className="relative grid gap-10 lg:grid-cols-[1fr_320px] lg:items-end">
         <div>
           <div className="animate-fade-up">
             <SectionLabel number={number} variant="accent">
@@ -76,26 +78,24 @@ export function PageHeader({
           )}
         </div>
 
-        <div
-          className="surface-card-soft animate-fade-up p-5"
-          style={{ animationDelay: "220ms" }}
-        >
-          <p className="label-accent">Built for deciding</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {headerSignals.map((signal) => (
-              <span
-                key={signal}
-                className="rounded-full border border-ink/10 bg-paper px-3 py-1 text-xs font-medium text-graphite"
-              >
-                {signal}
-              </span>
-            ))}
+        {highlights && highlights.length > 0 && (
+          <div
+            className="animate-scale-in rounded-3xl border border-ink/10 bg-cream/80 p-5 shadow-soft backdrop-blur"
+            style={{ animationDelay: "180ms" }}
+          >
+            <p className="label-accent">What you get</p>
+            <dl className="mt-4 divide-y divide-ink/10">
+              {highlights.map((item) => (
+                <div key={item.label} className="flex items-baseline justify-between gap-4 py-3">
+                  <dt className="text-sm text-smoke">{item.label}</dt>
+                  <dd className="text-right font-display text-xl font-light tracking-tight text-ink">
+                    {item.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
-          <p className="mt-5 text-sm leading-relaxed text-smoke">
-            Start with rough answers, then use the roadmap and career profiles to
-            make the next step concrete.
-          </p>
-        </div>
+        )}
       </div>
     </header>
   );
