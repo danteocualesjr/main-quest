@@ -287,9 +287,49 @@
     @apply rounded-xl border border-ink/10 bg-cream/80 px-4 py-5 transition duration-200 md:border-0 md:bg-transparent md:px-0 md:py-0;
   }
 
+  .hero-signal {
+    @apply flex items-center gap-3 rounded-2xl border border-ink/10 bg-cream/80 px-3 py-3 shadow-paper backdrop-blur-sm transition duration-200;
+  }
+
+  @media (hover: hover) {
+    .hero-signal:hover {
+      @apply -translate-y-0.5 border-tomato/20 bg-cream shadow-soft;
+    }
+  }
+
   @media (hover: hover) {
     .stat-tile:hover {
       @apply border-ink/20 bg-cream;
+    }
+  }
+
+  .path-card {
+    @apply relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream p-5 shadow-paper transition duration-300;
+  }
+
+  .path-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 18% 12%, rgb(var(--c-tomato) / 0.09), transparent 30%),
+      linear-gradient(135deg, transparent 0%, rgb(var(--c-ink) / 0.025) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .path-card > * {
+    position: relative;
+  }
+
+  @media (hover: hover) {
+    .path-card:hover {
+      @apply -translate-y-1 border-tomato/25 shadow-lift;
+    }
+
+    .path-card:hover::before {
+      opacity: 1;
     }
   }
 

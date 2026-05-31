@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { ArrowDown, ArrowRight, ArrowUpRight, Quote } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  Clock3,
+  Compass,
+  GraduationCap,
+  Map,
+  Quote,
+  Sparkles,
+} from "lucide-react";
 import { Container } from "@/components/container";
 import { SectionLabel } from "@/components/section-label";
 import { QuestButton } from "@/components/quest-button";
@@ -21,6 +31,7 @@ const paths = [
   {
     n: "01",
     href: "/discover",
+    Icon: Compass,
     title: "Discover Me",
     sell: "When you have no idea where to start.",
     body: "Describe what you enjoy and what you'd rather avoid. We surface careers that fit, including ones you'd never have Googled.",
@@ -30,6 +41,7 @@ const paths = [
   {
     n: "02",
     href: "/path",
+    Icon: GraduationCap,
     title: "Path to a Goal",
     sell: "When you already know the destination.",
     body: "Type the role you're aiming for. We reverse-engineer the steps from high school through your first hire, courses, skills, milestones.",
@@ -39,12 +51,19 @@ const paths = [
   {
     n: "03",
     href: "/explore",
+    Icon: Map,
     title: "Career Map",
     sell: "When you'd rather browse first.",
     body: "Filter 30+ US careers by salary, education, and growth. Compare side by side before you commit to anything.",
     cta: "Open the map",
     sample: "Show me $90k+ healthcare roles",
   },
+];
+
+const trustSignals = [
+  { label: "No sign-up", value: "Start instantly", Icon: Sparkles },
+  { label: "Two minutes", value: "Honest first step", Icon: Clock3 },
+  { label: "Real data", value: "US salary + growth", Icon: Compass },
 ];
 
 const quotes = [
@@ -114,8 +133,29 @@ export default function HomePage() {
               </p>
 
               <div
+                className="mt-7 grid max-w-2xl animate-fade-up gap-3 sm:grid-cols-3"
+                style={{ animationDelay: "220ms" }}
+              >
+                {trustSignals.map(({ label, value, Icon }) => (
+                  <div key={label} className="hero-signal">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ink/10 bg-paper text-tomato">
+                      <Icon className="h-3.5 w-3.5" />
+                    </span>
+                    <span>
+                      <span className="block font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ash">
+                        {label}
+                      </span>
+                      <span className="mt-0.5 block text-sm font-medium text-ink">
+                        {value}
+                      </span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div
                 className="mt-10 flex animate-fade-up flex-wrap items-center gap-x-6 gap-y-4"
-                style={{ animationDelay: "260ms" }}
+                style={{ animationDelay: "300ms" }}
               >
                 <QuestButton href="/discover" size="lg">
                   Start with Discover Me
@@ -132,7 +172,7 @@ export default function HomePage() {
 
               <div
                 className="mt-12 grid animate-fade-up grid-cols-1 gap-3 border-t border-ink/10 pt-8 sm:grid-cols-3 sm:gap-6"
-                style={{ animationDelay: "360ms" }}
+                style={{ animationDelay: "400ms" }}
               >
                 <Stat
                   n={<CountUp value={stats.totalCareers} />}
@@ -180,7 +220,7 @@ export default function HomePage() {
       {/* THREE DOORS */}
       <section id="doors" className="scroll-mt-24 border-b border-ink/10 py-20 md:py-28">
         <Container>
-          <Reveal className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
+          <Reveal className="grid gap-10 lg:grid-cols-[0.85fr_2.15fr] lg:gap-16">
             <div>
               <SectionLabel number="02">Three doors in</SectionLabel>
               <h2 className="mt-6 font-display text-display-2 font-light text-ink">
@@ -190,38 +230,52 @@ export default function HomePage() {
                 Confused, focused, or just curious, there&apos;s a way in that
                 meets you where you actually are today.
               </p>
+              <div className="mt-8 hidden rounded-2xl border border-ink/10 bg-cream p-5 shadow-paper lg:block">
+                <p className="label-accent">Quick gut check</p>
+                <p className="mt-3 font-display text-2xl font-light leading-tight text-ink">
+                  Pick the card that sounds like your current sentence.
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-smoke">
+                  You can change direction any time. Each door leads back to the
+                  same map of real careers and next steps.
+                </p>
+              </div>
             </div>
 
-            <ul className="divide-y divide-ink/10 border-y border-ink/10">
-              {paths.map(({ n, href, title, sell, body, cta, sample }) => (
+            <ul className="grid gap-4 md:grid-cols-3">
+              {paths.map(({ n, href, Icon, title, sell, body, cta, sample }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group relative grid grid-cols-[auto_1fr] items-start gap-5 rounded-lg py-8 transition hover:bg-cream/60 focus-visible:ring-2 focus-visible:ring-tomato/30 sm:grid-cols-[auto_1fr_auto] sm:gap-6 md:px-2"
+                    className="path-card group"
                   >
-                    {/* Hover accent rail */}
                     <span
                       aria-hidden
-                      className="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-tomato transition group-hover:scale-y-100"
+                      className="absolute inset-x-5 top-0 h-0.5 origin-left scale-x-0 rounded-full bg-tomato transition duration-300 group-hover:scale-x-100"
                     />
-                    <span className="font-mono text-sm font-medium tabular text-ash mt-1 transition group-hover:text-tomato">
-                      {n}
-                    </span>
-                    <div>
-                      <p className="label-accent">{sell}</p>
-                      <h3 className="mt-2 font-display text-3xl font-light tracking-tight text-ink transition group-hover:text-tomato md:text-4xl">
+                    <div className="flex items-start justify-between gap-4">
+                      <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-paper text-tomato transition group-hover:border-tomato/30 group-hover:bg-tomato group-hover:text-cream">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span className="font-mono text-sm font-medium tabular text-ash transition group-hover:text-tomato">
+                        {n}
+                      </span>
+                    </div>
+                    <div className="mt-7 flex-1">
+                      <p className="label-accent min-h-[2.5rem]">{sell}</p>
+                      <h3 className="mt-3 font-display text-3xl font-light tracking-tight text-ink transition group-hover:text-tomato">
                         {title}
                       </h3>
-                      <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-graphite">
+                      <p className="mt-4 text-[15px] leading-relaxed text-graphite">
                         {body}
                       </p>
-                      <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-smoke">
+                      <p className="mt-5 inline-flex items-start gap-2 rounded-2xl border border-ink/12 bg-paper px-3 py-2 text-xs font-medium leading-relaxed text-smoke">
                         <span className="font-mono text-ash">e.g.</span>
                         &ldquo;{sample}&rdquo;
                       </p>
                     </div>
-                    <span className="col-span-2 inline-flex items-center gap-2 self-center text-sm font-medium text-ink sm:col-span-1 sm:col-start-3">
-                      <span className="hidden md:inline">{cta}</span>
+                    <span className="mt-8 flex items-center justify-between border-t border-ink/10 pt-5 text-sm font-medium text-ink">
+                      <span>{cta}</span>
                       <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 transition group-hover:border-tomato group-hover:bg-tomato group-hover:text-cream group-hover:shadow-soft">
                         <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                       </span>
