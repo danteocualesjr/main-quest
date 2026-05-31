@@ -188,7 +188,7 @@ export function DiscoverForm() {
                     type="button"
                     key={word}
                     onClick={() => setLikes((v) => (v ? v : `I like ${word}`))}
-                    className="rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98]"
+                    className="prompt-chip"
                   >
                     {word}
                   </button>
@@ -265,7 +265,7 @@ export function DiscoverForm() {
         </form>
 
         <aside className="lg:pl-8 lg:pt-2">
-          <div className="sticky top-24 rounded-2xl border border-ink/10 bg-cream/50 p-6 lg:border-l lg:border-ink/10 lg:pl-8">
+          <div className="surface-card-soft sticky top-24 p-6 lg:pl-8">
             <SectionLabel number="*" variant="accent">
               Tips for honest answers
             </SectionLabel>
@@ -375,7 +375,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="field-focus grid gap-3 rounded-lg border-t border-ink/10 pt-8">
+    <div className="field-focus grid gap-4 rounded-2xl border border-ink/10 bg-cream/35 p-5 shadow-paper">
       <div className="grid grid-cols-[auto_1fr] gap-3">
         <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato pt-1">
           {n}
@@ -392,7 +392,7 @@ function Field({
 
 function SkeletonCard() {
   return (
-    <div className="rounded-2xl border border-ink/10 bg-cream p-6">
+    <div className="surface-card-soft p-6">
       <div className="flex items-start justify-between gap-3">
         <div className="skeleton h-3 w-20 rounded" />
         <div className="skeleton h-8 w-12 rounded" />
