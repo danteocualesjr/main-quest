@@ -406,7 +406,7 @@ export function PathForm() {
                 {path.gaps.map((gap, gapIndex) => (
                   <li
                     key={`${gap}-${gapIndex}`}
-                    className="card-lift flex gap-3 border border-ink/10 bg-cream p-5 text-[15px] leading-relaxed text-graphite"
+                    className="card-lift flex gap-3 rounded-2xl border border-ink/10 bg-cream p-5 text-[15px] leading-relaxed text-graphite"
                   >
                     <Flag className="mt-0.5 h-4 w-4 shrink-0 text-tomato" />
                     {gap}
@@ -427,7 +427,7 @@ export function PathForm() {
               {path.steps.map((step, i) => (
                 <li
                   key={`${step.phase}-${i}`}
-                  className="relative grid gap-6 md:grid-cols-[auto_1fr_2fr]"
+                  className="surface-card-soft relative grid gap-6 p-6 md:grid-cols-[auto_1fr_2fr]"
                 >
                   <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato md:pt-2">
                     Phase 0{i + 1}
@@ -436,7 +436,7 @@ export function PathForm() {
                   {/* Timeline node */}
                   <span
                     aria-hidden
-                    className="absolute left-[58px] top-2 hidden h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border border-tomato/50 bg-paper md:flex"
+                    className="absolute left-[58px] top-8 hidden h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border border-tomato/50 bg-paper md:flex"
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-tomato" />
                   </span>
