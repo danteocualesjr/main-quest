@@ -150,12 +150,15 @@ export default async function CareerDetailPage({ params }: Props) {
                 style={{ left: `${medianPct}%` }}
               />
               <span
-                className="absolute -top-9 -translate-x-1/2 whitespace-nowrap rounded-md border border-ink/15 bg-paper px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-ink shadow-paper"
+                className="absolute -top-9 hidden -translate-x-1/2 whitespace-nowrap rounded-md border border-ink/15 bg-paper px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-ink shadow-paper sm:inline-flex"
                 style={{ left: `${medianPct}%` }}
               >
                 Median {formatSalary(career.salaryMedian)}
               </span>
             </div>
+            <p className="mt-3 inline-flex rounded-md border border-ink/15 bg-paper px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-ink shadow-paper sm:hidden">
+              Median {formatSalary(career.salaryMedian)}
+            </p>
             <div className="mt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest tabular text-ash">
               <span>$0</span>
               <span>$110k</span>
@@ -222,8 +225,8 @@ export default async function CareerDetailPage({ params }: Props) {
       </Container>
 
       {/* Sticky mobile CTA, appears on small screens only */}
-      <div className="sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 shadow-[0_-8px_32px_-12px_rgba(28,25,23,0.12)] backdrop-blur-lg md:hidden">
-        <Container className="flex items-center justify-between gap-3 py-3">
+      <div className="sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 shadow-[var(--shadow-sticky)] backdrop-blur-lg md:hidden">
+        <Container className="flex items-center justify-between gap-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3">
           <div className="min-w-0">
             <p className="label">Ready?</p>
             <p className="truncate font-display text-base font-light text-ink">

@@ -251,7 +251,7 @@ export default function HomePage() {
                       <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-graphite">
                         {body}
                       </p>
-                      <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-smoke">
+                      <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-paper px-3 py-1.5 text-xs font-medium text-smoke">
                         <span className="font-mono text-ash">e.g.</span>
                         &ldquo;{sample}&rdquo;
                       </p>

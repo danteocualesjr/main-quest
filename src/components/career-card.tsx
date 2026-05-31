@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, TrendingUp } from "lucide-react";
+import { ArrowUpRight, GraduationCap, TrendingUp } from "lucide-react";
 import { formatSalary, formatSalaryRange } from "@/lib/careers";
 import type { Career } from "@/lib/types";
 import { EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
@@ -27,7 +27,10 @@ function SalaryBar({ career, dark = false }: { career: Career; dark?: boolean })
   const medianPct = salaryPct(career.salaryMedian);
 
   return (
-    <div className="w-full">
+    <div
+      className="w-full"
+      aria-label={`Salary range ${formatSalaryRange(career)}, median ${formatSalary(career.salaryMedian)}`}
+    >
       <div
         className={cn(
           "relative h-1 rounded-full",
@@ -170,12 +173,23 @@ export function CareerCard({
     <Link
       href={`/explore/${career.id}`}
       className={cn(
-        "group card-lift relative flex flex-col rounded-2xl border border-ink/10 bg-cream p-6 transition hover:border-tomato/25 hover:shadow-lift",
+        "group card-lift relative flex min-h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-cream p-6 transition hover:border-tomato/25 hover:shadow-lift",
         compact && "p-5"
       )}
     >
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-tomato via-clay to-moss opacity-55 transition group-hover:opacity-100"
+      />
+
       <div className="flex items-start justify-between gap-3">
-        <p className="label-accent">{career.category}</p>
+        <div className="space-y-2">
+          <p className="label-accent">{career.category}</p>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-paper px-2.5 py-1 text-[11px] font-medium text-smoke">
+            <GraduationCap className="h-3 w-3 text-tomato" />
+            {EDUCATION_LABELS[career.education]}
+          </span>
+        </div>
         {matchScore !== undefined ? (
           <MatchScoreRing score={matchScore} />
         ) : (
@@ -196,7 +210,9 @@ export function CareerCard({
       <div className="mt-5 border-t border-ink/10 pt-5">
         <div className="flex items-baseline justify-between">
           <p className="label">Salary</p>
-          <p className="font-display text-base text-ink tabular">{formatSalaryRange(career)}</p>
+          <p className="font-display text-base text-ink tabular">
+            {formatSalaryRange(career)}
+          </p>
         </div>
         <div className="mt-3">
           <SalaryBar career={career} />

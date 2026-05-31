@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowUpDown, Search, SlidersHorizontal, X } from "lucide-react";
+import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
 import { SectionLabel } from "@/components/section-label";
@@ -115,7 +115,7 @@ export function ExploreCatalog() {
   return (
     <div className="space-y-12">
       {/* Stats strip */}
-      <dl className="grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-cream/60 transition hover:bg-cream">
+      <dl className="grid gap-3 sm:grid-cols-3">
         <Stat n={<CountUp value={stats.totalCareers} />} label="Career paths" />
         <Stat
           n={<CountUp value={Math.round(stats.avgMedianSalary / 1000)} prefix="$" suffix="k" />}
@@ -125,7 +125,7 @@ export function ExploreCatalog() {
       </dl>
 
       {/* Filters */}
-      <div className="sticky top-[68px] z-30 -mx-6 rounded-b-2xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
+      <div className="sticky top-[var(--header-height)] z-30 -mx-6 rounded-b-2xl border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
         <div className="flex items-center justify-between gap-4">
           <SectionLabel>
             <span className="inline-flex items-center gap-2">
@@ -158,7 +158,7 @@ export function ExploreCatalog() {
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-smoke" />
             <input
               ref={searchRef}
-              className="w-full rounded-2xl border border-ink/15 bg-cream py-3.5 pl-12 pr-12 font-display text-lg font-light tracking-tight shadow-paper placeholder:text-ash transition focus:border-tomato focus:outline-none focus:ring-2 focus:ring-tomato/20 md:text-xl"
+              className="w-full rounded-2xl border border-ink/15 bg-cream py-3.5 pl-12 pr-12 font-display text-lg font-light tracking-tight shadow-paper placeholder:text-ash transition hover:border-ink/25 focus:border-tomato focus:outline-none focus:ring-2 focus:ring-tomato/20 md:text-xl"
               placeholder="Search careers, fields, or aliases…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -321,8 +321,11 @@ export function ExploreCatalog() {
       </div>
 
       {results.length === 0 ? (
-        <div className="grid gap-6 rounded-3xl border border-ink/10 bg-cream p-16 text-center md:grid-cols-[1fr]">
+        <div className="surface-card-soft grid gap-6 p-10 text-center md:p-16">
           <div>
+            <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-ink/10 bg-paper text-tomato">
+              <Compass className="h-6 w-6" />
+            </span>
             <p className="font-display text-3xl font-light text-ink">
               No careers match those filters.
             </p>
@@ -362,11 +365,11 @@ export function ExploreCatalog() {
 
 function Stat({ n, label }: { n: React.ReactNode; label: string }) {
   return (
-    <div className="px-4 py-6 first:pl-0 md:px-8">
-      <p className="font-display text-3xl font-light tabular text-ink md:text-5xl">
+    <div className="surface-card-soft px-5 py-6">
+      <dd className="font-display text-3xl font-light tabular text-ink md:text-5xl">
         {n}
-      </p>
-      <p className="label mt-2">{label}</p>
+      </dd>
+      <dt className="label mt-2">{label}</dt>
     </div>
   );
 }

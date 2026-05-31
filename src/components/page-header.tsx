@@ -10,6 +10,8 @@ type PageHeaderProps = {
   highlights?: { label: string; value: string }[];
 };
 
+const headerSignals = ["No sign-up", "Student-first", "US salary data"];
+
 export function PageHeader({
   number,
   eyebrow,

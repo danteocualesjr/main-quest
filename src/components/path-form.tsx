@@ -45,6 +45,13 @@ export function PathForm() {
 
   const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
 
+  const progress = useMemo(() => {
+    let n = 0;
+    if (goal.trim().length > 2) n++;
+    if (gradeLevel) n++;
+    return n;
+  }, [goal, gradeLevel]);
+
   const persistSession = useCallback(
     (
       nextGoal: string,
@@ -199,6 +206,22 @@ export function PathForm() {
     <div className="space-y-20">
       <form id="page-form" onSubmit={handleSubmit} className="scroll-mt-24 border-t border-ink/10 pt-12">
         <SectionLabel variant="accent">Your goal</SectionLabel>
+        <div
+          className="mt-6 flex items-center gap-4 rounded-2xl border border-ink/10 bg-cream/55 px-4 py-3"
+          aria-label="Path form completeness"
+        >
+          <div className="flex flex-1 gap-1.5">
+            {[0, 1].map((i) => (
+              <span
+                key={i}
+                className={`h-1.5 flex-1 rounded-full transition ${
+                  i < progress ? "bg-tomato" : "bg-ink/10"
+                }`}
+              />
+            ))}
+          </div>
+          <p className="label tabular">{progress}/2 fields</p>
+        </div>
         <div className="mt-4 grid items-end gap-6 md:grid-cols-[1fr_auto]">
           <div>
             <label htmlFor="goal" className="sr-only">
@@ -244,7 +267,7 @@ export function PathForm() {
                 type="button"
                 key={example}
                 onClick={() => setGoal(example)}
-                className="rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98]"
+                className="filter-chip"
               >
                 {example}
               </button>
@@ -259,7 +282,7 @@ export function PathForm() {
           </label>
           <select
             id="path-grade"
-            className="input-bare max-w-md font-display text-2xl font-light tracking-tight md:text-3xl"
+            className="input-block max-w-md font-display text-lg font-light tracking-tight md:text-xl"
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
             disabled={loading}
@@ -383,7 +406,7 @@ export function PathForm() {
                 {path.gaps.map((gap, gapIndex) => (
                   <li
                     key={`${gap}-${gapIndex}`}
-                    className="card-lift flex gap-3 border border-ink/10 bg-cream p-5 text-[15px] leading-relaxed text-graphite"
+                    className="card-lift flex gap-3 rounded-2xl border border-ink/10 bg-cream p-5 text-[15px] leading-relaxed text-graphite"
                   >
                     <Flag className="mt-0.5 h-4 w-4 shrink-0 text-tomato" />
                     {gap}
@@ -404,7 +427,7 @@ export function PathForm() {
               {path.steps.map((step, i) => (
                 <li
                   key={`${step.phase}-${i}`}
-                  className="relative grid gap-6 md:grid-cols-[auto_1fr_2fr]"
+                  className="surface-card-soft relative grid gap-6 p-6 md:grid-cols-[auto_1fr_2fr]"
                 >
                   <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato md:pt-2">
                     Phase 0{i + 1}
@@ -413,7 +436,7 @@ export function PathForm() {
                   {/* Timeline node */}
                   <span
                     aria-hidden
-                    className="absolute left-[58px] top-2 hidden h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border border-tomato/50 bg-paper md:flex"
+                    className="absolute left-[58px] top-8 hidden h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border border-tomato/50 bg-paper md:flex"
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-tomato" />
                   </span>
