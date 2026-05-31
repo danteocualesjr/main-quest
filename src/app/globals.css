@@ -16,6 +16,12 @@
     --c-moss: 47 107 79;
     --c-clay: 201 149 109;
     --c-slate: 41 37 36;
+    --header-height: 68px;
+    --shadow-paper: 0 1px 0 rgb(28 25 23 / 0.05);
+    --shadow-soft: 0 4px 24px rgb(28 25 23 / 0.07);
+    --shadow-lift: 0 20px 60px -20px rgb(28 25 23 / 0.14);
+    --shadow-glow: 0 0 40px -8px rgb(200 60 26 / 0.25);
+    --shadow-sticky: 0 -8px 32px -12px rgb(28 25 23 / 0.12);
     color-scheme: light;
   }
 
@@ -33,6 +39,11 @@
     /* Deeper terracotta: clay only sits on the inverted (now light) accent band. */
     --c-clay: 158 92 48;
     --c-slate: 232 226 217;
+    --shadow-paper: 0 1px 0 rgb(0 0 0 / 0.22);
+    --shadow-soft: 0 10px 34px -18px rgb(0 0 0 / 0.65);
+    --shadow-lift: 0 24px 70px -28px rgb(0 0 0 / 0.78);
+    --shadow-glow: 0 0 44px -12px rgb(var(--c-tomato) / 0.38);
+    --shadow-sticky: 0 -12px 36px -16px rgb(0 0 0 / 0.74);
     color-scheme: dark;
   }
 
@@ -259,12 +270,24 @@
     @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2;
   }
 
+  .prompt-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-ink shadow-paper transition hover:-translate-y-0.5 hover:border-tomato/50 hover:bg-tomato/5 hover:text-tomato hover:shadow-soft active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2;
+  }
+
   .filter-chip-active {
     @apply border-tomato/40 bg-tomato/5 text-tomato;
   }
 
   .surface-card {
     @apply rounded-2xl border border-ink/10 bg-cream shadow-paper transition duration-300;
+  }
+
+  .surface-card-soft {
+    @apply rounded-3xl border border-ink/10 bg-cream/70 shadow-paper backdrop-blur transition duration-300;
+  }
+
+  .surface-card-soft:hover {
+    @apply border-ink/20 bg-cream shadow-soft;
   }
 
   .surface-card:hover {

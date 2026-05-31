@@ -62,7 +62,7 @@ export function SiteHeader() {
       className={cn(
         "sticky top-0 z-50 border-b bg-paper/92 backdrop-blur-lg transition-[border-color,box-shadow,background-color] duration-300",
         mounted && scrolled
-          ? "border-ink/15 shadow-[0_4px_24px_-8px_rgba(28,25,23,0.08)]"
+          ? "border-ink/15 shadow-soft"
           : "border-ink/10"
       )}
     >

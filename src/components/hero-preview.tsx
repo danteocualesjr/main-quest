@@ -1,13 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
 
 export function HeroPreview() {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const frame = useRef<number | null>(null);
 
-  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
+  function handlePointerMove(e: React.PointerEvent<HTMLAnchorElement>) {
     const el = cardRef.current;
     if (!el) return;
     if (typeof window !== "undefined") {
@@ -54,7 +55,9 @@ export function HeroPreview() {
       />
       <div className="absolute inset-x-1.5 -bottom-1.5 top-1.5 rounded-xl border border-ink/10 bg-cream/80 shadow-paper" />
 
-      <div
+      <Link
+        href="/explore/ux-designer"
+        aria-label="Open the UX Designer career profile"
         ref={cardRef}
         onPointerMove={handlePointerMove}
         onPointerLeave={reset}
@@ -66,7 +69,7 @@ export function HeroPreview() {
             transformStyle: "preserve-3d",
           } as React.CSSProperties
         }
-        className="group corner-ticks relative rounded-2xl border border-ink/12 bg-cream p-7 text-ink/20 shadow-lift will-change-transform hover:border-ink/20 md:p-8"
+        className="group corner-ticks relative block rounded-2xl border border-ink/12 bg-cream p-7 text-ink/20 shadow-lift will-change-transform hover:border-ink/20 md:p-8"
       >
         {/* Pointer-tracked spotlight */}
         <div
@@ -171,7 +174,7 @@ export function HeroPreview() {
             <ArrowUpRight className="h-4 w-4" />
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Floating accents */}
       <div

@@ -19,6 +19,12 @@ export default function PathPage() {
         title="Reverse-engineer your"
         accent="dream job."
         description="Type the role you're aiming for. We break it into phases, what to study, build, and do from now until your first hire."
+        meta="Works with exact roles or close matches from the career map"
+        highlights={[
+          { label: "Input", value: "1 goal" },
+          { label: "Output", value: "Phases" },
+          { label: "Includes", value: "Next actions" },
+        ]}
       />
       <Suspense
         fallback={
