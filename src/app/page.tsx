@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowDown, ArrowRight, ArrowUpRight, Quote } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Compass, Quote, ShieldCheck, Sparkles } from "lucide-react";
 import { Container } from "@/components/container";
 import { SectionLabel } from "@/components/section-label";
 import { QuestButton } from "@/components/quest-button";
@@ -22,29 +22,41 @@ const paths = [
     n: "01",
     href: "/discover",
     title: "Discover Me",
+    eyebrow: "Start here if you feel stuck",
     sell: "When you have no idea where to start.",
     body: "Describe what you enjoy and what you'd rather avoid. We surface careers that fit, including ones you'd never have Googled.",
     cta: "Take the quiz",
     sample: "I like art but I'm bad at math",
+    accent: "bg-tomato/10 text-tomato",
   },
   {
     n: "02",
     href: "/path",
     title: "Path to a Goal",
+    eyebrow: "Start here if you have a role in mind",
     sell: "When you already know the destination.",
     body: "Type the role you're aiming for. We reverse-engineer the steps from high school through your first hire, courses, skills, milestones.",
     cta: "Build my roadmap",
     sample: "I want to be an AI researcher",
+    accent: "bg-moss/10 text-moss",
   },
   {
     n: "03",
     href: "/explore",
     title: "Career Map",
+    eyebrow: "Start here if you want options",
     sell: "When you'd rather browse first.",
     body: "Filter 30+ US careers by salary, education, and growth. Compare side by side before you commit to anything.",
     cta: "Open the map",
     sample: "Show me $90k+ healthcare roles",
+    accent: "bg-ink/10 text-ink",
   },
+];
+
+const trustSignals = [
+  { icon: Sparkles, label: "Two-minute start", body: "No account or email required." },
+  { icon: Compass, label: "Concrete routes", body: "Matches, maps, and roadmaps." },
+  { icon: ShieldCheck, label: "Honest data", body: "US pay, education, and growth." },
 ];
 
 const quotes = [
@@ -112,6 +124,28 @@ export default function HomePage() {
                 concrete next steps, careers that actually fit you, roadmaps
                 to dream jobs, and real US salary data. Two minutes. No sign-up.
               </p>
+
+              <div
+                className="mt-8 grid animate-fade-up gap-3 sm:grid-cols-3"
+                style={{ animationDelay: "220ms" }}
+              >
+                {trustSignals.map(({ icon: Icon, label, body }) => (
+                  <div
+                    key={label}
+                    className="rounded-2xl border border-ink/10 bg-cream/70 p-4 shadow-paper backdrop-blur transition hover:border-tomato/25 hover:bg-cream hover:shadow-soft"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-tomato/10 text-tomato">
+                        <Icon className="h-3.5 w-3.5" />
+                      </span>
+                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-ink">
+                        {label}
+                      </p>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-smoke">{body}</p>
+                  </div>
+                ))}
+              </div>
 
               <div
                 className="mt-10 flex animate-fade-up flex-wrap items-center gap-x-6 gap-y-4"
@@ -192,22 +226,24 @@ export default function HomePage() {
               </p>
             </div>
 
-            <ul className="divide-y divide-ink/10 border-y border-ink/10">
-              {paths.map(({ n, href, title, sell, body, cta, sample }) => (
-                <li key={href}>
+            <ul className="grid gap-4">
+              {paths.map(({ n, href, title, eyebrow, sell, body, cta, sample, accent }) => (
+                <li key={href} className="list-none">
                   <Link
                     href={href}
-                    className="group relative grid grid-cols-[auto_1fr] items-start gap-5 rounded-lg py-8 transition hover:bg-cream/60 focus-visible:ring-2 focus-visible:ring-tomato/30 sm:grid-cols-[auto_1fr_auto] sm:gap-6 md:px-2"
+                    className="group card-lift relative grid grid-cols-[auto_1fr] items-start gap-5 overflow-hidden rounded-3xl border border-ink/10 bg-cream p-6 shadow-paper transition hover:border-tomato/25 hover:shadow-lift focus-visible:ring-2 focus-visible:ring-tomato/30 sm:grid-cols-[auto_1fr_auto] sm:gap-6 md:p-8"
                   >
-                    {/* Hover accent rail */}
                     <span
                       aria-hidden
-                      className="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-tomato transition group-hover:scale-y-100"
+                      className="absolute -right-12 -top-20 h-44 w-44 rounded-full bg-tomato/5 blur-3xl transition group-hover:bg-tomato/10"
                     />
-                    <span className="font-mono text-sm font-medium tabular text-ash mt-1 transition group-hover:text-tomato">
+                    <span
+                      className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full font-mono text-sm font-medium tabular transition ${accent}`}
+                    >
                       {n}
                     </span>
-                    <div>
+                    <div className="relative">
+                      <p className="label">{eyebrow}</p>
                       <p className="label-accent">{sell}</p>
                       <h3 className="mt-2 font-display text-3xl font-light tracking-tight text-ink transition group-hover:text-tomato md:text-4xl">
                         {title}
@@ -220,7 +256,7 @@ export default function HomePage() {
                         &ldquo;{sample}&rdquo;
                       </p>
                     </div>
-                    <span className="col-span-2 inline-flex items-center gap-2 self-center text-sm font-medium text-ink sm:col-span-1 sm:col-start-3">
+                    <span className="relative col-span-2 inline-flex items-center gap-2 self-center text-sm font-medium text-ink sm:col-span-1 sm:col-start-3">
                       <span className="hidden md:inline">{cta}</span>
                       <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 transition group-hover:border-tomato group-hover:bg-tomato group-hover:text-cream group-hover:shadow-soft">
                         <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
