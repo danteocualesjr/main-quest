@@ -375,3 +375,9 @@
     background-repeat: no-repeat;
   }
 }
+
+@layer utilities {
+  .anchor-offset {
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+}

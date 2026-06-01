@@ -10,6 +10,7 @@ import { SectionLabel } from "@/components/section-label";
 import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
 import { SourceNote } from "@/components/source-note";
 import { GRADE_OPTIONS } from "@/lib/grade-levels";
+import { cn } from "@/lib/utils";
 import { loadDiscoverSession, saveDiscoverSession } from "@/lib/session-storage";
 import type { CareerMatch } from "@/lib/types";
 import type { DiscoverSource } from "@/lib/discover-ai";
@@ -80,6 +81,7 @@ export function DiscoverForm() {
       submittedProfile.strengths !== profileSnapshot.strengths ||
       submittedProfile.weaknesses !== profileSnapshot.weaknesses ||
       submittedProfile.gradeLevel !== profileSnapshot.gradeLevel);
+  const likesError = error === "Tell us what you enjoy before searching for matches." && !likes.trim();
 
   useEffect(() => {
     if (resultsAreStale) {
@@ -150,7 +152,7 @@ export function DiscoverForm() {
           <TipsCard compact />
         </div>
 
-        <form id="page-form" onSubmit={handleSubmit} className="scroll-mt-24 space-y-12">
+        <form id="page-form" onSubmit={handleSubmit} className="anchor-offset space-y-12">
           {/* Progress indicator */}
           <div
             className="flex items-center gap-4 border-t border-ink/10 pt-6"
@@ -175,14 +177,20 @@ export function DiscoverForm() {
             n="i"
             label="What do you enjoy?"
             hint="Hobbies, subjects, activities, be specific."
+            invalid={likesError}
           >
             <textarea
-              className="input-bare min-h-[92px] resize-y font-display text-2xl font-light tracking-tight md:text-3xl"
+              className={cn(
+                "input-bare min-h-[92px] resize-y font-display text-2xl font-light tracking-tight md:text-3xl",
+                likesError && "rounded-xl border-tomato/60 bg-tomato/5 px-3 ring-2 ring-tomato/15"
+              )}
               placeholder="I like drawing, helping people, and making videos..."
               value={likes}
               onChange={(e) => setLikes(e.target.value)}
               required
               disabled={loading}
+              aria-invalid={likesError}
+              aria-describedby={likesError ? "discover-error" : undefined}
             />
             {!likes && (
               <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -260,7 +268,10 @@ export function DiscoverForm() {
               )}
             </QuestButton>
             {error && (
-              <p className="inline-flex items-center gap-2 text-sm text-tomato animate-fade-in">
+              <p
+                id="discover-error"
+                className="inline-flex items-center gap-2 text-sm text-tomato animate-fade-in"
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-tomato" />
                 {error}
               </p>
@@ -291,7 +302,7 @@ export function DiscoverForm() {
       )}
 
       {results && !loading && (
-        <section id="matches" className="scroll-mt-24 border-t border-ink/10 pt-16 animate-fade-up">
+        <section id="matches" className="anchor-offset border-t border-ink/10 pt-16 animate-fade-up">
           <SectionLabel variant="accent">Results</SectionLabel>
           <h2 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
             {results.length > 0 ? (
@@ -377,14 +388,21 @@ function Field({
   label,
   hint,
   children,
+  invalid = false,
 }: {
   n: string;
   label: string;
   hint?: string;
   children: React.ReactNode;
+  invalid?: boolean;
 }) {
   return (
-    <div className="field-focus grid gap-4 rounded-2xl border border-ink/10 bg-cream/35 p-5 shadow-paper">
+    <div
+      className={cn(
+        "field-focus grid gap-4 rounded-2xl border border-ink/10 bg-cream/35 p-5 shadow-paper",
+        invalid && "border-tomato/50 bg-tomato/5 ring-2 ring-tomato/15"
+      )}
+    >
       <div className="grid grid-cols-[auto_1fr] gap-3">
         <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato pt-1">
           {n}
