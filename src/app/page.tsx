@@ -286,7 +286,7 @@ export default function HomePage() {
       </section>
 
       {/* THREE DOORS */}
-      <section id="doors" className="scroll-mt-24 border-b border-ink/10 py-20 md:py-28">
+      <section id="doors" className="anchor-offset border-b border-ink/10 py-20 md:py-28">
         <Container>
           <Reveal className="grid gap-10 lg:grid-cols-[0.85fr_2.15fr] lg:gap-16">
             <div>
