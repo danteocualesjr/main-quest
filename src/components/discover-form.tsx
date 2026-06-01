@@ -356,7 +356,7 @@ export function DiscoverForm() {
 
 function TipsCard({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="sticky top-[calc(var(--header-height)+1.5rem)] rounded-2xl border border-ink/10 bg-cream/55 p-6 shadow-paper backdrop-blur lg:border-l lg:border-ink/10 lg:pl-8">
+    <div className="glass-panel sticky top-[calc(var(--header-height)+1.5rem)] p-6 lg:pl-8">
       <SectionLabel number="*" variant="accent">
         Tips for honest answers
       </SectionLabel>
@@ -397,14 +397,9 @@ function Field({
   invalid?: boolean;
 }) {
   return (
-    <div
-      className={cn(
-        "field-focus grid gap-4 rounded-2xl border border-ink/10 bg-cream/35 p-5 shadow-paper",
-        invalid && "border-tomato/50 bg-tomato/5 ring-2 ring-tomato/15"
-      )}
-    >
+    <div className="field-focus grid gap-4 rounded-3xl border border-ink/10 bg-cream/55 p-5 shadow-paper backdrop-blur-sm">
       <div className="grid grid-cols-[auto_1fr] gap-3">
-        <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato pt-1">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-tomato/20 bg-tomato/10 font-mono text-[10px] uppercase tabular tracking-widest text-tomato">
           {n}
         </span>
         <div>

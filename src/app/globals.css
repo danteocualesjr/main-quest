@@ -290,6 +290,20 @@
     @apply border-ink/20 bg-cream shadow-soft;
   }
 
+  .glass-panel {
+    @apply rounded-3xl border border-ink/10 bg-cream/75 shadow-soft backdrop-blur-xl;
+  }
+
+  .signal-chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-ink/10 bg-paper/80 px-3 py-1.5 text-xs font-medium text-smoke shadow-paper backdrop-blur transition duration-200;
+  }
+
+  @media (hover: hover) {
+    .signal-chip:hover {
+      @apply -translate-y-0.5 border-tomato/25 bg-cream text-ink shadow-soft;
+    }
+  }
+
   .surface-card:hover {
     @apply border-ink/20 shadow-soft;
   }
@@ -328,6 +342,30 @@
 
   .path-card {
     @apply relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream p-5 shadow-paper transition duration-300;
+  }
+
+  .journey-rail {
+    @apply relative overflow-hidden rounded-3xl border border-ink/10 bg-cream/75 p-4 shadow-soft backdrop-blur;
+  }
+
+  .journey-rail::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 10% 0%, rgb(var(--c-tomato) / 0.10), transparent 32%),
+      radial-gradient(circle at 100% 100%, rgb(var(--c-moss) / 0.10), transparent 34%);
+  }
+
+  .journey-step {
+    @apply relative rounded-2xl border border-ink/10 bg-paper/70 p-4 transition duration-200;
+  }
+
+  @media (hover: hover) {
+    .journey-step:hover {
+      @apply -translate-y-0.5 border-tomato/25 bg-cream shadow-paper;
+    }
   }
 
   .path-card::before {

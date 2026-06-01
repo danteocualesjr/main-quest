@@ -86,7 +86,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 sm:flex">
-          {nav.map(({ href, label }) => {
+          {nav.map(({ href, label, hint }) => {
             const active = isActive(href);
             return (
               <Link
@@ -94,11 +94,16 @@ export function SiteHeader() {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "group/nav relative rounded-full px-4 py-2 text-sm font-medium transition",
+                  "group/nav relative rounded-2xl px-3.5 py-2 text-sm font-medium transition",
                   active ? "nav-pill-active text-ink" : "text-smoke transition duration-200 hover:bg-ink/[0.04] hover:text-ink"
                 )}
               >
-                <span>{label}</span>
+                <span className="flex flex-col leading-none">
+                  <span>{label}</span>
+                  <span className="mt-1 hidden font-mono text-[9px] uppercase tracking-[0.18em] text-ash group-hover/nav:text-smoke lg:block">
+                    {hint}
+                  </span>
+                </span>
                 {active && (
                   <span
                     aria-hidden
