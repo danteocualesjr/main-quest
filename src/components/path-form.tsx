@@ -204,7 +204,7 @@ export function PathForm() {
 
   return (
     <div className="space-y-20">
-      <form id="page-form" onSubmit={handleSubmit} className="scroll-mt-24 border-t border-ink/10 pt-12">
+      <form id="page-form" onSubmit={handleSubmit} className="anchor-offset border-t border-ink/10 pt-12">
         <SectionLabel variant="accent">Your goal</SectionLabel>
         <div
           className="mt-6 flex items-center gap-4 rounded-2xl border border-ink/10 bg-cream/55 px-4 py-3"
@@ -376,7 +376,7 @@ export function PathForm() {
       )}
 
       {path && !loading && (
-        <section id="roadmap" className="scroll-mt-24 space-y-16 animate-fade-up">
+        <section id="roadmap" className="anchor-offset space-y-16 animate-fade-up">
           <div className="border-t border-ink/10 pt-12">
             <SectionLabel variant="accent">Your main quest</SectionLabel>
             <div className="mt-6 grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end">
