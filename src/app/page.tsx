@@ -72,6 +72,30 @@ const trustSignals = [
   { label: "Real data", value: "US salary + growth", Icon: Compass },
 ];
 
+const starterRail = [
+  {
+    href: "/discover",
+    label: "Feeling stuck",
+    title: "Answer 4 prompts",
+    detail: "Turn likes, strengths, and avoidances into career matches.",
+    Icon: Compass,
+  },
+  {
+    href: "/path",
+    label: "Have a goal",
+    title: "Build a roadmap",
+    detail: "See phases, skills, and actions for the role in your head.",
+    Icon: GraduationCap,
+  },
+  {
+    href: "/explore",
+    label: "Want options",
+    title: "Scan the map",
+    detail: "Compare salary, education, time-to-entry, and growth.",
+    Icon: Map,
+  },
+];
+
 const quotes = [
   {
     text: "I thought I had to pick one thing forever. Discover Me showed me four paths I'd never heard of.",
@@ -160,8 +184,46 @@ export default function HomePage() {
               </div>
 
               <div
+                className="journey-rail mt-8 animate-fade-up"
+                style={{ animationDelay: "260ms" }}
+              >
+                <div className="relative flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="label-accent">Choose your starting point</p>
+                    <p className="mt-2 max-w-lg text-sm leading-relaxed text-smoke">
+                      Pick the sentence that sounds closest to today. You can switch
+                      doors anytime.
+                    </p>
+                  </div>
+                  <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-ash sm:block">
+                    3 ways in
+                  </span>
+                </div>
+                <div className="relative mt-4 grid gap-3 md:grid-cols-3">
+                  {starterRail.map(({ href, label, title, detail, Icon }) => (
+                    <Link key={href} href={href} className="journey-step group">
+                      <span className="flex items-center gap-2">
+                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ink/10 bg-cream text-tomato transition group-hover:border-tomato/30 group-hover:bg-tomato group-hover:text-cream">
+                          <Icon className="h-3.5 w-3.5" />
+                        </span>
+                        <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ash">
+                          {label}
+                        </span>
+                      </span>
+                      <span className="mt-4 block font-display text-xl font-light tracking-tight text-ink">
+                        {title}
+                      </span>
+                      <span className="mt-1 block text-sm leading-relaxed text-smoke">
+                        {detail}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div
                 className="mt-10 flex animate-fade-up flex-wrap items-center gap-x-6 gap-y-4"
-                style={{ animationDelay: "300ms" }}
+                style={{ animationDelay: "340ms" }}
               >
                 <QuestButton href="/discover" size="lg">
                   Start with Discover Me
@@ -178,7 +240,7 @@ export default function HomePage() {
 
               <div
                 className="mt-12 grid animate-fade-up grid-cols-1 gap-3 border-t border-ink/10 pt-8 sm:grid-cols-3 sm:gap-6"
-                style={{ animationDelay: "400ms" }}
+                style={{ animationDelay: "440ms" }}
               >
                 <Stat
                   n={<CountUp value={stats.totalCareers} />}

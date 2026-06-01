@@ -204,7 +204,11 @@ export function PathForm() {
 
   return (
     <div className="space-y-20">
-      <form id="page-form" onSubmit={handleSubmit} className="scroll-mt-24 border-t border-ink/10 pt-12">
+      <form
+        id="page-form"
+        onSubmit={handleSubmit}
+        className="glass-panel scroll-mt-24 p-5 md:p-7"
+      >
         <SectionLabel variant="accent">Your goal</SectionLabel>
         <div
           className="mt-6 flex items-center gap-4 rounded-2xl border border-ink/10 bg-cream/55 px-4 py-3"

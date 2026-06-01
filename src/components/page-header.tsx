@@ -80,20 +80,48 @@ export function PageHeader({
 
         {highlights && highlights.length > 0 && (
           <div
-            className="animate-scale-in rounded-3xl border border-ink/10 bg-cream/80 p-5 shadow-soft backdrop-blur"
+            className="glass-panel relative animate-scale-in overflow-hidden p-5"
             style={{ animationDelay: "180ms" }}
           >
-            <p className="label-accent">What you get</p>
-            <dl className="mt-4 divide-y divide-ink/10">
+            <div
+              aria-hidden
+              className="absolute inset-x-5 top-0 h-0.5 rounded-full bg-gradient-to-r from-tomato via-clay to-moss"
+            />
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="label-accent">What you get</p>
+                <p className="mt-2 text-sm leading-relaxed text-smoke">
+                  A focused result you can use in your next counselor, parent, or
+                  self-check conversation.
+                </p>
+              </div>
+              <span className="rounded-full border border-ink/10 bg-paper px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-tomato">
+                Free
+              </span>
+            </div>
+            <dl className="mt-5 grid gap-2.5">
               {highlights.map((item) => (
-                <div key={item.label} className="flex items-baseline justify-between gap-4 py-3">
-                  <dt className="text-sm text-smoke">{item.label}</dt>
-                  <dd className="text-right font-display text-xl font-light tracking-tight text-ink">
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-ink/10 bg-paper/70 px-4 py-3"
+                >
+                  <dt className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-smoke">
+                    {item.label}
+                  </dt>
+                  <dd className="mt-1 font-display text-2xl font-light tracking-tight text-ink">
                     {item.value}
                   </dd>
                 </div>
               ))}
             </dl>
+            <div className="mt-4 flex flex-wrap gap-2 border-t border-ink/10 pt-4">
+              {headerSignals.map((signal) => (
+                <span key={signal} className="signal-chip">
+                  <span className="h-1.5 w-1.5 rounded-full bg-moss" />
+                  {signal}
+                </span>
+              ))}
+            </div>
           </div>
         )}
       </div>
