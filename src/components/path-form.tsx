@@ -14,6 +14,7 @@ import { SourceNote } from "@/components/source-note";
 import { careers } from "@/lib/careers";
 import { GRADE_OPTIONS } from "@/lib/grade-levels";
 import { loadPathSession, savePathSession } from "@/lib/session-storage";
+import { cn } from "@/lib/utils";
 import type { PathSource } from "@/lib/path-ai";
 import type { Career, CareerPath } from "@/lib/types";
 
@@ -51,6 +52,7 @@ export function PathForm() {
     if (gradeLevel) n++;
     return n;
   }, [goal, gradeLevel]);
+  const goalError = error === "Enter a career goal before building your path." && !goal.trim();
 
   const persistSession = useCallback(
     (
@@ -223,19 +225,29 @@ export function PathForm() {
           <p className="label tabular">{progress}/2 fields</p>
         </div>
         <div className="mt-4 grid items-end gap-6 md:grid-cols-[1fr_auto]">
-          <div>
+          <div
+            className={cn(
+              "rounded-2xl transition",
+              goalError && "bg-tomato/5 ring-2 ring-tomato/15"
+            )}
+          >
             <label htmlFor="goal" className="sr-only">
               What do you want to become?
             </label>
             <input
               id="goal"
               list="career-suggestions"
-              className="input-bare font-display text-3xl font-light tracking-tight md:text-5xl"
+              className={cn(
+                "input-bare font-display text-3xl font-light tracking-tight md:text-5xl",
+                goalError && "border-tomato/60 px-3"
+              )}
               placeholder="AI researcher, nurse, UX designer..."
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
               required
               disabled={loading}
+              aria-invalid={goalError}
+              aria-describedby={goalError ? "path-error" : undefined}
             />
             <datalist id="career-suggestions">
               {careerTitles.map((title) => (
@@ -297,7 +309,10 @@ export function PathForm() {
         </div>
 
         {error && (
-          <p className="mt-3 inline-flex items-center gap-2 text-sm text-tomato animate-fade-in">
+          <p
+            id="path-error"
+            className="mt-3 inline-flex items-center gap-2 text-sm text-tomato animate-fade-in"
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-tomato" />
             {error}
           </p>
