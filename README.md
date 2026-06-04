@@ -9,6 +9,7 @@
 - **Explore Careers** — Browse 30+ curated US careers with filters for salary, education, and growth
 - **Career coach** — Streaming chat that opens after Discover results, with tool-calling access to the catalog so it can search, compare, and build roadmaps mid-conversation
 - **Session memory** — Your last Discover and Path results persist in the browser across refreshes; coach conversations persist alongside their matching session
+- **Share & backup** — Copy or share roadmaps and match lists; export/import a JSON backup to move progress to another device (no account)
 
 ## Getting started
 
@@ -59,6 +60,7 @@ Documents/Projects/Projects_2026/main-quest
 
 - [x] Conversational AI coaching (streaming chat with tool-calling — see `src/lib/coach/`)
 - [x] Coach surface on `/path` and `/discover`
-- [ ] Save progress across devices (accounts; lets coach conversations sync)
+- [x] Manual cross-device backup (footer export/import; no account)
+- [ ] Save progress across devices (accounts; lets coach conversations sync automatically)
 - [ ] Live BLS/O*NET API data
 - [ ] Parent/counselor dashboard

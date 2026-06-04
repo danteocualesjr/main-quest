@@ -10,7 +10,9 @@ import { PathSuggestionCard } from "@/components/path-suggestion-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
 import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
+import { ShareResults } from "@/components/share-results";
 import { SourceNote } from "@/components/source-note";
+import { formatPathExport } from "@/lib/export-results";
 import { careers } from "@/lib/careers";
 import { GRADE_OPTIONS } from "@/lib/grade-levels";
 import { loadPathSession, savePathSession } from "@/lib/session-storage";
@@ -407,6 +409,19 @@ export function PathForm() {
                   {path.encouragement}
                 </p>
                 {source && <SourceNote flow="path" source={source} />}
+                <ShareResults
+                  className="mt-8"
+                  label="Share with a parent or counselor"
+                  shareTitle={`Roadmap: ${path.career.title}`}
+                  getText={() =>
+                    formatPathExport(path, {
+                      goal: submittedGoal ?? goal,
+                      gradeLevel: submittedGrade ?? gradeLevel,
+                      siteUrl:
+                        typeof window !== "undefined" ? window.location.origin : undefined,
+                    })
+                  }
+                />
               </div>
               <Link
                 href={`/explore/${path.career.id}`}

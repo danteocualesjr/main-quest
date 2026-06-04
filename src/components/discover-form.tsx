@@ -8,7 +8,9 @@ import { CoachPanel } from "@/components/coach-panel";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
 import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
+import { ShareResults } from "@/components/share-results";
 import { SourceNote } from "@/components/source-note";
+import { formatDiscoverExport } from "@/lib/export-results";
 import { GRADE_OPTIONS } from "@/lib/grade-levels";
 import { cn } from "@/lib/utils";
 import { loadDiscoverSession, saveDiscoverSession } from "@/lib/session-storage";
@@ -319,6 +321,20 @@ export function DiscoverForm() {
               : "Try adding more detail about what you like and what you're good at."}
           </p>
           {source && results.length > 0 && <SourceNote flow="discover" source={source} />}
+          {results.length > 0 && submittedProfile && (
+            <ShareResults
+              className="mt-8"
+              label="Share your matches"
+              shareTitle="Main Quest career matches"
+              getText={() =>
+                formatDiscoverExport(
+                  results,
+                  submittedProfile,
+                  typeof window !== "undefined" ? window.location.origin : undefined
+                )
+              }
+            />
+          )}
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {results.map((match, i) => (
               <div
@@ -397,7 +413,12 @@ function Field({
   invalid?: boolean;
 }) {
   return (
-    <div className="field-focus grid gap-4 rounded-3xl border border-ink/10 bg-cream/55 p-5 shadow-paper backdrop-blur-sm">
+    <div
+      className={cn(
+        "field-focus grid gap-4 rounded-3xl border bg-cream/55 p-5 shadow-paper backdrop-blur-sm",
+        invalid ? "border-tomato/40" : "border-ink/10"
+      )}
+    >
       <div className="grid grid-cols-[auto_1fr] gap-3">
         <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-tomato/20 bg-tomato/10 font-mono text-[10px] uppercase tabular tracking-widest text-tomato">
           {n}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Compass, GraduationCap, Map } from "lucide-react";
 import { Container } from "@/components/container";
+import { SessionBackup } from "@/components/session-backup";
 
 const quickLinks = [
   {
@@ -74,17 +75,20 @@ export function SiteFooter() {
           </ul>
         </div>
 
-        <div>
-          <p className="label">About the data</p>
-          <p className="mt-6 max-w-xs text-sm leading-relaxed text-smoke">
-            Salary ranges and outlooks are US estimates for planning, not
-            guarantees. Aligned with BLS / O*NET-style occupational data.
-          </p>
-          <div className="mt-6 inline-flex flex-col gap-2 text-xs text-smoke">
-            <span className="label">For students · For counselors · For parents</span>
-            <span className="font-mono text-[11px] tabular text-ash">
-              No accounts. No tracking. No upsells.
-            </span>
+        <div className="space-y-8">
+          <SessionBackup />
+          <div>
+            <p className="label">About the data</p>
+            <p className="mt-6 max-w-xs text-sm leading-relaxed text-smoke">
+              Salary ranges and outlooks are US estimates for planning, not
+              guarantees. Aligned with BLS / O*NET-style occupational data.
+            </p>
+            <div className="mt-6 inline-flex flex-col gap-2 text-xs text-smoke">
+              <span className="label">For students · For counselors · For parents</span>
+              <span className="font-mono text-[11px] tabular text-ash">
+                No accounts. No upsells. Optional privacy-friendly analytics on deploy.
+              </span>
+            </div>
           </div>
         </div>
       </Container>
