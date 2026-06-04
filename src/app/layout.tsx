@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
@@ -96,6 +97,7 @@ export default function RootLayout({
         </main>
         <SiteFooter />
         <BackToTop />
+        <Analytics />
       </body>
     </html>
   );

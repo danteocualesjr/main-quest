@@ -112,14 +112,6 @@ export function PageHeader({
                 </div>
               ))}
             </dl>
-            <div className="mt-4 flex flex-wrap gap-2 border-t border-ink/10 pt-4">
-              {headerSignals.map((signal) => (
-                <span key={signal} className="signal-chip">
-                  <span className="h-1.5 w-1.5 rounded-full bg-moss" />
-                  {signal}
-                </span>
-              ))}
-            </div>
           </div>
         )}
       </div>
