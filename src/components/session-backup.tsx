@@ -47,13 +47,13 @@ export function SessionBackup() {
   }
 
   return (
-    <div className="rounded-2xl border border-ink/10 bg-paper/80 p-5">
-      <p className="label">Move progress to another device</p>
-      <p className="mt-3 text-sm leading-relaxed text-smoke">
+    <div className="journey-rail relative p-5">
+      <p className="label-accent relative">Move progress to another device</p>
+      <p className="relative mt-3 text-sm leading-relaxed text-smoke">
         Export a private backup of your quiz answers, roadmaps, and coach chats. Import it
         on another browser — no account required.
       </p>
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="relative mt-5 flex flex-wrap gap-2">
         <QuestButton type="button" variant="ghost" size="sm" onClick={handleExport}>
           <Download className="h-4 w-4" />
           Download backup

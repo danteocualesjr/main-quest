@@ -35,7 +35,7 @@ export default function NotFound() {
         <p className="mt-8 font-display text-display-1 font-light leading-none tracking-tightest text-ink">
           <span className="tabular">404</span>
         </p>
-        <h1 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
+        <h1 className="mt-6 text-balance font-display text-display-2 font-light tracking-tight text-ink">
           This page isn&apos;t on the{" "}
           <em className="italic text-tomato">map.</em>
         </h1>
@@ -51,12 +51,12 @@ export default function NotFound() {
         </div>
       </div>
 
-      <ul className="mx-auto mt-14 max-w-md divide-y divide-ink/10 border-y border-ink/10 text-left">
+      <ul className="mx-auto mt-14 grid max-w-md gap-3 text-left">
         {doors.map(({ href, label, sub, Icon }) => (
           <li key={href}>
             <Link
               href={href}
-              className="group flex items-center justify-between gap-4 py-4 transition"
+              className="journey-step group flex items-center justify-between gap-4"
             >
               <span className="flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 bg-cream text-ink transition group-hover:border-tomato group-hover:bg-tomato/10 group-hover:text-tomato">

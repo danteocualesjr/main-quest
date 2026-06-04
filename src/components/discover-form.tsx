@@ -7,6 +7,7 @@ import { CareerCard } from "@/components/career-card";
 import { CoachPanel } from "@/components/coach-panel";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
+import { FormProgress } from "@/components/form-progress";
 import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
 import { ShareResults } from "@/components/share-results";
 import { SourceNote } from "@/components/source-note";
@@ -155,25 +156,12 @@ export function DiscoverForm() {
         </div>
 
         <form id="page-form" onSubmit={handleSubmit} className="anchor-offset space-y-12">
-          {/* Progress indicator */}
-          <div
-            className="flex items-center gap-4 border-t border-ink/10 pt-6"
-            aria-label="Form completeness"
-          >
-            <div className="flex flex-1 gap-1.5">
-              {[0, 1, 2, 3].map((i) => (
-                <span
-                  key={i}
-                  className={`h-1.5 flex-1 rounded-full transition ${
-                    i < progress ? "bg-tomato" : "bg-ink/10"
-                  }`}
-                />
-              ))}
-            </div>
-            <p className="label tabular">
-              {progress}/4 fields
-            </p>
-          </div>
+          <FormProgress
+            className="border-t border-ink/10 pt-6"
+            total={4}
+            filled={progress}
+            label="Form completeness"
+          />
 
           <Field
             n="i"

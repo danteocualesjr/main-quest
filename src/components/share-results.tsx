@@ -52,9 +52,9 @@ export function ShareResults({
     typeof navigator !== "undefined" && typeof navigator.share === "function";
 
   return (
-    <div className={cn("flex flex-wrap items-center gap-3", className)}>
+    <div className={cn("action-panel flex flex-wrap items-center gap-3", className)}>
       <p className="label w-full sm:w-auto">{label}</p>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 sm:ml-auto">
         <QuestButton
           type="button"
           variant="ghost"

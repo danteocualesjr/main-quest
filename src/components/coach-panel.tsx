@@ -59,17 +59,17 @@ export function CoachPanel({ context }: CoachPanelProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group mt-12 flex w-full items-start gap-5 rounded-2xl border border-ink/15 bg-cream p-6 text-left transition hover:border-tomato hover:shadow-lift active:scale-[0.995] md:p-8"
+        className="coach-launcher group mt-12 flex w-full items-start gap-5 active:scale-[0.995]"
         aria-expanded={false}
         aria-controls="coach-panel"
       >
         <span
           aria-hidden
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/15 bg-paper text-tomato transition group-hover:border-tomato"
+          className="relative z-[1] flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/15 bg-paper text-tomato shadow-paper transition group-hover:border-tomato group-hover:shadow-soft"
         >
           <MessageCircleMore className="h-5 w-5" />
         </span>
-        <span className="flex-1">
+        <span className="relative z-[1] flex-1">
           <span className="label-accent">Talk it through</span>
           <span className="mt-2 block font-display text-2xl font-light tracking-tight text-ink md:text-3xl">
             {context.mode === "path" ? (
@@ -90,7 +90,7 @@ export function CoachPanel({ context }: CoachPanelProps) {
         </span>
         <span
           aria-hidden
-          className="hidden self-center font-mono text-xs uppercase tabular tracking-widest text-smoke transition group-hover:text-tomato md:block"
+          className="relative z-[1] hidden self-center font-mono text-xs uppercase tabular tracking-widest text-smoke transition group-hover:text-tomato md:block"
         >
           Open
         </span>
@@ -200,7 +200,7 @@ function CoachChat({
   return (
     <section
       id="coach-panel"
-      className="mt-12 overflow-hidden rounded-2xl border border-ink/15 bg-cream animate-fade-up"
+      className="mt-12 overflow-hidden rounded-2xl border border-ink/15 bg-cream shadow-soft animate-fade-up"
       aria-label="Career coach"
       aria-busy={isBusy}
     >
@@ -262,7 +262,7 @@ function CoachChat({
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isBusy}
-                  className="rounded-full border border-ink/15 bg-paper px-3 py-1.5 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98] disabled:opacity-50"
+                  className="prompt-chip disabled:opacity-50"
                 >
                   {prompt}
                 </button>
@@ -356,8 +356,8 @@ function MessageBubble({ message }: { message: CoachMessage }) {
       <div
         className={
           isUser
-            ? "max-w-[85%] rounded-2xl rounded-br-sm bg-ink px-4 py-2.5 text-[15px] leading-relaxed text-paper"
-            : "max-w-[90%] text-[15px] leading-relaxed text-ink"
+            ? "max-w-[85%] rounded-2xl rounded-br-sm bg-ink px-4 py-2.5 text-[15px] leading-relaxed text-paper shadow-soft"
+            : "coach-bubble-assistant"
         }
       >
         {!isUser && (

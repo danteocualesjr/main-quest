@@ -173,13 +173,13 @@ export function CareerCard({
     <Link
       href={`/explore/${career.id}`}
       className={cn(
-        "group card-lift relative flex min-h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-cream p-6 transition hover:border-tomato/25 hover:shadow-lift",
+        "group card-lift relative flex min-h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-cream p-6 transition hover:border-tomato/30 hover:shadow-lift",
         compact && "p-5"
       )}
     >
       <span
         aria-hidden
-        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-tomato via-clay to-moss opacity-55 transition group-hover:opacity-100"
+        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-tomato via-clay to-moss opacity-55 transition duration-300 group-hover:h-1.5 group-hover:opacity-100"
       />
 
       <div className="flex items-start justify-between gap-3">
@@ -199,7 +199,7 @@ export function CareerCard({
 
       <h3
         className={cn(
-          "mt-4 font-display font-light tracking-tight text-ink transition group-hover:text-tomato",
+          "mt-4 text-balance font-display font-light tracking-tight text-ink transition group-hover:text-tomato",
           compact ? "text-2xl" : "text-3xl"
         )}
       >
