@@ -53,13 +53,17 @@
 
   body {
     @apply bg-paper text-ink antialiased font-body;
-    background-image: radial-gradient(
-      ellipse 120% 80% at 50% -30%,
-      rgba(47, 107, 79, 0.05),
-      transparent 55%
-    );
+    background-image:
+      radial-gradient(ellipse 90% 60% at 100% 0%, rgb(var(--c-tomato) / 0.04), transparent 50%),
+      radial-gradient(ellipse 120% 80% at 50% -30%, rgb(var(--c-moss) / 0.06), transparent 55%);
     font-feature-settings: "ss01", "ss02", "cv11";
     min-height: 100vh;
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(ellipse 70% 50% at 0% 0%, rgb(var(--c-tomato) / 0.08), transparent 45%),
+      radial-gradient(ellipse 100% 70% at 50% -20%, rgb(var(--c-moss) / 0.06), transparent 55%);
   }
 
   ::selection {
@@ -292,6 +296,78 @@
 
   .glass-panel {
     @apply rounded-3xl border border-ink/10 bg-cream/75 shadow-soft backdrop-blur-xl;
+  }
+
+  .action-panel {
+    @apply rounded-2xl border border-ink/10 bg-gradient-to-br from-cream/90 via-paper/80 to-cream/70 p-4 shadow-paper backdrop-blur-sm md:p-5;
+  }
+
+  .dark .action-panel {
+    @apply from-cream/40 via-paper/60 to-cream/30;
+  }
+
+  .roadmap-step {
+    @apply relative overflow-hidden;
+  }
+
+  .roadmap-step::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      120deg,
+      rgb(var(--c-tomato) / 0.06) 0%,
+      transparent 42%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  @media (hover: hover) {
+    .roadmap-step:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .coach-launcher {
+    @apply relative overflow-hidden rounded-2xl border border-ink/15 bg-cream p-6 text-left transition duration-300 md:p-8;
+  }
+
+  .coach-launcher::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 0% 0%, rgb(var(--c-tomato) / 0.12), transparent 45%),
+      radial-gradient(circle at 100% 100%, rgb(var(--c-moss) / 0.08), transparent 40%);
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (hover: hover) {
+    .coach-launcher:hover {
+      @apply -translate-y-0.5 border-tomato/35 shadow-lift;
+    }
+
+    .coach-launcher:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .coach-bubble-assistant {
+    @apply max-w-[90%] rounded-2xl rounded-tl-sm border border-ink/10 bg-paper/90 px-4 py-3 text-[15px] leading-relaxed text-ink shadow-paper;
+  }
+
+  .sticky-pill {
+    @apply inline-flex max-w-full items-center gap-2 rounded-full border border-ink/15 bg-paper/95 px-5 py-2.5 text-sm font-medium text-ink shadow-lift backdrop-blur-lg transition duration-200;
+  }
+
+  @media (hover: hover) {
+    .sticky-pill:hover {
+      @apply -translate-y-0.5 border-tomato/40 text-tomato shadow-glow;
+    }
   }
 
   .signal-chip {

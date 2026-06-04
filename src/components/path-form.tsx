@@ -9,6 +9,7 @@ import { CoachPanel } from "@/components/coach-panel";
 import { PathSuggestionCard } from "@/components/path-suggestion-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
+import { FormProgress } from "@/components/form-progress";
 import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
 import { ShareResults } from "@/components/share-results";
 import { SourceNote } from "@/components/source-note";
@@ -214,22 +215,12 @@ export function PathForm() {
         className="glass-panel scroll-mt-24 p-5 md:p-7"
       >
         <SectionLabel variant="accent">Your goal</SectionLabel>
-        <div
-          className="mt-6 flex items-center gap-4 rounded-2xl border border-ink/10 bg-cream/55 px-4 py-3"
-          aria-label="Path form completeness"
-        >
-          <div className="flex flex-1 gap-1.5">
-            {[0, 1].map((i) => (
-              <span
-                key={i}
-                className={`h-1.5 flex-1 rounded-full transition ${
-                  i < progress ? "bg-tomato" : "bg-ink/10"
-                }`}
-              />
-            ))}
-          </div>
-          <p className="label tabular">{progress}/2 fields</p>
-        </div>
+        <FormProgress
+          className="mt-6"
+          total={2}
+          filled={progress}
+          label="Path form completeness"
+        />
         <div className="mt-4 grid items-end gap-6 md:grid-cols-[1fr_auto]">
           <div
             className={cn(
@@ -461,7 +452,7 @@ export function PathForm() {
               {path.steps.map((step, i) => (
                 <li
                   key={`${step.phase}-${i}`}
-                  className="surface-card-soft relative grid gap-6 p-6 md:grid-cols-[auto_1fr_2fr]"
+                  className="roadmap-step surface-card-soft relative grid gap-6 p-6 md:grid-cols-[auto_1fr_2fr]"
                 >
                   <span className="font-mono text-xs uppercase tabular tracking-widest text-tomato md:pt-2">
                     Phase 0{i + 1}

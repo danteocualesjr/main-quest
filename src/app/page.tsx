@@ -138,7 +138,7 @@ export default function HomePage() {
           <div className="mt-10 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-end">
             <div>
               <h1
-                className="animate-fade-up font-display font-light tracking-tightest text-ink text-display-1"
+                className="animate-fade-up text-balance font-display font-light tracking-tightest text-ink text-display-1"
                 style={{ animationDelay: "60ms" }}
               >
                 Pick your{" "}

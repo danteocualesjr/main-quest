@@ -24,7 +24,7 @@ export default function Error({
         <SectionLabel variant="accent" className="justify-center">
           Something broke
         </SectionLabel>
-        <h1 className="mt-6 font-display text-display-2 font-light tracking-tight text-ink">
+        <h1 className="mt-6 text-balance font-display text-display-2 font-light tracking-tight text-ink">
           That step hit an{" "}
           <em className="italic text-tomato">unexpected detour.</em>
         </h1>
