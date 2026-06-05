@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
@@ -17,6 +18,9 @@ const SORT_LABELS: Record<SortBy, string> = {
   growth: "Fastest growing",
   alpha: "A → Z",
 };
+const SORT_VALUES = Object.keys(SORT_LABELS) as SortBy[];
+const EDUCATION_VALUES = Object.keys(EDUCATION_LABELS) as EducationLevel[];
+const GROWTH_VALUES = Object.keys(GROWTH_LABELS) as GrowthOutlook[];
 
 const SALARY_PRESETS = [
   { value: "50000", label: "$50k+" },
@@ -33,13 +37,31 @@ const QUICK_FILTERS = [
 ] as const;
 
 export function ExploreCatalog() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("");
-  const [minSalary, setMinSalary] = useState("");
-  const [education, setEducation] = useState("");
-  const [growth, setGrowth] = useState("");
-  const [sortBy, setSortBy] = useState<SortBy>("recommended");
+  const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
+  const [category, setCategory] = useState(() => {
+    const value = searchParams.get("category") ?? "";
+    return CATEGORIES.includes(value as (typeof CATEGORIES)[number]) ? value : "";
+  });
+  const [minSalary, setMinSalary] = useState(() => {
+    const value = searchParams.get("salary") ?? "";
+    return SALARY_PRESETS.some((preset) => preset.value === value) ? value : "";
+  });
+  const [education, setEducation] = useState(() => {
+    const value = searchParams.get("education") ?? "";
+    return EDUCATION_VALUES.includes(value as EducationLevel) ? value : "";
+  });
+  const [growth, setGrowth] = useState(() => {
+    const value = searchParams.get("growth") ?? "";
+    return GROWTH_VALUES.includes(value as GrowthOutlook) ? value : "";
+  });
+  const [sortBy, setSortBy] = useState<SortBy>(() => {
+    const value = searchParams.get("sort") as SortBy | null;
+    return value && SORT_VALUES.includes(value) ? value : "recommended";
+  });
 
   const stats = getCareerStats();
 
@@ -83,6 +105,45 @@ export function ExploreCatalog() {
     });
 
   const hasFilters = activeFilters.length > 0;
+
+  useEffect(() => {
+    const nextQuery = searchParams.get("q") ?? "";
+    const nextCategory = searchParams.get("category") ?? "";
+    const nextSalary = searchParams.get("salary") ?? "";
+    const nextEducation = searchParams.get("education") ?? "";
+    const nextGrowth = searchParams.get("growth") ?? "";
+    const nextSort = searchParams.get("sort") as SortBy | null;
+
+    setQuery(nextQuery);
+    setCategory(CATEGORIES.includes(nextCategory as (typeof CATEGORIES)[number]) ? nextCategory : "");
+    setMinSalary(SALARY_PRESETS.some((preset) => preset.value === nextSalary) ? nextSalary : "");
+    setEducation(EDUCATION_VALUES.includes(nextEducation as EducationLevel) ? nextEducation : "");
+    setGrowth(GROWTH_VALUES.includes(nextGrowth as GrowthOutlook) ? nextGrowth : "");
+    setSortBy(nextSort && SORT_VALUES.includes(nextSort) ? nextSort : "recommended");
+  }, [searchParams]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const updates: Record<string, string> = {
+      q: query.trim(),
+      category,
+      salary: minSalary,
+      education,
+      growth,
+      sort: sortBy === "recommended" ? "" : sortBy,
+    };
+
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    });
+
+    const next = params.toString();
+    const current = searchParams.toString();
+    if (next !== current) {
+      router.replace(`${pathname}${next ? `?${next}` : ""}`, { scroll: false });
+    }
+  }, [category, education, growth, minSalary, pathname, query, router, searchParams, sortBy]);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
