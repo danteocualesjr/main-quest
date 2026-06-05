@@ -27,6 +27,27 @@ const tips = [
 
 const likePrompts = ["drawing", "gaming", "tutoring friends", "making videos", "fixing things"];
 
+const starterProfiles = [
+  {
+    label: "Creative helper",
+    likes: "I like drawing, making videos, and helping friends explain ideas.",
+    strengths: "Creativity, communication, noticing details, and encouraging people.",
+    weaknesses: "Heavy math every day and work that feels isolated.",
+  },
+  {
+    label: "Builder",
+    likes: "I like fixing things, science projects, and figuring out how machines work.",
+    strengths: "Problem solving, patience, hands-on work, and spatial thinking.",
+    weaknesses: "Long essays, vague assignments, and jobs with no practical output.",
+  },
+  {
+    label: "People-first",
+    likes: "I like tutoring friends, listening to people, and solving real-life problems.",
+    strengths: "Empathy, organization, staying calm, and explaining things clearly.",
+    weaknesses: "Being behind a screen all day and work with no human impact.",
+  },
+];
+
 export function DiscoverForm() {
   const hydrated = useRef(false);
   const requestId = useRef(0);
@@ -148,6 +169,13 @@ export function DiscoverForm() {
     }
   }
 
+  function applyStarterProfile(profile: (typeof starterProfiles)[number]) {
+    setLikes(profile.likes);
+    setStrengths(profile.strengths);
+    setWeaknesses(profile.weaknesses);
+    setError(null);
+  }
+
   return (
     <div className="space-y-20">
       <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr]">
@@ -162,6 +190,27 @@ export function DiscoverForm() {
             filled={progress}
             label="Form completeness"
           />
+
+          {!results && !loading && (
+            <div className="surface-card-soft p-5">
+              <p className="label-accent">Need a starting point?</p>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-smoke">
+                Pick a starter profile, then edit the words until it sounds like you.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {starterProfiles.map((profile) => (
+                  <button
+                    key={profile.label}
+                    type="button"
+                    onClick={() => applyStarterProfile(profile)}
+                    className="filter-chip"
+                  >
+                    {profile.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <Field
             n="i"
