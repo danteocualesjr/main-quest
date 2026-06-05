@@ -8,6 +8,7 @@ import { CountUp } from "@/components/count-up";
 import { SectionLabel } from "@/components/section-label";
 import { careers } from "@/lib/careers";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
+import { loadRecentCareerIds, RECENT_CAREERS_CHANGED_EVENT } from "@/lib/recent-careers";
 import { loadSavedCareerIds, SAVED_CAREERS_CHANGED_EVENT } from "@/lib/saved-careers";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
 import type { EducationLevel, GrowthOutlook } from "@/lib/types";
@@ -44,6 +45,7 @@ export function ExploreCatalog() {
   const searchParams = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
   const [savedIds, setSavedIds] = useState<string[]>([]);
+  const [recentIds, setRecentIds] = useState<string[]>([]);
   const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
   const [category, setCategory] = useState(() => {
     const value = searchParams.get("category") ?? "";
@@ -81,6 +83,13 @@ export function ExploreCatalog() {
         .map((id) => careers.find((career) => career.id === id))
         .filter((career): career is (typeof careers)[number] => Boolean(career)),
     [savedIds]
+  );
+  const recentCareers = useMemo(
+    () =>
+      recentIds
+        .map((id) => careers.find((career) => career.id === id))
+        .filter((career): career is (typeof careers)[number] => Boolean(career)),
+    [recentIds]
   );
 
   const results = useMemo(
@@ -147,6 +156,17 @@ export function ExploreCatalog() {
     window.addEventListener("storage", refresh);
     return () => {
       window.removeEventListener(SAVED_CAREERS_CHANGED_EVENT, refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
+
+  useEffect(() => {
+    const refresh = () => setRecentIds(loadRecentCareerIds());
+    refresh();
+    window.addEventListener(RECENT_CAREERS_CHANGED_EVENT, refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener(RECENT_CAREERS_CHANGED_EVENT, refresh);
       window.removeEventListener("storage", refresh);
     };
   }, []);
@@ -299,6 +319,27 @@ export function ExploreCatalog() {
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {savedCareers.slice(0, 3).map((career) => (
               <CareerCard key={career.id} career={career} compact />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {recentCareers.length > 0 && (
+        <section className="surface-card-soft p-5">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="label-accent">Recently viewed</p>
+              <h2 className="mt-2 font-display text-2xl font-light text-ink">
+                Pick back up quickly
+              </h2>
+            </div>
+            <p className="label">Last {recentCareers.length}</p>
+          </div>
+          <div className="mt-5 flex gap-3 overflow-x-auto pb-1">
+            {recentCareers.map((career) => (
+              <div key={career.id} className="w-[280px] shrink-0">
+                <CareerCard career={career} compact />
+              </div>
             ))}
           </div>
         </section>
