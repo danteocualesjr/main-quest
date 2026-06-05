@@ -13,6 +13,7 @@ import { SectionLabel } from "@/components/section-label";
 import {
   formatSalary,
   formatSalaryRange,
+  careers,
   getCareerById,
   getRelatedCareers,
 } from "@/lib/careers";
@@ -24,6 +25,10 @@ import type { Metadata } from "next";
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export function generateStaticParams() {
+  return careers.map((career) => ({ slug: career.id }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
