@@ -7,6 +7,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Container } from "@/components/container";
+import { CopyProfileLink } from "@/components/copy-profile-link";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
 import { RecentCareerTracker } from "@/components/recent-career-tracker";
@@ -101,6 +102,7 @@ export default async function CareerDetailPage({ params }: Props) {
               Build my roadmap to {career.title}
             </QuestButton>
             <SaveCareerButton careerId={career.id} />
+            <CopyProfileLink />
           </div>
         </header>
 
