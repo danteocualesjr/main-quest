@@ -6,6 +6,7 @@ import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
 import { SectionLabel } from "@/components/section-label";
+import { careers } from "@/lib/careers";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
 import type { EducationLevel, GrowthOutlook } from "@/lib/types";
@@ -64,6 +65,14 @@ export function ExploreCatalog() {
   });
 
   const stats = getCareerStats();
+  const categoryCounts = useMemo(
+    () =>
+      CATEGORIES.map((name) => ({
+        name,
+        count: careers.filter((career) => career.category === name).length,
+      })),
+    []
+  );
 
   const results = useMemo(
     () =>
@@ -184,6 +193,55 @@ export function ExploreCatalog() {
         />
         <Stat n={<CountUp value={stats.fastestGrowing} />} label="Fast-growing roles" />
       </dl>
+
+      <div className="surface-card-soft p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="label-accent">Browse by field</p>
+            <p className="mt-1 text-sm text-smoke">
+              Tap a category to narrow the map instantly.
+            </p>
+          </div>
+          {category && (
+            <button
+              type="button"
+              onClick={() => setCategory("")}
+              className="self-start text-sm font-medium text-ink transition hover:text-tomato sm:self-auto"
+            >
+              Clear category
+            </button>
+          )}
+        </div>
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+          {categoryCounts.map(({ name, count }) => {
+            const active = category === name;
+            return (
+              <button
+                key={name}
+                type="button"
+                onClick={() => setCategory(active ? "" : name)}
+                className={cn(
+                  "shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition",
+                  active
+                    ? "border-tomato bg-tomato text-cream shadow-soft"
+                    : "border-ink/12 bg-paper text-ink hover:border-tomato/40 hover:text-tomato"
+                )}
+                aria-pressed={active}
+              >
+                {name}
+                <span
+                  className={cn(
+                    "ml-2 font-mono text-[10px] tabular",
+                    active ? "text-cream/70" : "text-ash"
+                  )}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Filters */}
       <div className="sticky top-[var(--header-height)] z-30 -mx-6 border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
