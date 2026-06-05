@@ -69,9 +69,20 @@ export default async function CareerDetailPage({ params }: Props) {
     <>
       <RecentCareerTracker careerId={career.id} />
       <Container className="pb-32 md:pb-20">
+        <nav className="mt-8 flex flex-wrap items-center gap-2 text-sm text-smoke" aria-label="Breadcrumb">
+          <Link href="/" className="transition hover:text-tomato">
+            Home
+          </Link>
+          <span aria-hidden>/</span>
+          <Link href="/explore" className="transition hover:text-tomato">
+            Explore
+          </Link>
+          <span aria-hidden>/</span>
+          <span className="text-ink">{career.title}</span>
+        </nav>
         <Link
           href="/explore"
-          className="mt-8 inline-flex items-center gap-2 rounded-full border border-transparent px-3 py-1.5 text-sm font-medium text-smoke transition hover:border-ink/15 hover:bg-cream hover:text-tomato"
+          className="mt-5 inline-flex items-center gap-2 rounded-full border border-transparent px-3 py-1.5 text-sm font-medium text-smoke transition hover:border-ink/15 hover:bg-cream hover:text-tomato"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to the map
