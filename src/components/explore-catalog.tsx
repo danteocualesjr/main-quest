@@ -418,7 +418,11 @@ export function ExploreCatalog() {
       )}
 
       {/* Result count */}
-      <div className="flex flex-col gap-3 border-y border-ink/10 py-6 sm:flex-row sm:items-end sm:justify-between">
+      <div
+        className="flex flex-col gap-3 border-y border-ink/10 py-6 sm:flex-row sm:items-end sm:justify-between"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         <div>
           <p className="label">
             Showing{" "}
@@ -427,6 +431,10 @@ export function ExploreCatalog() {
             </span>{" "}
             {results.length === 1 ? "career" : "careers"}
             {hasFilters && <span className="ml-2 text-ash">· filtered</span>}
+          </p>
+          <p className="sr-only">
+            {results.length} {results.length === 1 ? "career matches" : "careers match"} the
+            current Explore filters.
           </p>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-smoke">
             Cards now surface pay, education, time-to-entry, and outlook so you can
