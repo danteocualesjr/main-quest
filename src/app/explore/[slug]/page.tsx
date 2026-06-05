@@ -9,6 +9,7 @@ import {
 import { Container } from "@/components/container";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
+import { RecentCareerTracker } from "@/components/recent-career-tracker";
 import { SaveCareerButton } from "@/components/save-career-button";
 import { SectionLabel } from "@/components/section-label";
 import {
@@ -65,6 +66,7 @@ export default async function CareerDetailPage({ params }: Props) {
 
   return (
     <>
+      <RecentCareerTracker careerId={career.id} />
       <Container className="pb-32 md:pb-20">
         <Link
           href="/explore"
