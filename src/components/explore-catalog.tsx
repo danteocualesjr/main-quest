@@ -6,12 +6,12 @@ import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
 import { SectionLabel } from "@/components/section-label";
-import { careers } from "@/lib/careers";
+import { careers, formatSalary } from "@/lib/careers";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
 import { loadRecentCareerIds, RECENT_CAREERS_CHANGED_EVENT } from "@/lib/recent-careers";
 import { loadSavedCareerIds, SAVED_CAREERS_CHANGED_EVENT } from "@/lib/saved-careers";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
-import type { EducationLevel, GrowthOutlook } from "@/lib/types";
+import type { Career, EducationLevel, GrowthOutlook } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const SORT_LABELS: Record<SortBy, string> = {
@@ -46,6 +46,7 @@ export function ExploreCatalog() {
   const searchRef = useRef<HTMLInputElement>(null);
   const [savedIds, setSavedIds] = useState<string[]>([]);
   const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
   const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
   const [category, setCategory] = useState(() => {
     const value = searchParams.get("category") ?? "";
@@ -132,6 +133,9 @@ export function ExploreCatalog() {
     });
 
   const hasFilters = activeFilters.length > 0;
+  const compareCareers = compareIds
+    .map((id) => careers.find((career) => career.id === id))
+    .filter((career): career is Career => Boolean(career));
 
   useEffect(() => {
     const nextQuery = searchParams.get("q") ?? "";
@@ -242,6 +246,13 @@ export function ExploreCatalog() {
     }
   }
 
+  function toggleCompare(id: string) {
+    setCompareIds((current) => {
+      if (current.includes(id)) return current.filter((careerId) => careerId !== id);
+      return [id, ...current].slice(0, 3);
+    });
+  }
+
   return (
     <div className="space-y-12">
       {/* Stats strip */}
@@ -339,6 +350,51 @@ export function ExploreCatalog() {
             {recentCareers.map((career) => (
               <div key={career.id} className="w-[280px] shrink-0">
                 <CareerCard career={career} compact />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {compareCareers.length > 0 && (
+        <section className="surface-card p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="label-accent">Compare careers</p>
+              <h2 className="mt-2 font-display text-2xl font-light text-ink">
+                Side-by-side snapshot
+              </h2>
+              <p className="mt-2 text-sm text-smoke">
+                Select up to three careers from the results below.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setCompareIds([])}
+              className="self-start text-sm font-medium text-ink transition hover:text-tomato"
+            >
+              Clear compare
+            </button>
+          </div>
+          <div className="mt-5 grid gap-3 lg:grid-cols-3">
+            {compareCareers.map((career) => (
+              <div key={career.id} className="rounded-2xl border border-ink/10 bg-cream p-4">
+                <p className="label">{career.category}</p>
+                <h3 className="mt-2 font-display text-xl font-light text-ink">
+                  {career.title}
+                </h3>
+                <dl className="mt-4 grid gap-2 text-sm">
+                  <CompareRow label="Median pay" value={formatSalary(career.salaryMedian)} />
+                  <CompareRow label="Education" value={EDUCATION_LABELS[career.education]} />
+                  <CompareRow label="Time" value={career.timeToEntry} />
+                  <CompareRow
+                    label="Growth"
+                    value={`${GROWTH_LABELS[career.growthOutlook].replace(
+                      " than average",
+                      ""
+                    )} · +${career.growthPercent}%`}
+                  />
+                </dl>
               </div>
             ))}
           </div>
@@ -587,6 +643,19 @@ export function ExploreCatalog() {
               style={{ animationDelay: `${Math.min(i, 8) * 35}ms` }}
             >
               <CareerCard career={career} />
+              <button
+                type="button"
+                onClick={() => toggleCompare(career.id)}
+                className={cn(
+                  "mt-2 w-full rounded-2xl border px-4 py-2 text-sm font-medium transition",
+                  compareIds.includes(career.id)
+                    ? "border-tomato bg-tomato text-cream"
+                    : "border-ink/10 bg-cream text-ink hover:border-tomato/40 hover:text-tomato"
+                )}
+                aria-pressed={compareIds.includes(career.id)}
+              >
+                {compareIds.includes(career.id) ? "Remove from compare" : "Add to compare"}
+              </button>
             </li>
           ))}
         </ul>
@@ -602,6 +671,15 @@ function Stat({ n, label }: { n: React.ReactNode; label: string }) {
         {n}
       </dd>
       <dt className="label mt-2">{label}</dt>
+    </div>
+  );
+}
+
+function CompareRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4 border-t border-ink/10 pt-2 first:border-0 first:pt-0">
+      <dt className="text-smoke">{label}</dt>
+      <dd className="text-right font-medium text-ink">{value}</dd>
     </div>
   );
 }
