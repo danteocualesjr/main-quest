@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect, useCallback, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Flag, Loader2, Printer } from "lucide-react";
 import { pathAction } from "@/app/actions/path";
@@ -32,6 +32,8 @@ const goalExamples = [
 
 export function PathForm() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
   const sessionRestored = useRef(false);
   const lastBuiltUrlGoal = useRef<string | null>(null);
   const requestId = useRef(0);
@@ -76,6 +78,17 @@ export function PathForm() {
     []
   );
 
+  const syncUrl = useCallback(
+    (nextGoal: string, nextGrade: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("goal", nextGoal);
+      if (nextGrade) params.set("grade", nextGrade);
+      else params.delete("grade");
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
   const runPathBuild = useCallback(
     async (goalQuery: string, gradeQuery = gradeLevel) => {
       const id = ++requestId.current;
@@ -96,6 +109,7 @@ export function PathForm() {
           setSubmittedGoal(goalQuery.trim());
           setSubmittedGrade(gradeQuery);
           persistSession(goalQuery, gradeQuery, result.path, [], result.source);
+          syncUrl(goalQuery.trim(), gradeQuery);
           requestAnimationFrame(() => {
             document.getElementById("roadmap")?.scrollIntoView({ behavior: "smooth", block: "start" });
           });
@@ -106,6 +120,7 @@ export function PathForm() {
           setSubmittedGoal(goalQuery.trim());
           setSubmittedGrade(gradeQuery);
           persistSession(goalQuery, gradeQuery, null, result.suggestions, result.source);
+          syncUrl(goalQuery.trim(), gradeQuery);
         }
       } catch {
         if (id !== requestId.current) return;
@@ -121,10 +136,11 @@ export function PathForm() {
         }
       }
     },
-    [gradeLevel, persistSession]
+    [gradeLevel, persistSession, syncUrl]
   );
 
   const goalFromUrl = searchParams.get("goal");
+  const gradeFromUrl = searchParams.get("grade");
 
   useEffect(() => {
     if (sessionRestored.current) return;
@@ -165,7 +181,7 @@ export function PathForm() {
     if (!goalFromUrl) return;
 
     const saved = loadPathSession();
-    const grade = saved?.gradeLevel ?? "";
+    const grade = gradeFromUrl ?? saved?.gradeLevel ?? "";
     const buildKey = `${goalFromUrl}|${grade}`;
     if (buildKey === lastBuiltUrlGoal.current) return;
 
@@ -190,7 +206,7 @@ export function PathForm() {
     setGoal(goalFromUrl);
     if (grade) setGradeLevel(grade);
     void runPathBuild(goalFromUrl, grade);
-  }, [goalFromUrl, runPathBuild]);
+  }, [goalFromUrl, gradeFromUrl, runPathBuild]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
