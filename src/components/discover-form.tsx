@@ -59,6 +59,7 @@ export function DiscoverForm() {
   const [source, setSource] = useState<DiscoverSource | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [savedNotice, setSavedNotice] = useState(false);
   const [submittedProfile, setSubmittedProfile] = useState<{
     likes: string;
     strengths: string;
@@ -158,6 +159,8 @@ export function DiscoverForm() {
         results: matches,
         source: matchSource,
       });
+      setSavedNotice(true);
+      window.setTimeout(() => setSavedNotice(false), 2200);
       requestAnimationFrame(() => {
         document.getElementById("matches")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
@@ -359,18 +362,25 @@ export function DiscoverForm() {
           </p>
           {source && results.length > 0 && <SourceNote flow="discover" source={source} />}
           {results.length > 0 && submittedProfile && (
-            <ShareResults
-              className="mt-8"
-              label="Share your matches"
-              shareTitle="Main Quest career matches"
-              getText={() =>
-                formatDiscoverExport(
-                  results,
-                  submittedProfile,
-                  typeof window !== "undefined" ? window.location.origin : undefined
-                )
-              }
-            />
+            <div>
+              <ShareResults
+                className="mt-8"
+                label="Share your matches"
+                shareTitle="Main Quest career matches"
+                getText={() =>
+                  formatDiscoverExport(
+                    results,
+                    submittedProfile,
+                    typeof window !== "undefined" ? window.location.origin : undefined
+                  )
+                }
+              />
+              {savedNotice && (
+                <p className="mt-3 inline-flex rounded-full border border-moss/20 bg-moss/10 px-3 py-1 text-xs font-medium text-moss">
+                  Saved in this browser
+                </p>
+              )}
+            </div>
           )}
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {results.map((match, i) => (

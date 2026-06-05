@@ -48,6 +48,7 @@ export function PathForm() {
   const [noMatch, setNoMatch] = useState(false);
   const [submittedGoal, setSubmittedGoal] = useState<string | null>(null);
   const [submittedGrade, setSubmittedGrade] = useState<string | null>(null);
+  const [savedNotice, setSavedNotice] = useState(false);
 
   const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
 
@@ -74,6 +75,8 @@ export function PathForm() {
         suggestions: nextSuggestions,
         source: nextSource,
       });
+      setSavedNotice(true);
+      window.setTimeout(() => setSavedNotice(false), 2200);
     },
     []
   );
@@ -437,6 +440,11 @@ export function PathForm() {
                   <Printer className="h-4 w-4" />
                   Print or save as PDF
                 </button>
+                {savedNotice && (
+                  <p className="mt-3 inline-flex rounded-full border border-moss/20 bg-moss/10 px-3 py-1 text-xs font-medium text-moss">
+                    Saved in this browser
+                  </p>
+                )}
               </div>
               <Link
                 href={`/explore/${path.career.id}`}
