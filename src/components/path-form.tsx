@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Flag, Loader2 } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Flag, Loader2, Printer } from "lucide-react";
 import { pathAction } from "@/app/actions/path";
 import { CoachPanel } from "@/components/coach-panel";
 import { PathSuggestionCard } from "@/components/path-suggestion-card";
@@ -413,6 +413,14 @@ export function PathForm() {
                     })
                   }
                 />
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-cream px-4 py-2 text-sm font-medium text-ink transition hover:border-tomato hover:text-tomato print:hidden"
+                >
+                  <Printer className="h-4 w-4" />
+                  Print or save as PDF
+                </button>
               </div>
               <Link
                 href={`/explore/${path.career.id}`}
