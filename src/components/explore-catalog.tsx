@@ -182,6 +182,26 @@ export function ExploreCatalog() {
     setGrowth("");
   }
 
+  function applyQuickFilter(filter: (typeof QUICK_FILTERS)[number], reset = false) {
+    const active =
+      (filter.kind === "salary" && minSalary === filter.value) ||
+      (filter.kind === "growth" && growth === filter.value) ||
+      (filter.kind === "category" && category === filter.value) ||
+      (filter.kind === "education" && education === filter.value);
+
+    if (reset) clearAll();
+
+    if (filter.kind === "salary") {
+      setMinSalary(active && !reset ? "" : filter.value);
+    } else if (filter.kind === "growth") {
+      setGrowth(active && !reset ? "" : filter.value);
+    } else if (filter.kind === "category") {
+      setCategory(active && !reset ? "" : filter.value);
+    } else {
+      setEducation(active && !reset ? "" : filter.value);
+    }
+  }
+
   return (
     <div className="space-y-12">
       {/* Stats strip */}
@@ -372,17 +392,7 @@ export function ExploreCatalog() {
                   key={filter.key}
                   type="button"
                   className={cn("filter-chip", active && "filter-chip-active")}
-                  onClick={() => {
-                    if (filter.kind === "salary") {
-                      setMinSalary(active ? "" : filter.value);
-                    } else if (filter.kind === "growth") {
-                      setGrowth(active ? "" : filter.value);
-                    } else if (filter.kind === "category") {
-                      setCategory(active ? "" : filter.value);
-                    } else {
-                      setEducation(active ? "" : filter.value);
-                    }
-                  }}
+                  onClick={() => applyQuickFilter(filter)}
                   aria-pressed={active}
                 >
                   {filter.label}
@@ -466,6 +476,19 @@ export function ExploreCatalog() {
               <X className="h-3.5 w-3.5" />
               Clear all filters
             </button>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              <span className="label">Try instead</span>
+              {QUICK_FILTERS.map((filter) => (
+                <button
+                  key={filter.key}
+                  type="button"
+                  onClick={() => applyQuickFilter(filter, true)}
+                  className="filter-chip"
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       ) : (
