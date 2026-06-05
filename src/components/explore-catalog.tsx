@@ -8,6 +8,7 @@ import { CountUp } from "@/components/count-up";
 import { SectionLabel } from "@/components/section-label";
 import { careers } from "@/lib/careers";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
+import { loadSavedCareerIds, SAVED_CAREERS_CHANGED_EVENT } from "@/lib/saved-careers";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
 import type { EducationLevel, GrowthOutlook } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -42,6 +43,7 @@ export function ExploreCatalog() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
+  const [savedIds, setSavedIds] = useState<string[]>([]);
   const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
   const [category, setCategory] = useState(() => {
     const value = searchParams.get("category") ?? "";
@@ -72,6 +74,13 @@ export function ExploreCatalog() {
         count: careers.filter((career) => career.category === name).length,
       })),
     []
+  );
+  const savedCareers = useMemo(
+    () =>
+      savedIds
+        .map((id) => careers.find((career) => career.id === id))
+        .filter((career): career is (typeof careers)[number] => Boolean(career)),
+    [savedIds]
   );
 
   const results = useMemo(
@@ -130,6 +139,17 @@ export function ExploreCatalog() {
     setGrowth(GROWTH_VALUES.includes(nextGrowth as GrowthOutlook) ? nextGrowth : "");
     setSortBy(nextSort && SORT_VALUES.includes(nextSort) ? nextSort : "recommended");
   }, [searchParams]);
+
+  useEffect(() => {
+    const refresh = () => setSavedIds(loadSavedCareerIds());
+    refresh();
+    window.addEventListener(SAVED_CAREERS_CHANGED_EVENT, refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener(SAVED_CAREERS_CHANGED_EVENT, refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -262,6 +282,27 @@ export function ExploreCatalog() {
           })}
         </div>
       </div>
+
+      {savedCareers.length > 0 && (
+        <section className="surface-card p-5">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="label-accent">Saved shortlist</p>
+              <h2 className="mt-2 font-display text-2xl font-light text-ink">
+                Your bookmarked careers
+              </h2>
+            </div>
+            <p className="label">
+              {savedCareers.length} saved {savedCareers.length === 1 ? "role" : "roles"}
+            </p>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {savedCareers.slice(0, 3).map((career) => (
+              <CareerCard key={career.id} career={career} compact />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Filters */}
       <div className="sticky top-[var(--header-height)] z-30 -mx-6 border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
