@@ -7,6 +7,7 @@ import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
 import { RecentCareers } from "@/components/recent-careers";
 import { SavedCareers } from "@/components/saved-careers";
+import { SurpriseMeButton } from "@/components/surprise-me-button";
 import { SectionLabel } from "@/components/section-label";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
@@ -177,7 +178,9 @@ export function ExploreCatalog() {
               Filter the map
             </span>
           </SectionLabel>
-          <div className="relative inline-flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <SurpriseMeButton />
+            <div className="relative inline-flex items-center gap-2">
             <ArrowUpDown className="h-3.5 w-3.5 text-smoke" />
             <label htmlFor="sort" className="sr-only">
               Sort results
@@ -194,6 +197,7 @@ export function ExploreCatalog() {
                 </option>
               ))}
             </select>
+            </div>
           </div>
         </div>
 
