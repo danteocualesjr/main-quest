@@ -59,7 +59,7 @@ export function CareerCompareTray() {
           <button
             type="button"
             onClick={clearAll}
-            className="text-xs font-medium text-smoke transition hover:text-tomato"
+            className="rounded-full px-2 py-1 text-xs font-medium text-smoke transition hover:bg-tomato/5 hover:text-tomato focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/30"
           >
             Clear all
           </button>
