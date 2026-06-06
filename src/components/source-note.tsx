@@ -23,7 +23,7 @@ export function SourceNote(props: SourceNoteProps) {
       : PATH_MESSAGES[props.source];
 
   return (
-    <details className="mt-4 max-w-2xl rounded-xl border border-ink/10 bg-cream/80 px-4 py-3 text-sm leading-relaxed text-smoke shadow-paper">
+    <details className="group/source mt-4 max-w-2xl rounded-xl border border-ink/10 bg-cream/80 px-4 py-3 text-sm leading-relaxed text-smoke shadow-paper transition hover:border-tomato/20 hover:shadow-soft open:border-tomato/25 open:shadow-soft">
       <summary className="flex cursor-pointer list-none items-start gap-2 text-smoke marker:hidden">
         <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-tomato/70" aria-hidden />
         <span>
