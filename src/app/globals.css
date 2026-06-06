@@ -495,3 +495,24 @@
     scroll-margin-top: calc(var(--header-height) + 1rem);
   }
 }
+
+@media print {
+  header,
+  footer,
+  .print\\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: #1c1917 !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  a[href]::after {
+    content: none;
+  }
+}

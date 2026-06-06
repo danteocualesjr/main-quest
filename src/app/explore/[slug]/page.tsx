@@ -12,6 +12,7 @@ import { CareerViewTracker } from "@/components/career-view-tracker";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
 import { SaveCareerButton } from "@/components/save-career-button";
+import { PrintCareerButton } from "@/components/print-career-button";
 import { ShareCareerButton } from "@/components/share-career-button";
 import { SectionLabel } from "@/components/section-label";
 import {
@@ -100,6 +101,7 @@ export default async function CareerDetailPage({ params }: Props) {
             </QuestButton>
             <SaveCareerButton careerId={career.id} />
             <ShareCareerButton title={career.title} tagline={career.tagline} />
+            <PrintCareerButton />
           </div>
         </header>
 
@@ -233,7 +235,7 @@ export default async function CareerDetailPage({ params }: Props) {
       </Container>
 
       {/* Sticky mobile CTA, appears on small screens only */}
-      <div className="sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 shadow-[var(--shadow-sticky)] backdrop-blur-lg md:hidden">
+      <div className="print:hidden sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 shadow-[var(--shadow-sticky)] backdrop-blur-lg md:hidden">
         <Container className="flex items-center justify-between gap-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3">
           <div className="min-w-0">
             <p className="label">Ready?</p>
