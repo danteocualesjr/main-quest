@@ -38,6 +38,7 @@ export function ScrollProgress() {
     <div
       aria-hidden
       className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 motion-reduce:hidden"
+      style={{ opacity: progress > 0 ? 1 : 0 }}
     >
       <div
         className="h-full origin-left bg-gradient-to-r from-tomato via-ember to-tomato transition-[width] duration-150 ease-out"
