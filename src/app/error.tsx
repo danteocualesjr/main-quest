@@ -34,8 +34,8 @@ export default function Error({
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <QuestButton onClick={() => reset()} size="lg">
-            <RotateCcw className="h-4 w-4" />
+          <QuestButton onClick={() => reset()} size="lg" className="group/retry">
+            <RotateCcw className="h-4 w-4 transition group-hover/retry:-rotate-45" />
             Try again
           </QuestButton>
           <Link
