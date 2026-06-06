@@ -35,7 +35,7 @@ export function SessionResumeBanner({ message, storageKey }: SessionResumeBanner
       <button
         type="button"
         onClick={dismiss}
-        className="inline-flex items-center gap-1.5 self-start rounded-full border border-ink/15 px-3 py-1.5 text-xs font-medium text-smoke transition hover:border-tomato/30 hover:text-ink sm:self-center"
+        className="inline-flex items-center gap-1.5 self-start rounded-full border border-ink/15 px-3 py-1.5 text-xs font-medium text-smoke transition hover:border-tomato/30 hover:bg-paper hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/30 sm:self-center"
       >
         <X className="h-3.5 w-3.5" />
         Dismiss
