@@ -37,7 +37,7 @@ export function ScrollProgress() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 motion-reduce:hidden"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 motion-reduce:hidden transition-opacity duration-200"
       style={{ opacity: progress > 0 ? 1 : 0 }}
     >
       <div
