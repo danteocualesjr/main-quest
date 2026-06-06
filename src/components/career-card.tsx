@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight, GraduationCap, TrendingUp } from "lucide-react";
+import { CompareCareerButton } from "@/components/compare-career-button";
 import { SaveCareerButton } from "@/components/save-career-button";
 import { formatSalary, formatSalaryRange } from "@/lib/careers";
 import type { Career } from "@/lib/types";
@@ -14,6 +15,7 @@ type CareerCardProps = {
   dark?: boolean;
   compact?: boolean;
   showSave?: boolean;
+  showCompare?: boolean;
 };
 
 // Anchor the salary scale to a generous US ceiling so cards stay visually comparable.
@@ -116,6 +118,7 @@ export function CareerCard({
   dark,
   compact,
   showSave = false,
+  showCompare = false,
 }: CareerCardProps) {
   if (dark) {
     return (
@@ -194,13 +197,12 @@ export function CareerCard({
           </span>
         </div>
         <div className="flex items-center gap-2">
-          {showSave && (
-            <SaveCareerButton careerId={career.id} compact />
-          )}
+          {showCompare && <CompareCareerButton careerId={career.id} />}
+          {showSave && <SaveCareerButton careerId={career.id} compact />}
           {matchScore !== undefined ? (
             <MatchScoreRing score={matchScore} />
           ) : (
-            !showSave && (
+            !showSave && !showCompare && (
               <ArrowUpRight className="h-4 w-4 text-ink/40 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-tomato" />
             )
           )}

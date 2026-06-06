@@ -54,3 +54,32 @@ export function toggleSavedCareer(careerId: string): boolean {
   writeJson("saved-careers", next);
   return !exists;
 }
+
+const MAX_COMPARE = 2;
+
+export function getCompareCareerIds(): string[] {
+  return readJson<string[]>("compare-careers") ?? [];
+}
+
+export function isInCompare(careerId: string): boolean {
+  return getCompareCareerIds().includes(careerId);
+}
+
+/** Toggle compare slot. Returns true if added, false if removed. Returns null if at capacity. */
+export function toggleCompareCareer(careerId: string): boolean | null {
+  const current = getCompareCareerIds();
+  if (current.includes(careerId)) {
+    writeJson(
+      "compare-careers",
+      current.filter((id) => id !== careerId)
+    );
+    return false;
+  }
+  if (current.length >= MAX_COMPARE) return null;
+  writeJson("compare-careers", [...current, careerId]);
+  return true;
+}
+
+export function clearCompareCareers(): void {
+  writeJson("compare-careers", []);
+}

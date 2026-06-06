@@ -7,6 +7,7 @@ import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
 import { RecentCareers } from "@/components/recent-careers";
 import { SavedCareers } from "@/components/saved-careers";
+import { CareerCompareTray } from "@/components/career-compare-tray";
 import { SurpriseMeButton } from "@/components/surprise-me-button";
 import { SectionLabel } from "@/components/section-label";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
@@ -402,11 +403,12 @@ export function ExploreCatalog() {
               className="animate-fade-up"
               style={{ animationDelay: `${Math.min(i, 8) * 35}ms` }}
             >
-              <CareerCard career={career} showSave />
+              <CareerCard career={career} showSave showCompare />
             </li>
           ))}
         </ul>
       )}
+      <CareerCompareTray />
     </div>
   );
 }
