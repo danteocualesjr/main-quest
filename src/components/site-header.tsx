@@ -95,7 +95,7 @@ export function SiteHeader() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "group/nav relative rounded-2xl px-3.5 py-2 text-sm font-medium transition",
-                  active ? "nav-pill-active text-ink" : "text-smoke transition duration-200 hover:bg-ink/[0.04] hover:text-ink"
+                  active ? "nav-pill-active text-ink" : "text-smoke transition duration-200 hover:bg-ink/[0.04] hover:text-ink focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                 )}
               >
                 <span className="flex flex-col leading-none">
