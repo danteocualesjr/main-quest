@@ -27,7 +27,7 @@ export function SectionLabel({
         <span className="font-mono text-xs font-medium tabular tracking-tight">{number}</span>
       )}
       {number && (
-        <span className="h-px w-10 bg-current opacity-30 transition group-hover/label:w-12" />
+        <span className="h-px w-10 bg-current opacity-30 transition-all duration-300 group-hover/label:w-12 group-hover/label:opacity-50" />
       )}
       <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em]">
         {children}
