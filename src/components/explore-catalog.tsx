@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
+import { RecentCareers } from "@/components/recent-careers";
 import { SectionLabel } from "@/components/section-label";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
@@ -114,6 +115,8 @@ export function ExploreCatalog() {
 
   return (
     <div className="space-y-12">
+      <RecentCareers />
+
       {/* Stats strip */}
       <dl className="grid gap-3 sm:grid-cols-3">
         <Stat n={<CountUp value={stats.totalCareers} />} label="Career paths" />

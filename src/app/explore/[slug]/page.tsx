@@ -7,6 +7,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Container } from "@/components/container";
+import { CareerViewTracker } from "@/components/career-view-tracker";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
@@ -59,6 +60,7 @@ export default async function CareerDetailPage({ params }: Props) {
 
   return (
     <>
+      <CareerViewTracker careerId={career.id} />
       <Container className="pb-32 md:pb-20">
         <Link
           href="/explore"
