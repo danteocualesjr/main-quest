@@ -310,11 +310,11 @@
   }
 
   .filter-chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1 text-xs font-medium text-ink transition hover:border-tomato hover:text-tomato active:scale-[0.98] motion-reduce:active:scale-100 focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2;
   }
 
   .prompt-chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-ink shadow-paper transition hover:-translate-y-0.5 hover:border-tomato/50 hover:bg-tomato/5 hover:text-tomato hover:shadow-soft active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-ink shadow-paper transition hover:-translate-y-0.5 hover:border-tomato/50 hover:bg-tomato/5 hover:text-tomato hover:shadow-soft active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2;
   }
 
   .filter-chip-active {
@@ -436,7 +436,7 @@
   }
 
   .stat-tile {
-    @apply rounded-xl border border-ink/10 bg-cream/80 px-4 py-5 transition duration-200 md:border-0 md:bg-transparent md:px-0 md:py-0;
+    @apply rounded-xl border border-ink/10 bg-cream/80 px-4 py-5 transition duration-200 dark:bg-cream/30 md:border-0 md:bg-transparent md:px-0 md:py-0 dark:md:bg-transparent;
   }
 
   .hero-signal {
@@ -456,7 +456,7 @@
   }
 
   .path-card {
-    @apply relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream p-5 shadow-paper transition duration-300;
+    @apply relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-cream p-5 shadow-paper transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper;
   }
 
   .journey-rail {
@@ -474,7 +474,7 @@
   }
 
   .journey-step {
-    @apply relative rounded-2xl border border-ink/10 bg-paper/70 p-4 transition duration-200;
+    @apply relative rounded-2xl border border-ink/10 bg-paper/70 p-4 transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2 focus-visible:ring-offset-paper;
   }
 
   @media (hover: hover) {
