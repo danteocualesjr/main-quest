@@ -153,7 +153,7 @@ export function SiteHeader() {
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "flex items-center justify-between py-4 transition",
-                      active ? "text-ink" : "text-graphite"
+                      active ? "text-ink" : "text-graphite hover:bg-ink/[0.03]"
                     )}
                   >
                     <span className="flex items-baseline gap-3">
