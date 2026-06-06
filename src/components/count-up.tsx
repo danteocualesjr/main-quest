@@ -77,7 +77,7 @@ export function CountUp({
   }, [value, durationMs]);
 
   return (
-    <span ref={ref} className={cn("tabular", className)}>
+    <span ref={ref} className={cn("tabular", className)} aria-live="off">
       {prefix}
       {display.toLocaleString("en-US")}
       {suffix}
