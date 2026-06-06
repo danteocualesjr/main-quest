@@ -68,7 +68,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       title={label}
       aria-pressed={mounted ? isDark : undefined}
       className={cn(
-        "group relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink transition hover:border-tomato hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato/40 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:scale-95",
+        "group relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink transition hover:border-tomato hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato/40 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:scale-95 motion-reduce:active:scale-100",
         className
       )}
     >
