@@ -48,7 +48,7 @@ export default function Error({
         </div>
 
         {error.digest && (
-          <p className="mt-10 font-mono text-[11px] uppercase tracking-[0.18em] text-ash">
+          <p className="mt-10 inline-flex rounded-full border border-ink/10 bg-cream/80 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ash">
             Ref · {error.digest}
           </p>
         )}
