@@ -370,7 +370,7 @@ export function ExploreCatalog() {
       </div>
 
       {results.length === 0 ? (
-        <div className="surface-card-soft grid gap-6 p-10 text-center md:p-16">
+        <div className="surface-card-soft grid animate-fade-up gap-6 p-10 text-center md:p-16">
           <div>
             <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-ink/10 bg-paper text-tomato">
               <Compass className="h-6 w-6" />
