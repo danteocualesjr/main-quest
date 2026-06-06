@@ -70,7 +70,10 @@ export function PageHeader({
               className="mt-8 inline-flex animate-fade-up items-center gap-2 rounded-full border border-ink/15 bg-cream px-3 py-1.5 text-xs font-medium text-smoke"
               style={{ animationDelay: "200ms" }}
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-moss" />
+              <span className="relative inline-flex h-1.5 w-1.5">
+                <span className="absolute inset-0 animate-pulse-soft rounded-full bg-moss" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moss" />
+              </span>
               {meta}
             </div>
           )}
