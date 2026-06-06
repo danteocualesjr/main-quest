@@ -33,7 +33,7 @@ export function QuestButton({
     variant === "ink" &&
       "bg-ink text-cream shadow-paper hover:-translate-y-0.5 hover:bg-graphite hover:shadow-soft focus-visible:outline-ink focus-visible:ring-2 focus-visible:ring-ink/30 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0",
     variant === "ghost" &&
-      "border border-ink/15 bg-transparent text-ink hover:-translate-y-0.5 hover:bg-ink hover:text-cream hover:shadow-paper focus-visible:outline-ink motion-reduce:hover:translate-y-0",
+      "border border-ink/15 bg-transparent text-ink hover:-translate-y-0.5 hover:bg-ink hover:text-cream hover:shadow-paper focus-visible:outline-ink motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
     variant === "link" && "text-ink underline-offset-4 hover:text-tomato",
     className
   );
