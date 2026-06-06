@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 type CountUpProps = {
   value: number;
@@ -31,7 +28,7 @@ export function CountUp({
   const ref = useRef<HTMLSpanElement>(null);
   const [display, setDisplay] = useState(value);
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     const node = ref.current;
     if (!node) return;
 
@@ -42,8 +39,6 @@ export function CountUp({
     if (prefersReduced || typeof IntersectionObserver === "undefined") {
       return;
     }
-
-    setDisplay(0);
 
     let raf = 0;
     let start = 0;
@@ -61,6 +56,7 @@ export function CountUp({
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
+            setDisplay(0);
             raf = requestAnimationFrame(step);
             observer.disconnect();
           }

@@ -7,6 +7,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Container } from "@/components/container";
+import { CareerBreadcrumbs } from "@/components/career-breadcrumbs";
 import { CopyProfileLink } from "@/components/copy-profile-link";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";

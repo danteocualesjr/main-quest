@@ -1,13 +1,7 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-
-// Run before paint on the client so we can hide the element ahead of the first
-// frame without a flash; on the server fall back to the standard effect so React
-// doesn't warn about useLayoutEffect during SSR.
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 type RevealProps = {
   children: React.ReactNode;
@@ -36,7 +30,7 @@ export function Reveal({
   // Start shown so SSR / no-JS / reduced-motion always render visible content.
   const [shown, setShown] = useState(true);
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     const node = ref.current;
     if (!node) return;
 
@@ -48,7 +42,6 @@ export function Reveal({
       return;
     }
 
-    // Hide before the browser paints, then reveal once scrolled into view.
     setShown(false);
 
     const observer = new IntersectionObserver(

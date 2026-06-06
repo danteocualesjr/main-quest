@@ -4,7 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
-  useLayoutEffect,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -69,8 +69,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
-  // Re-apply after hydration — React may replace <html> className and drop `dark`.
-  useLayoutEffect(() => {
+  // Sync after hydration — blocking script sets the class; this aligns React state.
+  useEffect(() => {
     const resolved = resolveTheme();
     applyTheme(resolved);
     setTheme(resolved);
