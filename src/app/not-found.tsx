@@ -56,7 +56,7 @@ export default function NotFound() {
           <li key={href}>
             <Link
               href={href}
-              className="journey-step group flex items-center justify-between gap-4"
+              className="journey-step group flex items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2"
             >
               <span className="flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 bg-cream text-ink transition group-hover:border-tomato group-hover:bg-tomato/10 group-hover:text-tomato">
