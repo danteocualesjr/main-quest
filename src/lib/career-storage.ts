@@ -34,3 +34,23 @@ export function recordRecentCareer(careerId: string): void {
 export function getRecentCareerIds(): string[] {
   return readJson<string[]>("recent-careers") ?? [];
 }
+
+const MAX_SAVED = 12;
+
+export function getSavedCareerIds(): string[] {
+  return readJson<string[]>("saved-careers") ?? [];
+}
+
+export function isCareerSaved(careerId: string): boolean {
+  return getSavedCareerIds().includes(careerId);
+}
+
+export function toggleSavedCareer(careerId: string): boolean {
+  const current = getSavedCareerIds();
+  const exists = current.includes(careerId);
+  const next = exists
+    ? current.filter((id) => id !== careerId)
+    : [careerId, ...current].slice(0, MAX_SAVED);
+  writeJson("saved-careers", next);
+  return !exists;
+}

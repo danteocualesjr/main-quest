@@ -10,6 +10,7 @@ import { Container } from "@/components/container";
 import { CareerViewTracker } from "@/components/career-view-tracker";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
+import { SaveCareerButton } from "@/components/save-career-button";
 import { SectionLabel } from "@/components/section-label";
 import {
   formatSalary,
@@ -89,11 +90,12 @@ export default async function CareerDetailPage({ params }: Props) {
             {career.summary}
           </p>
 
-          <div className="mt-10 hidden md:block">
+          <div className="mt-10 hidden flex-wrap items-center gap-3 md:flex">
             <QuestButton href={`/path?goal=${encodeURIComponent(career.title)}`} size="lg">
               <Briefcase className="h-4 w-4" />
               Build my roadmap to {career.title}
             </QuestButton>
+            <SaveCareerButton careerId={career.id} />
           </div>
         </header>
 

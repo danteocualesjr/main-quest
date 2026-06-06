@@ -5,6 +5,7 @@ import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
 import { RecentCareers } from "@/components/recent-careers";
+import { SavedCareers } from "@/components/saved-careers";
 import { SectionLabel } from "@/components/section-label";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
@@ -115,6 +116,7 @@ export function ExploreCatalog() {
 
   return (
     <div className="space-y-12">
+      <SavedCareers />
       <RecentCareers />
 
       {/* Stats strip */}
@@ -357,7 +359,7 @@ export function ExploreCatalog() {
               className="animate-fade-up"
               style={{ animationDelay: `${Math.min(i, 8) * 35}ms` }}
             >
-              <CareerCard career={career} />
+              <CareerCard career={career} showSave />
             </li>
           ))}
         </ul>
