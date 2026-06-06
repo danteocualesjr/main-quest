@@ -12,6 +12,7 @@ import { SectionLabel } from "@/components/section-label";
 import { FormProgress } from "@/components/form-progress";
 import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
 import { ShareResults } from "@/components/share-results";
+import { SessionResumeBanner } from "@/components/session-resume-banner";
 import { SourceNote } from "@/components/source-note";
 import { formatPathExport } from "@/lib/export-results";
 import { careers } from "@/lib/careers";
@@ -160,6 +161,7 @@ export function PathForm() {
     setSuggestions(saved.suggestions);
     setSource(saved.source);
     if (saved.path || saved.suggestions.length > 0) {
+      setResumedSession(true);
       setSubmittedGoal(saved.goal.trim());
       setSubmittedGrade(saved.gradeLevel);
     }
@@ -228,6 +230,12 @@ export function PathForm() {
 
   return (
     <div className="space-y-20">
+      {resumedSession && (path || suggestions.length > 0) && (
+        <SessionResumeBanner
+          storageKey="main-quest:dismiss-path-resume"
+          message="Welcome back — your last roadmap is still here. Change your goal above to build a new one."
+        />
+      )}
       <form
         id="page-form"
         onSubmit={handleSubmit}

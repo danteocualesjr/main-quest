@@ -69,7 +69,7 @@ export function SiteHeader() {
       <Container className="flex items-center justify-between py-4">
         <Link
           href="/"
-          className="group flex items-center gap-3"
+          className="group flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/40 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           aria-label="Main Quest, home"
         >
           <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-ink text-cream shadow-paper transition group-hover:scale-105 group-hover:bg-tomato group-hover:shadow-glow">
@@ -153,7 +153,7 @@ export function SiteHeader() {
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "flex items-center justify-between py-4 transition",
-                      active ? "text-ink" : "text-graphite"
+                      active ? "text-ink" : "text-graphite hover:bg-ink/[0.03]"
                     )}
                   >
                     <span className="flex items-baseline gap-3">

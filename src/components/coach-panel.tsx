@@ -60,7 +60,7 @@ export function CoachPanel({ context }: CoachPanelProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="coach-launcher group mt-12 flex w-full items-start gap-5 active:scale-[0.995]"
+        className="coach-launcher group mt-12 flex w-full items-start gap-5 focus-visible:ring-2 focus-visible:ring-tomato/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:scale-[0.995]"
         aria-expanded={false}
         aria-controls="coach-panel"
       >

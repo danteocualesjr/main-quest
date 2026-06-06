@@ -87,9 +87,10 @@ export default async function CareerDetailPage({ params }: Props) {
           <ArrowLeft className="h-4 w-4" />
           Back to the map
         </Link>
+        <CareerBreadcrumbs category={career.category} title={career.title} />
 
         {/* Header */}
-        <header className="mt-8 border-b border-ink/10 pb-12">
+        <header className="mt-6 border-b border-ink/10 pb-12">
           <SectionLabel variant="accent">{career.category}</SectionLabel>
           <h1 className="mt-6 max-w-4xl animate-fade-up font-display text-display-1 font-light tracking-tightest text-ink">
             {career.title}
@@ -283,7 +284,7 @@ export default async function CareerDetailPage({ params }: Props) {
       </Container>
 
       {/* Sticky mobile CTA, appears on small screens only */}
-      <div className="sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 shadow-[var(--shadow-sticky)] backdrop-blur-lg md:hidden">
+      <div className="print:hidden sticky bottom-0 z-40 border-t border-ink/15 bg-paper/95 shadow-[var(--shadow-sticky)] backdrop-blur-lg md:hidden">
         <Container className="flex items-center justify-between gap-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3">
           <div className="min-w-0">
             <p className="label">Ready?</p>

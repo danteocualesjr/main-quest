@@ -74,6 +74,10 @@
     @apply outline-none ring-2 ring-tomato/45 ring-offset-2 ring-offset-paper;
   }
 
+  .dark :focus-visible {
+    @apply ring-offset-cream;
+  }
+
   * {
     scrollbar-width: thin;
     scrollbar-color: rgb(var(--c-ink) / 0.18) transparent;
@@ -198,6 +202,11 @@
 
   .input-block:hover {
     @apply border-ink/25;
+  }
+
+  textarea.input-block {
+    min-height: 6rem;
+    resize: vertical;
   }
 
   /* Replace the inconsistent native select arrow with a uniform chevron. */
@@ -523,5 +532,26 @@
 @layer utilities {
   .anchor-offset {
     scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+}
+
+@media print {
+  header,
+  footer,
+  .print\\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: #1c1917 !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  a[href]::after {
+    content: none;
   }
 }

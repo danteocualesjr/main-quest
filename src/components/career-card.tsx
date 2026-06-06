@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, GraduationCap, TrendingUp } from "lucide-react";
+import { CompareCareerButton } from "@/components/compare-career-button";
+import { SaveCareerButton } from "@/components/save-career-button";
 import { formatSalary, formatSalaryRange } from "@/lib/careers";
 import type { Career } from "@/lib/types";
 import { EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
@@ -12,6 +14,8 @@ type CareerCardProps = {
   index?: number;
   dark?: boolean;
   compact?: boolean;
+  showSave?: boolean;
+  showCompare?: boolean;
 };
 
 // Anchor the salary scale to a generous US ceiling so cards stay visually comparable.
@@ -113,6 +117,8 @@ export function CareerCard({
   index,
   dark,
   compact,
+  showSave = false,
+  showCompare = false,
 }: CareerCardProps) {
   if (dark) {
     return (
@@ -173,7 +179,7 @@ export function CareerCard({
     <Link
       href={`/explore/${career.id}`}
       className={cn(
-        "group card-lift relative flex min-h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-cream p-6 transition hover:border-tomato/30 hover:shadow-lift",
+        "group card-lift relative flex min-h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-cream p-6 transition hover:border-tomato/30 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
         compact && "p-5"
       )}
     >
@@ -190,11 +196,17 @@ export function CareerCard({
             {EDUCATION_LABELS[career.education]}
           </span>
         </div>
-        {matchScore !== undefined ? (
-          <MatchScoreRing score={matchScore} />
-        ) : (
-          <ArrowUpRight className="h-4 w-4 text-ink/40 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-tomato" />
-        )}
+        <div className="flex items-center gap-2">
+          {showCompare && <CompareCareerButton careerId={career.id} />}
+          {showSave && <SaveCareerButton careerId={career.id} compact />}
+          {matchScore !== undefined ? (
+            <MatchScoreRing score={matchScore} />
+          ) : (
+            !showSave && !showCompare && (
+              <ArrowUpRight className="h-4 w-4 text-ink/40 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-tomato" />
+            )
+          )}
+        </div>
       </div>
 
       <h3

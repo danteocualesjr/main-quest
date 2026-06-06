@@ -268,6 +268,7 @@ export default function HomePage() {
           {/* Scroll hint */}
           <a
             href="#doors"
+            aria-label="Scroll to the three doors section"
             className="group/hint mt-16 hidden w-fit animate-fade-in items-center gap-3 text-smoke transition hover:text-tomato md:flex"
             style={{ animationDelay: "520ms" }}
           >
@@ -391,7 +392,7 @@ export default function HomePage() {
               {quotes.map(({ text, who }, i) => (
                 <figure
                   key={who}
-                  className="relative rounded-r-xl border-l-2 border-tomato bg-paper px-8 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft"
+                  className="relative rounded-xl border-l-2 border-tomato bg-paper px-8 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft motion-reduce:hover:translate-y-0"
                 >
                   <Quote
                     className="absolute -left-px top-7 h-5 w-5 -translate-x-[10px] bg-cream text-tomato"
@@ -484,8 +485,8 @@ function Stat({
   unit?: string;
 }) {
   return (
-    <div className="stat-tile">
-      <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
+    <div className="stat-tile group/stat">
+      <p className="font-display text-3xl font-light tabular text-ink transition group-hover/stat:text-tomato md:text-4xl">
         {n}
         {unit && (
           <span className="ml-1 font-mono text-xs font-medium uppercase tracking-widest text-smoke">
@@ -500,7 +501,7 @@ function Stat({
 
 function Step({ n, title, body }: { n: string; title: string; body: string }) {
   return (
-    <li className="grid grid-cols-[auto_1fr] gap-6 border-l-2 border-ink/10 pl-6 transition hover:border-tomato/40">
+    <li className="grid grid-cols-[auto_1fr] gap-6 border-l-2 border-ink/10 pl-6 transition hover:border-tomato/40 motion-reduce:hover:border-ink/10">
       <span className="font-mono text-sm uppercase tabular text-tomato pt-1">{n}</span>
       <div>
         <p className="font-display text-2xl font-light text-ink">{title}</p>

@@ -9,6 +9,7 @@ import { QuestButton } from "@/components/quest-button";
 import { SectionLabel } from "@/components/section-label";
 import { FormProgress } from "@/components/form-progress";
 import { ScrollToFormBar } from "@/components/scroll-to-form-bar";
+import { SessionResumeBanner } from "@/components/session-resume-banner";
 import { ShareResults } from "@/components/share-results";
 import { SourceNote } from "@/components/source-note";
 import { formatDiscoverExport } from "@/lib/export-results";
@@ -81,6 +82,7 @@ export function DiscoverForm() {
     setResults(saved.results);
     setSource(saved.source);
     if (saved.results) {
+      setResumedSession(true);
       setSubmittedProfile({
         likes: saved.likes,
         strengths: saved.strengths,
@@ -181,6 +183,12 @@ export function DiscoverForm() {
 
   return (
     <div className="space-y-20">
+      {resumedSession && results && results.length > 0 && (
+        <SessionResumeBanner
+          storageKey="main-quest:dismiss-discover-resume"
+          message="Welcome back — your last career matches are still here. Edit your answers above to refresh them."
+        />
+      )}
       <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr]">
         <div className="lg:hidden">
           <TipsCard compact />

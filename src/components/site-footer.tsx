@@ -30,7 +30,7 @@ export function SiteFooter() {
       <Container className="grid gap-14 py-16 md:grid-cols-[1.2fr_1.4fr_1fr]">
         <div>
           <div className="group/logo flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-cream transition group-hover/logo:scale-105">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-cream shadow-paper transition group-hover/logo:scale-105 group-hover/logo:bg-tomato group-hover/logo:shadow-glow">
               <span className="font-display text-lg font-semibold leading-none">M</span>
             </span>
             <span className="font-display text-lg font-semibold text-ink">Main Quest</span>

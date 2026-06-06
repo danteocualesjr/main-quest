@@ -5,6 +5,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
+import { RecentCareers } from "@/components/recent-careers";
+import { SavedCareers } from "@/components/saved-careers";
+import { CareerCompareTray } from "@/components/career-compare-tray";
+import { SurpriseMeButton } from "@/components/surprise-me-button";
 import { SectionLabel } from "@/components/section-label";
 import { careers, formatSalary } from "@/lib/careers";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
@@ -38,6 +42,8 @@ const QUICK_FILTERS = [
   { key: "healthcare", label: "Healthcare", kind: "category", value: "Healthcare" },
   { key: "certificate", label: "Certificate paths", kind: "education", value: "certificate" },
 ] as const;
+
+const SORT_KEYS = new Set(Object.keys(SORT_LABELS));
 
 export function ExploreCatalog() {
   const pathname = usePathname();
@@ -199,6 +205,39 @@ export function ExploreCatalog() {
   }, [category, education, growth, minSalary, pathname, query, router, searchParams, sortBy]);
 
   useEffect(() => {
+    if (urlHydrated.current) return;
+    urlHydrated.current = true;
+
+    setQuery(searchParams.get("q") ?? "");
+    setCategory(searchParams.get("cat") ?? "");
+    setMinSalary(searchParams.get("sal") ?? "");
+    setEducation(searchParams.get("edu") ?? "");
+    setGrowth(searchParams.get("grw") ?? "");
+    const sort = searchParams.get("sort");
+    if (sort && SORT_KEYS.has(sort)) {
+      setSortBy(sort as SortBy);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!urlHydrated.current) return;
+
+    const params = new URLSearchParams();
+    if (query) params.set("q", query);
+    if (category) params.set("cat", category);
+    if (minSalary) params.set("sal", minSalary);
+    if (education) params.set("edu", education);
+    if (growth) params.set("grw", growth);
+    if (sortBy !== "recommended") params.set("sort", sortBy);
+
+    const next = params.toString();
+    const current = searchParams.toString();
+    if (next === current) return;
+
+    router.replace(next ? `/explore?${next}` : "/explore", { scroll: false });
+  }, [query, category, minSalary, education, growth, sortBy, router, searchParams]);
+
+  useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.target as HTMLElement;
@@ -255,6 +294,9 @@ export function ExploreCatalog() {
 
   return (
     <div className="space-y-12">
+      <SavedCareers />
+      <RecentCareers />
+
       {/* Stats strip */}
       <dl className="grid gap-3 sm:grid-cols-3">
         <Stat n={<CountUp value={stats.totalCareers} />} label="Career paths" />
@@ -410,7 +452,9 @@ export function ExploreCatalog() {
               Filter the map
             </span>
           </SectionLabel>
-          <div className="relative inline-flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <SurpriseMeButton />
+            <div className="relative inline-flex items-center gap-2">
             <ArrowUpDown className="h-3.5 w-3.5 text-smoke" />
             <label htmlFor="sort" className="sr-only">
               Sort results
@@ -427,6 +471,7 @@ export function ExploreCatalog() {
                 </option>
               ))}
             </select>
+            </div>
           </div>
         </div>
 
@@ -596,7 +641,7 @@ export function ExploreCatalog() {
       </div>
 
       {results.length === 0 ? (
-        <div className="surface-card-soft grid gap-6 p-10 text-center md:p-16">
+        <div className="surface-card-soft grid animate-fade-up gap-6 p-10 text-center md:p-16">
           <div>
             <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-ink/10 bg-paper text-tomato">
               <Compass className="h-6 w-6" />
@@ -660,6 +705,7 @@ export function ExploreCatalog() {
           ))}
         </ul>
       )}
+      <CareerCompareTray />
     </div>
   );
 }

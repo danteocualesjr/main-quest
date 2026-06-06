@@ -5,6 +5,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { BackToTop } from "@/components/back-to-top";
+import { ScrollProgress } from "@/components/scroll-progress";
 
 const display = Fraunces({
   subsets: ["latin"],
@@ -87,10 +88,11 @@ export default function RootLayout({
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-cream"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-cream focus:shadow-lift"
         >
           Skip to main content
         </a>
+        <ScrollProgress />
         <SiteHeader />
         <main id="main-content" className="min-h-[calc(100vh-12rem)] pb-10">
           {children}

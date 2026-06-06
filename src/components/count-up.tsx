@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -76,7 +77,7 @@ export function CountUp({
   }, [value, durationMs]);
 
   return (
-    <span ref={ref} className={className}>
+    <span ref={ref} className={cn("tabular", className)}>
       {prefix}
       {display.toLocaleString("en-US")}
       {suffix}

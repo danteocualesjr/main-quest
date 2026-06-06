@@ -7,6 +7,11 @@ export function getCareerById(id: string): Career | undefined {
   return careers.find((c) => c.id === id);
 }
 
+/** Pick a random career from the catalog (uniform). */
+export function getRandomCareer(): Career {
+  return careers[Math.floor(Math.random() * careers.length)];
+}
+
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
