@@ -17,7 +17,12 @@ export function ScrollToFormBar({ label, targetId = "page-form" }: ScrollToFormB
       <button
         type="button"
         onClick={() => {
-          document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+          const reduceMotion =
+            typeof window.matchMedia === "function" &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          document
+            .getElementById(targetId)
+            ?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
         }}
         className="group sticky-pill active:scale-[0.98]"
       >
