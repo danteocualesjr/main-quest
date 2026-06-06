@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
@@ -34,8 +35,13 @@ const QUICK_FILTERS = [
   { key: "certificate", label: "Certificate paths", kind: "education", value: "certificate" },
 ] as const;
 
+const SORT_KEYS = new Set(Object.keys(SORT_LABELS));
+
 export function ExploreCatalog() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
+  const urlHydrated = useRef(false);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
   const [minSalary, setMinSalary] = useState("");
@@ -85,6 +91,39 @@ export function ExploreCatalog() {
     });
 
   const hasFilters = activeFilters.length > 0;
+
+  useEffect(() => {
+    if (urlHydrated.current) return;
+    urlHydrated.current = true;
+
+    setQuery(searchParams.get("q") ?? "");
+    setCategory(searchParams.get("cat") ?? "");
+    setMinSalary(searchParams.get("sal") ?? "");
+    setEducation(searchParams.get("edu") ?? "");
+    setGrowth(searchParams.get("grw") ?? "");
+    const sort = searchParams.get("sort");
+    if (sort && SORT_KEYS.has(sort)) {
+      setSortBy(sort as SortBy);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!urlHydrated.current) return;
+
+    const params = new URLSearchParams();
+    if (query) params.set("q", query);
+    if (category) params.set("cat", category);
+    if (minSalary) params.set("sal", minSalary);
+    if (education) params.set("edu", education);
+    if (growth) params.set("grw", growth);
+    if (sortBy !== "recommended") params.set("sort", sortBy);
+
+    const next = params.toString();
+    const current = searchParams.toString();
+    if (next === current) return;
+
+    router.replace(next ? `/explore?${next}` : "/explore", { scroll: false });
+  }, [query, category, minSalary, education, growth, sortBy, router, searchParams]);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Container } from "@/components/container";
 import { ExploreCatalog } from "@/components/explore-catalog";
 import { PageHeader } from "@/components/page-header";
@@ -26,7 +27,9 @@ export default function ExplorePage() {
         ]}
       />
       <div className="mt-12 md:mt-16">
-        <ExploreCatalog />
+        <Suspense fallback={<p className="text-sm text-smoke">Loading career map…</p>}>
+          <ExploreCatalog />
+        </Suspense>
       </div>
     </Container>
   );
