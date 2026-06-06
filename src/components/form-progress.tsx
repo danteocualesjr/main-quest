@@ -25,7 +25,7 @@ export function FormProgress({ total, filled, label, className }: FormProgressPr
           <span
             key={i}
             className={cn(
-              "h-2 flex-1 rounded-full transition-all duration-500 ease-out",
+              "h-2 flex-1 rounded-full transition-all duration-500 ease-out motion-reduce:transition-none",
               i < filled
                 ? "bg-gradient-to-r from-tomato to-ember shadow-[0_0_12px_-2px_rgb(var(--c-tomato)/0.55)]"
                 : "bg-ink/10"
