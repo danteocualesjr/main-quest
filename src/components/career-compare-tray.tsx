@@ -49,7 +49,7 @@ export function CareerCompareTray() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-ink/15 bg-paper/95 shadow-[var(--shadow-sticky)] backdrop-blur-lg print:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-50 animate-fade-up border-t border-ink/15 bg-paper/95 shadow-[var(--shadow-sticky)] backdrop-blur-lg print:hidden">
       <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-3">
           <p className="inline-flex items-center gap-2 text-sm font-medium text-ink">
