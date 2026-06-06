@@ -104,7 +104,7 @@ export function PageHeader({
               {highlights.map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-2xl border border-ink/10 bg-paper/70 px-4 py-3"
+                  className="rounded-2xl border border-ink/10 bg-paper/70 px-4 py-3 transition duration-200 hover:border-tomato/20 hover:bg-paper hover:shadow-paper"
                 >
                   <dt className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-smoke">
                     {item.label}
