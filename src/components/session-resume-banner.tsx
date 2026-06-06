@@ -26,7 +26,7 @@ export function SessionResumeBanner({ message, storageKey }: SessionResumeBanner
   return (
     <div
       role="status"
-      className="mb-8 flex flex-col gap-3 rounded-2xl border border-moss/25 bg-moss/5 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+      className="mb-8 flex animate-fade-up flex-col gap-3 rounded-2xl border border-moss/25 bg-moss/5 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
     >
       <p className="inline-flex items-start gap-2 text-sm text-ink">
         <RotateCcw className="mt-0.5 h-4 w-4 shrink-0 text-moss" />
