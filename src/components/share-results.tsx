@@ -64,7 +64,7 @@ export function ShareResults({
         >
           {copied ? (
             <>
-              <Check className="h-4 w-4 text-moss" />
+              <Check className="h-4 w-4 text-moss animate-fade-in" />
               Copied
             </>
           ) : (
