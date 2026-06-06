@@ -69,7 +69,7 @@ export function HeroPreview() {
             transformStyle: "preserve-3d",
           } as React.CSSProperties
         }
-        className="group corner-ticks relative block rounded-2xl border border-ink/12 bg-cream p-7 text-ink/20 shadow-lift will-change-transform hover:border-ink/20 md:p-8"
+        className="group corner-ticks relative block rounded-2xl border border-ink/12 bg-cream p-7 text-ink/20 shadow-lift will-change-transform hover:border-ink/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper md:p-8"
       >
         {/* Pointer-tracked spotlight */}
         <div
