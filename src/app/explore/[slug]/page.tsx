@@ -7,6 +7,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Container } from "@/components/container";
+import { CareerBreadcrumbs } from "@/components/career-breadcrumbs";
 import { CareerViewTracker } from "@/components/career-view-tracker";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
@@ -70,9 +71,10 @@ export default async function CareerDetailPage({ params }: Props) {
           <ArrowLeft className="h-4 w-4" />
           Back to the map
         </Link>
+        <CareerBreadcrumbs category={career.category} title={career.title} />
 
         {/* Header */}
-        <header className="mt-8 border-b border-ink/10 pb-12">
+        <header className="mt-6 border-b border-ink/10 pb-12">
           <SectionLabel variant="accent">{career.category}</SectionLabel>
           <h1 className="mt-6 max-w-4xl animate-fade-up font-display text-display-1 font-light tracking-tightest text-ink">
             {career.title}
