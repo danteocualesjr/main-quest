@@ -94,7 +94,7 @@ export default function RootLayout({
         </a>
         <ScrollProgress />
         <SiteHeader />
-        <main id="main-content" className="min-h-[calc(100vh-12rem)] pb-10">
+        <main id="main-content" className="min-h-[calc(100vh-12rem)] pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
           {children}
         </main>
         <SiteFooter />
