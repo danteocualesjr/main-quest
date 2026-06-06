@@ -18,7 +18,7 @@ export function SurpriseMeButton() {
         router.push(`/explore/${career.id}`);
       }}
     >
-      <Sparkles className="h-4 w-4 transition group-hover/btn:rotate-12 group-hover/btn:scale-110" />
+      <Sparkles className="h-4 w-4 transition group-hover/btn:rotate-12 group-hover/btn:scale-110 motion-reduce:group-hover/btn:rotate-0 motion-reduce:group-hover/btn:scale-100" />
       Surprise me
     </QuestButton>
   );
