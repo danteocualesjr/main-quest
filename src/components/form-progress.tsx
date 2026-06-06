@@ -14,7 +14,11 @@ export function FormProgress({ total, filled, label, className }: FormProgressPr
         "flex items-center gap-4 rounded-2xl border border-ink/10 bg-cream/55 px-4 py-3",
         className
       )}
+      role="progressbar"
       aria-label={label}
+      aria-valuemin={0}
+      aria-valuemax={total}
+      aria-valuenow={filled}
     >
       <div className="flex flex-1 gap-1.5">
         {Array.from({ length: total }, (_, i) => (
