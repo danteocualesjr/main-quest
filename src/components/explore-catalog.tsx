@@ -319,7 +319,7 @@ export function ExploreCatalog() {
             <button
               type="button"
               onClick={() => setCategory("")}
-              className="self-start text-sm font-medium text-ink transition hover:text-tomato sm:self-auto"
+              className="self-start rounded-full px-2 py-1 text-sm font-medium text-ink transition hover:bg-tomato/5 hover:text-tomato focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/30 sm:self-auto"
             >
               Clear category
             </button>
