@@ -125,7 +125,7 @@ export function CareerCard({
       <li>
         <Link
           href={`/explore/${career.id}`}
-          className="group relative grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 rounded-lg py-7 transition duration-300 hover:bg-cream/[0.06] md:gap-10 md:px-4"
+          className="group relative grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 rounded-lg py-7 transition duration-300 hover:bg-cream/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato/40 focus-visible:ring-offset-2 focus-visible:ring-offset-ink md:gap-10 md:px-4"
         >
           {/* Hover accent rail, matches the light-theme list pattern */}
           <span
