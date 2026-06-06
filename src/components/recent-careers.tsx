@@ -22,7 +22,7 @@ export function RecentCareers() {
   if (careers.length === 0) return null;
 
   return (
-    <section className="space-y-6 border-b border-ink/10 pb-12">
+    <section className="space-y-6 rounded-2xl border-b border-ink/10 pb-12">
       <SectionLabel>
         <span className="inline-flex items-center gap-2">
           <Clock className="h-3.5 w-3.5" />
