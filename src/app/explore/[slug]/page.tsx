@@ -12,6 +12,7 @@ import { CareerViewTracker } from "@/components/career-view-tracker";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
 import { SaveCareerButton } from "@/components/save-career-button";
+import { ShareCareerButton } from "@/components/share-career-button";
 import { SectionLabel } from "@/components/section-label";
 import {
   formatSalary,
@@ -98,6 +99,7 @@ export default async function CareerDetailPage({ params }: Props) {
               Build my roadmap to {career.title}
             </QuestButton>
             <SaveCareerButton careerId={career.id} />
+            <ShareCareerButton title={career.title} tagline={career.tagline} />
           </div>
         </header>
 
