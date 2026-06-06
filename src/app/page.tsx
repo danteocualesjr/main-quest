@@ -391,7 +391,7 @@ export default function HomePage() {
               {quotes.map(({ text, who }, i) => (
                 <figure
                   key={who}
-                  className="relative rounded-r-xl border-l-2 border-tomato bg-paper px-8 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft"
+                  className="relative rounded-xl border-l-2 border-tomato bg-paper px-8 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft motion-reduce:hover:translate-y-0"
                 >
                   <Quote
                     className="absolute -left-px top-7 h-5 w-5 -translate-x-[10px] bg-cream text-tomato"
@@ -484,8 +484,8 @@ function Stat({
   unit?: string;
 }) {
   return (
-    <div className="stat-tile">
-      <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
+    <div className="stat-tile group/stat">
+      <p className="font-display text-3xl font-light tabular text-ink transition group-hover/stat:text-tomato md:text-4xl">
         {n}
         {unit && (
           <span className="ml-1 font-mono text-xs font-medium uppercase tracking-widest text-smoke">
