@@ -11,7 +11,7 @@ export function CareerBreadcrumbs({ category, title }: CareerBreadcrumbsProps) {
     <nav aria-label="Breadcrumb" className="mt-8">
       <ol className="flex flex-wrap items-center gap-1.5 text-sm text-smoke">
         <li>
-          <Link href="/explore" className="transition hover:text-tomato">
+          <Link href="/explore" className="underline-link transition hover:text-tomato">
             Explore
           </Link>
         </li>
@@ -21,7 +21,7 @@ export function CareerBreadcrumbs({ category, title }: CareerBreadcrumbsProps) {
         <li>
           <Link
             href={`/explore?cat=${encodeURIComponent(category)}`}
-            className="transition hover:text-tomato"
+            className="underline-link transition hover:text-tomato"
           >
             {category}
           </Link>
