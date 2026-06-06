@@ -7,17 +7,16 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Container } from "@/components/container";
-import { CareerBreadcrumbs } from "@/components/career-breadcrumbs";
-import { CareerViewTracker } from "@/components/career-view-tracker";
+import { CopyProfileLink } from "@/components/copy-profile-link";
 import { CareerCard } from "@/components/career-card";
 import { QuestButton } from "@/components/quest-button";
+import { RecentCareerTracker } from "@/components/recent-career-tracker";
 import { SaveCareerButton } from "@/components/save-career-button";
-import { PrintCareerButton } from "@/components/print-career-button";
-import { ShareCareerButton } from "@/components/share-career-button";
 import { SectionLabel } from "@/components/section-label";
 import {
   formatSalary,
   formatSalaryRange,
+  careers,
   getCareerById,
   getRelatedCareers,
 } from "@/lib/careers";
@@ -29,6 +28,10 @@ import type { Metadata } from "next";
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export function generateStaticParams() {
+  return careers.map((career) => ({ slug: career.id }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -64,11 +67,22 @@ export default async function CareerDetailPage({ params }: Props) {
 
   return (
     <>
-      <CareerViewTracker careerId={career.id} />
+      <RecentCareerTracker careerId={career.id} />
       <Container className="pb-32 md:pb-20">
+        <nav className="mt-8 flex flex-wrap items-center gap-2 text-sm text-smoke" aria-label="Breadcrumb">
+          <Link href="/" className="transition hover:text-tomato">
+            Home
+          </Link>
+          <span aria-hidden>/</span>
+          <Link href="/explore" className="transition hover:text-tomato">
+            Explore
+          </Link>
+          <span aria-hidden>/</span>
+          <span className="text-ink">{career.title}</span>
+        </nav>
         <Link
           href="/explore"
-          className="mt-8 inline-flex items-center gap-2 rounded-full border border-transparent px-3 py-1.5 text-sm font-medium text-smoke transition hover:border-ink/15 hover:bg-cream hover:text-tomato"
+          className="mt-5 inline-flex items-center gap-2 rounded-full border border-transparent px-3 py-1.5 text-sm font-medium text-smoke transition hover:border-ink/15 hover:bg-cream hover:text-tomato"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to the map
@@ -100,8 +114,7 @@ export default async function CareerDetailPage({ params }: Props) {
               Build my roadmap to {career.title}
             </QuestButton>
             <SaveCareerButton careerId={career.id} />
-            <ShareCareerButton title={career.title} tagline={career.tagline} />
-            <PrintCareerButton />
+            <CopyProfileLink />
           </div>
         </header>
 
@@ -130,9 +143,45 @@ export default async function CareerDetailPage({ params }: Props) {
           <Detail label="Time to entry" value={career.timeToEntry} sub="From high school" />
         </dl>
 
+        {/* Reality check */}
+        <section className="grid gap-6 border-b border-ink/10 py-10 md:grid-cols-3">
+          <div className="rounded-2xl border border-ink/10 bg-cream p-5">
+            <p className="label-accent">Best first move</p>
+            <p className="mt-3 font-display text-2xl font-light leading-tight text-ink">
+              Build proof with one small project.
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-smoke">
+              Use the roadmap to choose a course, volunteer moment, portfolio piece,
+              or shadowing step that fits your grade level.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-ink/10 bg-paper p-5">
+            <p className="label-accent">Good fit if</p>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-graphite">
+              {career.interests.slice(0, 3).map((interest) => (
+                <li key={interest} className="flex gap-2">
+                  <span className="font-mono text-tomato">+</span>
+                  {interest}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-ink/10 bg-paper p-5">
+            <p className="label-accent">Watch out for</p>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-graphite">
+              {career.avoids.slice(0, 3).map((avoid) => (
+                <li key={avoid} className="flex gap-2">
+                  <span className="font-mono text-ash">-</span>
+                  {avoid}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
         {/* Salary visualization */}
         <section className="grid gap-10 border-b border-ink/10 py-14 md:grid-cols-[1fr_2fr] md:gap-16">
-          <SectionLabel number="01">Salary on the map</SectionLabel>
+          <SectionLabel number="02">Salary on the map</SectionLabel>
           <div>
             <div className="flex items-baseline justify-between gap-4">
               <p className="font-display text-3xl font-light tabular text-ink md:text-4xl">
@@ -184,7 +233,7 @@ export default async function CareerDetailPage({ params }: Props) {
 
         {/* Day in life */}
         <section className="grid gap-10 border-b border-ink/10 py-14 md:grid-cols-[1fr_2fr] md:gap-16">
-          <SectionLabel number="02">A day in the life</SectionLabel>
+          <SectionLabel number="03">A day in the life</SectionLabel>
           <ol className="space-y-6">
             {career.dayInLife.map((item, i) => (
               <li
@@ -204,7 +253,7 @@ export default async function CareerDetailPage({ params }: Props) {
 
         {/* Skills */}
         <section className="grid gap-10 border-b border-ink/10 py-14 md:grid-cols-[1fr_2fr] md:gap-16">
-          <SectionLabel number="03">Skills to start building</SectionLabel>
+          <SectionLabel number="04">Skills to start building</SectionLabel>
           <div>
             <ul className="flex flex-wrap gap-2">
               {career.skillsToBuild.map((skill, i) => (
@@ -280,7 +329,7 @@ function Detail({
 function Related({ related }: { related: Career[] }) {
   return (
     <section className="pt-14">
-      <SectionLabel number="04">Related paths</SectionLabel>
+      <SectionLabel number="05">Related paths</SectionLabel>
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {related.map((r) => (
           <CareerCard key={r.id} career={r} compact />

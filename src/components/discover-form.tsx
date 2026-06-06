@@ -28,6 +28,27 @@ const tips = [
 
 const likePrompts = ["drawing", "gaming", "tutoring friends", "making videos", "fixing things"];
 
+const starterProfiles = [
+  {
+    label: "Creative helper",
+    likes: "I like drawing, making videos, and helping friends explain ideas.",
+    strengths: "Creativity, communication, noticing details, and encouraging people.",
+    weaknesses: "Heavy math every day and work that feels isolated.",
+  },
+  {
+    label: "Builder",
+    likes: "I like fixing things, science projects, and figuring out how machines work.",
+    strengths: "Problem solving, patience, hands-on work, and spatial thinking.",
+    weaknesses: "Long essays, vague assignments, and jobs with no practical output.",
+  },
+  {
+    label: "People-first",
+    likes: "I like tutoring friends, listening to people, and solving real-life problems.",
+    strengths: "Empathy, organization, staying calm, and explaining things clearly.",
+    weaknesses: "Being behind a screen all day and work with no human impact.",
+  },
+];
+
 export function DiscoverForm() {
   const hydrated = useRef(false);
   const requestId = useRef(0);
@@ -39,7 +60,7 @@ export function DiscoverForm() {
   const [source, setSource] = useState<DiscoverSource | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [resumedSession, setResumedSession] = useState(false);
+  const [savedNotice, setSavedNotice] = useState(false);
   const [submittedProfile, setSubmittedProfile] = useState<{
     likes: string;
     strengths: string;
@@ -140,6 +161,8 @@ export function DiscoverForm() {
         results: matches,
         source: matchSource,
       });
+      setSavedNotice(true);
+      window.setTimeout(() => setSavedNotice(false), 2200);
       requestAnimationFrame(() => {
         document.getElementById("matches")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
@@ -149,6 +172,13 @@ export function DiscoverForm() {
     } finally {
       if (id === requestId.current) setLoading(false);
     }
+  }
+
+  function applyStarterProfile(profile: (typeof starterProfiles)[number]) {
+    setLikes(profile.likes);
+    setStrengths(profile.strengths);
+    setWeaknesses(profile.weaknesses);
+    setError(null);
   }
 
   return (
@@ -171,6 +201,27 @@ export function DiscoverForm() {
             filled={progress}
             label="Form completeness"
           />
+
+          {!results && !loading && (
+            <div className="surface-card-soft p-5">
+              <p className="label-accent">Need a starting point?</p>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-smoke">
+                Pick a starter profile, then edit the words until it sounds like you.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {starterProfiles.map((profile) => (
+                  <button
+                    key={profile.label}
+                    type="button"
+                    onClick={() => applyStarterProfile(profile)}
+                    className="filter-chip"
+                  >
+                    {profile.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <Field
             n="i"
@@ -319,18 +370,25 @@ export function DiscoverForm() {
           </p>
           {source && results.length > 0 && <SourceNote flow="discover" source={source} />}
           {results.length > 0 && submittedProfile && (
-            <ShareResults
-              className="mt-8"
-              label="Share your matches"
-              shareTitle="Main Quest career matches"
-              getText={() =>
-                formatDiscoverExport(
-                  results,
-                  submittedProfile,
-                  typeof window !== "undefined" ? window.location.origin : undefined
-                )
-              }
-            />
+            <div>
+              <ShareResults
+                className="mt-8"
+                label="Share your matches"
+                shareTitle="Main Quest career matches"
+                getText={() =>
+                  formatDiscoverExport(
+                    results,
+                    submittedProfile,
+                    typeof window !== "undefined" ? window.location.origin : undefined
+                  )
+                }
+              />
+              {savedNotice && (
+                <p className="mt-3 inline-flex rounded-full border border-moss/20 bg-moss/10 px-3 py-1 text-xs font-medium text-moss">
+                  Saved in this browser
+                </p>
+              )}
+            </div>
           )}
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {results.map((match, i) => (

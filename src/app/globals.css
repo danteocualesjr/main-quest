@@ -126,6 +126,36 @@
       scroll-behavior: auto !important;
     }
   }
+
+  @media print {
+    body {
+      background: white !important;
+      color: black !important;
+    }
+
+    header,
+    footer,
+    .print\:hidden,
+    [data-print-hidden="true"] {
+      display: none !important;
+    }
+
+    main {
+      padding: 0 !important;
+    }
+
+    a {
+      color: black !important;
+      text-decoration: none !important;
+    }
+
+    .surface-card,
+    .surface-card-soft,
+    .glass-panel {
+      box-shadow: none !important;
+      break-inside: avoid;
+    }
+  }
 }
 
 @layer components {

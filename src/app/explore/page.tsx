@@ -26,11 +26,22 @@ export default function ExplorePage() {
           { label: "Open", value: "Full profiles" },
         ]}
       />
-      <div className="mt-12 md:mt-16">
-        <Suspense fallback={<p className="text-sm text-smoke">Loading career map…</p>}>
+      <Suspense
+        fallback={
+          <div className="mt-12 rounded-2xl border border-ink/10 bg-cream p-12 md:p-16">
+            <div className="skeleton h-3 w-24 rounded" />
+            <div className="skeleton mt-6 h-12 w-3/4 rounded" />
+            <div className="mt-10 grid gap-3">
+              <div className="skeleton h-3 w-full rounded" />
+              <div className="skeleton h-3 w-5/6 rounded" />
+            </div>
+          </div>
+        }
+      >
+        <div className="mt-12 md:mt-16">
           <ExploreCatalog />
-        </Suspense>
-      </div>
+        </div>
+      </Suspense>
     </Container>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowUpDown, Compass, Search, SlidersHorizontal, X } from "lucide-react";
 import { CareerCard } from "@/components/career-card";
 import { CountUp } from "@/components/count-up";
@@ -10,9 +10,12 @@ import { SavedCareers } from "@/components/saved-careers";
 import { CareerCompareTray } from "@/components/career-compare-tray";
 import { SurpriseMeButton } from "@/components/surprise-me-button";
 import { SectionLabel } from "@/components/section-label";
+import { careers, formatSalary } from "@/lib/careers";
 import { exploreCareers, getCareerStats, type SortBy } from "@/lib/explore";
+import { loadRecentCareerIds, RECENT_CAREERS_CHANGED_EVENT } from "@/lib/recent-careers";
+import { loadSavedCareerIds, SAVED_CAREERS_CHANGED_EVENT } from "@/lib/saved-careers";
 import { CATEGORIES, EDUCATION_LABELS, GROWTH_LABELS } from "@/lib/types";
-import type { EducationLevel, GrowthOutlook } from "@/lib/types";
+import type { Career, EducationLevel, GrowthOutlook } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const SORT_LABELS: Record<SortBy, string> = {
@@ -22,6 +25,9 @@ const SORT_LABELS: Record<SortBy, string> = {
   growth: "Fastest growing",
   alpha: "A → Z",
 };
+const SORT_VALUES = Object.keys(SORT_LABELS) as SortBy[];
+const EDUCATION_VALUES = Object.keys(EDUCATION_LABELS) as EducationLevel[];
+const GROWTH_VALUES = Object.keys(GROWTH_LABELS) as GrowthOutlook[];
 
 const SALARY_PRESETS = [
   { value: "50000", label: "$50k+" },
@@ -40,18 +46,58 @@ const QUICK_FILTERS = [
 const SORT_KEYS = new Set(Object.keys(SORT_LABELS));
 
 export function ExploreCatalog() {
+  const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
-  const urlHydrated = useRef(false);
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("");
-  const [minSalary, setMinSalary] = useState("");
-  const [education, setEducation] = useState("");
-  const [growth, setGrowth] = useState("");
-  const [sortBy, setSortBy] = useState<SortBy>("recommended");
+  const [savedIds, setSavedIds] = useState<string[]>([]);
+  const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
+  const [category, setCategory] = useState(() => {
+    const value = searchParams.get("category") ?? "";
+    return CATEGORIES.includes(value as (typeof CATEGORIES)[number]) ? value : "";
+  });
+  const [minSalary, setMinSalary] = useState(() => {
+    const value = searchParams.get("salary") ?? "";
+    return SALARY_PRESETS.some((preset) => preset.value === value) ? value : "";
+  });
+  const [education, setEducation] = useState(() => {
+    const value = searchParams.get("education") ?? "";
+    return EDUCATION_VALUES.includes(value as EducationLevel) ? value : "";
+  });
+  const [growth, setGrowth] = useState(() => {
+    const value = searchParams.get("growth") ?? "";
+    return GROWTH_VALUES.includes(value as GrowthOutlook) ? value : "";
+  });
+  const [sortBy, setSortBy] = useState<SortBy>(() => {
+    const value = searchParams.get("sort") as SortBy | null;
+    return value && SORT_VALUES.includes(value) ? value : "recommended";
+  });
 
   const stats = getCareerStats();
+  const categoryCounts = useMemo(
+    () =>
+      CATEGORIES.map((name) => ({
+        name,
+        count: careers.filter((career) => career.category === name).length,
+      })),
+    []
+  );
+  const savedCareers = useMemo(
+    () =>
+      savedIds
+        .map((id) => careers.find((career) => career.id === id))
+        .filter((career): career is (typeof careers)[number] => Boolean(career)),
+    [savedIds]
+  );
+  const recentCareers = useMemo(
+    () =>
+      recentIds
+        .map((id) => careers.find((career) => career.id === id))
+        .filter((career): career is (typeof careers)[number] => Boolean(career)),
+    [recentIds]
+  );
 
   const results = useMemo(
     () =>
@@ -93,6 +139,70 @@ export function ExploreCatalog() {
     });
 
   const hasFilters = activeFilters.length > 0;
+  const compareCareers = compareIds
+    .map((id) => careers.find((career) => career.id === id))
+    .filter((career): career is Career => Boolean(career));
+
+  useEffect(() => {
+    const nextQuery = searchParams.get("q") ?? "";
+    const nextCategory = searchParams.get("category") ?? "";
+    const nextSalary = searchParams.get("salary") ?? "";
+    const nextEducation = searchParams.get("education") ?? "";
+    const nextGrowth = searchParams.get("growth") ?? "";
+    const nextSort = searchParams.get("sort") as SortBy | null;
+
+    setQuery(nextQuery);
+    setCategory(CATEGORIES.includes(nextCategory as (typeof CATEGORIES)[number]) ? nextCategory : "");
+    setMinSalary(SALARY_PRESETS.some((preset) => preset.value === nextSalary) ? nextSalary : "");
+    setEducation(EDUCATION_VALUES.includes(nextEducation as EducationLevel) ? nextEducation : "");
+    setGrowth(GROWTH_VALUES.includes(nextGrowth as GrowthOutlook) ? nextGrowth : "");
+    setSortBy(nextSort && SORT_VALUES.includes(nextSort) ? nextSort : "recommended");
+  }, [searchParams]);
+
+  useEffect(() => {
+    const refresh = () => setSavedIds(loadSavedCareerIds());
+    refresh();
+    window.addEventListener(SAVED_CAREERS_CHANGED_EVENT, refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener(SAVED_CAREERS_CHANGED_EVENT, refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
+
+  useEffect(() => {
+    const refresh = () => setRecentIds(loadRecentCareerIds());
+    refresh();
+    window.addEventListener(RECENT_CAREERS_CHANGED_EVENT, refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener(RECENT_CAREERS_CHANGED_EVENT, refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const updates: Record<string, string> = {
+      q: query.trim(),
+      category,
+      salary: minSalary,
+      education,
+      growth,
+      sort: sortBy === "recommended" ? "" : sortBy,
+    };
+
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    });
+
+    const next = params.toString();
+    const current = searchParams.toString();
+    if (next !== current) {
+      router.replace(`${pathname}${next ? `?${next}` : ""}`, { scroll: false });
+    }
+  }, [category, education, growth, minSalary, pathname, query, router, searchParams, sortBy]);
 
   useEffect(() => {
     if (urlHydrated.current) return;
@@ -155,6 +265,33 @@ export function ExploreCatalog() {
     setGrowth("");
   }
 
+  function applyQuickFilter(filter: (typeof QUICK_FILTERS)[number], reset = false) {
+    const active =
+      (filter.kind === "salary" && minSalary === filter.value) ||
+      (filter.kind === "growth" && growth === filter.value) ||
+      (filter.kind === "category" && category === filter.value) ||
+      (filter.kind === "education" && education === filter.value);
+
+    if (reset) clearAll();
+
+    if (filter.kind === "salary") {
+      setMinSalary(active && !reset ? "" : filter.value);
+    } else if (filter.kind === "growth") {
+      setGrowth(active && !reset ? "" : filter.value);
+    } else if (filter.kind === "category") {
+      setCategory(active && !reset ? "" : filter.value);
+    } else {
+      setEducation(active && !reset ? "" : filter.value);
+    }
+  }
+
+  function toggleCompare(id: string) {
+    setCompareIds((current) => {
+      if (current.includes(id)) return current.filter((careerId) => careerId !== id);
+      return [id, ...current].slice(0, 3);
+    });
+  }
+
   return (
     <div className="space-y-12">
       <SavedCareers />
@@ -169,6 +306,142 @@ export function ExploreCatalog() {
         />
         <Stat n={<CountUp value={stats.fastestGrowing} />} label="Fast-growing roles" />
       </dl>
+
+      <div className="surface-card-soft p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="label-accent">Browse by field</p>
+            <p className="mt-1 text-sm text-smoke">
+              Tap a category to narrow the map instantly.
+            </p>
+          </div>
+          {category && (
+            <button
+              type="button"
+              onClick={() => setCategory("")}
+              className="self-start text-sm font-medium text-ink transition hover:text-tomato sm:self-auto"
+            >
+              Clear category
+            </button>
+          )}
+        </div>
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+          {categoryCounts.map(({ name, count }) => {
+            const active = category === name;
+            return (
+              <button
+                key={name}
+                type="button"
+                onClick={() => setCategory(active ? "" : name)}
+                className={cn(
+                  "shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition",
+                  active
+                    ? "border-tomato bg-tomato text-cream shadow-soft"
+                    : "border-ink/12 bg-paper text-ink hover:border-tomato/40 hover:text-tomato"
+                )}
+                aria-pressed={active}
+              >
+                {name}
+                <span
+                  className={cn(
+                    "ml-2 font-mono text-[10px] tabular",
+                    active ? "text-cream/70" : "text-ash"
+                  )}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {savedCareers.length > 0 && (
+        <section className="surface-card p-5">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="label-accent">Saved shortlist</p>
+              <h2 className="mt-2 font-display text-2xl font-light text-ink">
+                Your bookmarked careers
+              </h2>
+            </div>
+            <p className="label">
+              {savedCareers.length} saved {savedCareers.length === 1 ? "role" : "roles"}
+            </p>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {savedCareers.slice(0, 3).map((career) => (
+              <CareerCard key={career.id} career={career} compact />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {recentCareers.length > 0 && (
+        <section className="surface-card-soft p-5">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="label-accent">Recently viewed</p>
+              <h2 className="mt-2 font-display text-2xl font-light text-ink">
+                Pick back up quickly
+              </h2>
+            </div>
+            <p className="label">Last {recentCareers.length}</p>
+          </div>
+          <div className="mt-5 flex gap-3 overflow-x-auto pb-1">
+            {recentCareers.map((career) => (
+              <div key={career.id} className="w-[280px] shrink-0">
+                <CareerCard career={career} compact />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {compareCareers.length > 0 && (
+        <section className="surface-card p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="label-accent">Compare careers</p>
+              <h2 className="mt-2 font-display text-2xl font-light text-ink">
+                Side-by-side snapshot
+              </h2>
+              <p className="mt-2 text-sm text-smoke">
+                Select up to three careers from the results below.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setCompareIds([])}
+              className="self-start text-sm font-medium text-ink transition hover:text-tomato"
+            >
+              Clear compare
+            </button>
+          </div>
+          <div className="mt-5 grid gap-3 lg:grid-cols-3">
+            {compareCareers.map((career) => (
+              <div key={career.id} className="rounded-2xl border border-ink/10 bg-cream p-4">
+                <p className="label">{career.category}</p>
+                <h3 className="mt-2 font-display text-xl font-light text-ink">
+                  {career.title}
+                </h3>
+                <dl className="mt-4 grid gap-2 text-sm">
+                  <CompareRow label="Median pay" value={formatSalary(career.salaryMedian)} />
+                  <CompareRow label="Education" value={EDUCATION_LABELS[career.education]} />
+                  <CompareRow label="Time" value={career.timeToEntry} />
+                  <CompareRow
+                    label="Growth"
+                    value={`${GROWTH_LABELS[career.growthOutlook].replace(
+                      " than average",
+                      ""
+                    )} · +${career.growthPercent}%`}
+                  />
+                </dl>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Filters */}
       <div className="sticky top-[var(--header-height)] z-30 -mx-6 border-y border-ink/10 bg-paper/90 px-6 py-5 shadow-soft backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
@@ -302,17 +575,7 @@ export function ExploreCatalog() {
                   key={filter.key}
                   type="button"
                   className={cn("filter-chip", active && "filter-chip-active")}
-                  onClick={() => {
-                    if (filter.kind === "salary") {
-                      setMinSalary(active ? "" : filter.value);
-                    } else if (filter.kind === "growth") {
-                      setGrowth(active ? "" : filter.value);
-                    } else if (filter.kind === "category") {
-                      setCategory(active ? "" : filter.value);
-                    } else {
-                      setEducation(active ? "" : filter.value);
-                    }
-                  }}
+                  onClick={() => applyQuickFilter(filter)}
                   aria-pressed={active}
                 >
                   {filter.label}
@@ -348,7 +611,11 @@ export function ExploreCatalog() {
       )}
 
       {/* Result count */}
-      <div className="flex flex-col gap-3 border-y border-ink/10 py-6 sm:flex-row sm:items-end sm:justify-between">
+      <div
+        className="flex flex-col gap-3 border-y border-ink/10 py-6 sm:flex-row sm:items-end sm:justify-between"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         <div>
           <p className="label">
             Showing{" "}
@@ -357,6 +624,10 @@ export function ExploreCatalog() {
             </span>{" "}
             {results.length === 1 ? "career" : "careers"}
             {hasFilters && <span className="ml-2 text-ash">· filtered</span>}
+          </p>
+          <p className="sr-only">
+            {results.length} {results.length === 1 ? "career matches" : "careers match"} the
+            current Explore filters.
           </p>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-smoke">
             Cards now surface pay, education, time-to-entry, and outlook so you can
@@ -388,6 +659,19 @@ export function ExploreCatalog() {
               <X className="h-3.5 w-3.5" />
               Clear all filters
             </button>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              <span className="label">Try instead</span>
+              {QUICK_FILTERS.map((filter) => (
+                <button
+                  key={filter.key}
+                  type="button"
+                  onClick={() => applyQuickFilter(filter, true)}
+                  className="filter-chip"
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       ) : (
@@ -403,7 +687,20 @@ export function ExploreCatalog() {
               className="animate-fade-up"
               style={{ animationDelay: `${Math.min(i, 8) * 35}ms` }}
             >
-              <CareerCard career={career} showSave showCompare />
+              <CareerCard career={career} />
+              <button
+                type="button"
+                onClick={() => toggleCompare(career.id)}
+                className={cn(
+                  "mt-2 w-full rounded-2xl border px-4 py-2 text-sm font-medium transition",
+                  compareIds.includes(career.id)
+                    ? "border-tomato bg-tomato text-cream"
+                    : "border-ink/10 bg-cream text-ink hover:border-tomato/40 hover:text-tomato"
+                )}
+                aria-pressed={compareIds.includes(career.id)}
+              >
+                {compareIds.includes(career.id) ? "Remove from compare" : "Add to compare"}
+              </button>
             </li>
           ))}
         </ul>
@@ -420,6 +717,15 @@ function Stat({ n, label }: { n: React.ReactNode; label: string }) {
         {n}
       </dd>
       <dt className="label mt-2">{label}</dt>
+    </div>
+  );
+}
+
+function CompareRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4 border-t border-ink/10 pt-2 first:border-0 first:pt-0">
+      <dt className="text-smoke">{label}</dt>
+      <dd className="text-right font-medium text-ink">{value}</dd>
     </div>
   );
 }

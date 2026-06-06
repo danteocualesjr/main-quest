@@ -23,9 +23,25 @@ export function SourceNote(props: SourceNoteProps) {
       : PATH_MESSAGES[props.source];
 
   return (
-    <p className="mt-4 inline-flex max-w-2xl items-start gap-2 rounded-xl border border-ink/10 bg-cream/80 px-4 py-3 text-sm leading-relaxed text-smoke shadow-paper transition hover:border-tomato/20 hover:shadow-soft">
-      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-tomato/70" aria-hidden />
-      <span>{message}</span>
-    </p>
+    <details className="mt-4 max-w-2xl rounded-xl border border-ink/10 bg-cream/80 px-4 py-3 text-sm leading-relaxed text-smoke shadow-paper">
+      <summary className="flex cursor-pointer list-none items-start gap-2 text-smoke marker:hidden">
+        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-tomato/70" aria-hidden />
+        <span>
+          {message} <span className="font-medium text-ink">About the data</span>
+        </span>
+      </summary>
+      <div className="mt-3 border-t border-ink/10 pt-3 text-[13px] leading-relaxed text-graphite">
+        <p>
+          Career profiles use a static, curated US catalog with salary ranges,
+          education expectations, growth outlook, interests, skills, and related
+          roles. When AI is enabled, it can help interpret your words; salary,
+          education, and growth facts still come from the catalog.
+        </p>
+        <p className="mt-2 text-smoke">
+          Treat every match as a starting point for counselor conversations,
+          shadowing, course planning, and local research.
+        </p>
+      </div>
+    </details>
   );
 }

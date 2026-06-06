@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState, useEffect, useCallback, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Flag, Loader2 } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Flag, Loader2, Printer } from "lucide-react";
 import { pathAction } from "@/app/actions/path";
 import { CoachPanel } from "@/components/coach-panel";
 import { PathSuggestionCard } from "@/components/path-suggestion-card";
@@ -33,6 +33,8 @@ const goalExamples = [
 
 export function PathForm() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
   const sessionRestored = useRef(false);
   const lastBuiltUrlGoal = useRef<string | null>(null);
   const requestId = useRef(0);
@@ -47,7 +49,7 @@ export function PathForm() {
   const [noMatch, setNoMatch] = useState(false);
   const [submittedGoal, setSubmittedGoal] = useState<string | null>(null);
   const [submittedGrade, setSubmittedGrade] = useState<string | null>(null);
-  const [resumedSession, setResumedSession] = useState(false);
+  const [savedNotice, setSavedNotice] = useState(false);
 
   const careerTitles = useMemo(() => careers.map((c) => c.title).sort(), []);
 
@@ -74,8 +76,21 @@ export function PathForm() {
         suggestions: nextSuggestions,
         source: nextSource,
       });
+      setSavedNotice(true);
+      window.setTimeout(() => setSavedNotice(false), 2200);
     },
     []
+  );
+
+  const syncUrl = useCallback(
+    (nextGoal: string, nextGrade: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("goal", nextGoal);
+      if (nextGrade) params.set("grade", nextGrade);
+      else params.delete("grade");
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    },
+    [pathname, router, searchParams]
   );
 
   const runPathBuild = useCallback(
@@ -98,6 +113,7 @@ export function PathForm() {
           setSubmittedGoal(goalQuery.trim());
           setSubmittedGrade(gradeQuery);
           persistSession(goalQuery, gradeQuery, result.path, [], result.source);
+          syncUrl(goalQuery.trim(), gradeQuery);
           requestAnimationFrame(() => {
             document.getElementById("roadmap")?.scrollIntoView({ behavior: "smooth", block: "start" });
           });
@@ -108,6 +124,7 @@ export function PathForm() {
           setSubmittedGoal(goalQuery.trim());
           setSubmittedGrade(gradeQuery);
           persistSession(goalQuery, gradeQuery, null, result.suggestions, result.source);
+          syncUrl(goalQuery.trim(), gradeQuery);
         }
       } catch {
         if (id !== requestId.current) return;
@@ -123,10 +140,11 @@ export function PathForm() {
         }
       }
     },
-    [gradeLevel, persistSession]
+    [gradeLevel, persistSession, syncUrl]
   );
 
   const goalFromUrl = searchParams.get("goal");
+  const gradeFromUrl = searchParams.get("grade");
 
   useEffect(() => {
     if (sessionRestored.current) return;
@@ -168,7 +186,7 @@ export function PathForm() {
     if (!goalFromUrl) return;
 
     const saved = loadPathSession();
-    const grade = saved?.gradeLevel ?? "";
+    const grade = gradeFromUrl ?? saved?.gradeLevel ?? "";
     const buildKey = `${goalFromUrl}|${grade}`;
     if (buildKey === lastBuiltUrlGoal.current) return;
 
@@ -193,7 +211,7 @@ export function PathForm() {
     setGoal(goalFromUrl);
     if (grade) setGradeLevel(grade);
     void runPathBuild(goalFromUrl, grade);
-  }, [goalFromUrl, runPathBuild]);
+  }, [goalFromUrl, gradeFromUrl, runPathBuild]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -422,6 +440,19 @@ export function PathForm() {
                     })
                   }
                 />
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-cream px-4 py-2 text-sm font-medium text-ink transition hover:border-tomato hover:text-tomato print:hidden"
+                >
+                  <Printer className="h-4 w-4" />
+                  Print or save as PDF
+                </button>
+                {savedNotice && (
+                  <p className="mt-3 inline-flex rounded-full border border-moss/20 bg-moss/10 px-3 py-1 text-xs font-medium text-moss">
+                    Saved in this browser
+                  </p>
+                )}
               </div>
               <Link
                 href={`/explore/${path.career.id}`}

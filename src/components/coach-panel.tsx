@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import { Loader2, MessageCircleMore, RotateCcw, Send, X } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, isTextUIPart } from "ai";
@@ -160,6 +161,10 @@ function CoachChat({
 
   const isBusy = status === "submitted" || status === "streaming";
   const hasMessages = messages.length > 0;
+  const coachUnavailable =
+    error?.message?.toLowerCase().includes("api key") ||
+    error?.message?.includes("503") ||
+    error?.message?.toLowerCase().includes("unavailable");
 
   useEffect(() => {
     if (messages.length === 0) return;
@@ -291,17 +296,33 @@ function CoachChat({
 
         {error && (
           <div className="mt-6 border-l-2 border-tomato bg-tomato/5 px-4 py-3 text-sm text-tomato">
-            <p className="font-medium">Something went wrong.</p>
-            <p className="mt-1 text-graphite">
-              {error.message || "The coach couldn't reply just now."}
+            <p className="font-medium">
+              {coachUnavailable ? "Coach is offline right now." : "Something went wrong."}
             </p>
-            <button
-              type="button"
-              onClick={() => regenerate()}
-              className="mt-2 underline-link text-tomato"
-            >
-              Try again
-            </button>
+            <p className="mt-1 text-graphite">
+              {coachUnavailable
+                ? "The rest of Main Quest still works without an AI key. You can keep browsing careers or build a roadmap from the static catalog."
+                : error.message || "The coach couldn't reply just now."}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => regenerate()}
+                className="underline-link text-tomato"
+              >
+                Try again
+              </button>
+              {coachUnavailable && (
+                <>
+                  <Link href="/explore" className="underline-link text-ink">
+                    Browse careers
+                  </Link>
+                  <Link href="/path" className="underline-link text-ink">
+                    Build a roadmap
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         )}
       </div>
