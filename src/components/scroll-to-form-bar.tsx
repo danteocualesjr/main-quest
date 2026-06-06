@@ -19,9 +19,9 @@ export function ScrollToFormBar({ label, targetId = "page-form" }: ScrollToFormB
         onClick={() => {
           document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
         }}
-        className="sticky-pill active:scale-[0.98]"
+        className="group sticky-pill active:scale-[0.98]"
       >
-        <ArrowUp className="h-4 w-4" />
+        <ArrowUp className="h-4 w-4 transition group-hover:-translate-y-0.5" />
         {label}
       </button>
     </div>
