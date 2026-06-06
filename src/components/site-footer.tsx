@@ -39,7 +39,7 @@ export function SiteFooter() {
             An honest career guide built for US students. No SAT prep ads. No
             life-coach pitches. Just real options, real numbers, real next steps.
           </p>
-          <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-paper px-3 py-1.5 text-xs font-medium text-smoke">
+          <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-paper px-3 py-1.5 text-xs font-medium text-smoke transition hover:border-moss/30 hover:bg-cream">
             <span className="relative inline-flex h-1.5 w-1.5">
               <span className="absolute inset-0 animate-pulse-soft rounded-full bg-moss" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moss" />
