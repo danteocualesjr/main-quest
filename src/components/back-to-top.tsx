@@ -19,7 +19,12 @@ export function BackToTop() {
   return (
     <button
       type="button"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={() => {
+        const reduceMotion =
+          typeof window.matchMedia === "function" &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+      }}
       aria-label="Back to top"
       title="Back to top"
       tabIndex={visible ? 0 : -1}
