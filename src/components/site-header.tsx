@@ -95,7 +95,9 @@ export function SiteHeader() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "group/nav relative rounded-2xl px-3.5 py-2 text-sm font-medium transition",
-                  active ? "nav-pill-active text-ink" : "text-smoke transition duration-200 hover:bg-ink/[0.04] hover:text-ink focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  active
+                    ? "nav-pill-active text-ink shadow-paper"
+                    : "text-smoke transition duration-200 hover:bg-ink/[0.04] hover:text-ink focus-visible:ring-2 focus-visible:ring-tomato/30 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                 )}
               >
                 <span className="flex flex-col leading-none">
@@ -134,12 +136,21 @@ export function SiteHeader() {
         </div>
       </Container>
 
+      {open && (
+        <button
+          type="button"
+          aria-label="Close menu"
+          className="fixed inset-0 z-40 bg-ink/20 backdrop-blur-[2px] transition-opacity sm:hidden"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
       <div
         id="mobile-nav"
         className={cn(
-          "sm:hidden",
-          "overflow-hidden border-t border-ink/10 bg-paper transition-[max-height,opacity] duration-300 ease-out",
-          open ? "max-h-[420px] opacity-100" : "pointer-events-none max-h-0 opacity-0"
+          "relative z-50 sm:hidden",
+          "overflow-hidden border-t border-ink/10 bg-paper/98 backdrop-blur-xl transition-[max-height,opacity] duration-300 ease-out",
+          open ? "max-h-[420px] opacity-100 shadow-soft" : "pointer-events-none max-h-0 opacity-0"
         )}
       >
         <Container className="py-2">

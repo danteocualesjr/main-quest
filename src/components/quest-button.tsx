@@ -29,7 +29,7 @@ export function QuestButton({
     size === "default" && variant !== "link" && "px-6 py-3 text-[15px]",
     size === "lg" && variant !== "link" && "px-7 py-3.5 text-base",
     variant === "primary" &&
-      "bg-tomato text-cream shadow-paper hover:-translate-y-0.5 hover:bg-ember hover:shadow-glow focus-visible:outline-tomato motion-reduce:hover:translate-y-0",
+      "relative overflow-hidden bg-tomato text-cream shadow-paper hover:-translate-y-0.5 hover:bg-ember hover:shadow-glow focus-visible:outline-tomato motion-reduce:hover:translate-y-0 before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-cream/20 before:to-transparent before:opacity-0 before:transition-opacity hover:before:opacity-100",
     variant === "ink" &&
       "bg-ink text-cream shadow-paper hover:-translate-y-0.5 hover:bg-graphite hover:shadow-soft focus-visible:outline-ink focus-visible:ring-2 focus-visible:ring-ink/30 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0",
     variant === "ghost" &&
