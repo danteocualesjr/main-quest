@@ -197,7 +197,7 @@
   }
 
   .input-block {
-    @apply w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink placeholder:text-ash outline-none transition focus:border-tomato focus:ring-2 focus:ring-tomato/20;
+    @apply w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink placeholder:text-ash outline-none transition focus:border-tomato focus:ring-2 focus:ring-tomato/20 focus:shadow-[0_0_0_4px_rgb(var(--c-tomato)/0.08)];
   }
 
   .input-block:hover {

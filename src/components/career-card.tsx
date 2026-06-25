@@ -185,7 +185,7 @@ export function CareerCard({
     >
       <span
         aria-hidden
-        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-tomato via-clay to-moss opacity-55 transition duration-300 group-hover:h-1.5 group-hover:opacity-100"
+        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-tomato via-clay to-moss opacity-55 transition duration-300 group-hover:h-1.5 group-hover:opacity-100 motion-reduce:transition-none"
       />
 
       <div className="flex items-start justify-between gap-3">
