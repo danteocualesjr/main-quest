@@ -283,6 +283,12 @@ export default function HomePage() {
 
       {/* MARQUEE */}
       <section className="border-b border-ink/10 bg-cream py-6">
+        <Container className="mb-4 flex items-center justify-between gap-4">
+          <p className="label-accent">Roles students explore</p>
+          <p className="hidden font-mono text-[10px] uppercase tracking-[0.18em] text-ash sm:block">
+            Hover to pause
+          </p>
+        </Container>
         <Marquee items={marqueeRoles} />
       </section>
 
@@ -390,23 +396,21 @@ export default function HomePage() {
 
             <div className="space-y-6 lg:pt-16">
               {quotes.map(({ text, who }, i) => (
-                <figure
-                  key={who}
-                  className="relative rounded-xl border-l-2 border-tomato bg-paper px-8 py-7 shadow-paper transition hover:-translate-y-0.5 hover:shadow-soft motion-reduce:hover:translate-y-0"
-                  style={{ transitionDelay: `${i * 80}ms` }}
-                >
-                  <Quote
-                    className="absolute -left-px top-7 h-5 w-5 -translate-x-[10px] bg-cream text-tomato"
-                    aria-hidden
-                  />
-                  <blockquote className="font-display text-lg font-light italic leading-[1.45] text-ink md:text-xl">
-                    {text}
-                  </blockquote>
-                  <figcaption className="mt-4 label">{who}</figcaption>
-                  <span className="absolute -right-3 -top-3 font-mono text-xs tabular text-ash">
-                    0{i + 1}
-                </span>
-              </figure>
+                <Reveal key={who} delay={i * 80}>
+                  <figure className="relative rounded-xl border-l-2 border-tomato bg-paper px-8 py-7 shadow-paper transition hover:-translate-y-0.5 hover:border-tomato/60 hover:shadow-soft motion-reduce:hover:translate-y-0">
+                    <Quote
+                      className="absolute -left-px top-7 h-5 w-5 -translate-x-[10px] bg-cream text-tomato"
+                      aria-hidden
+                    />
+                    <blockquote className="font-display text-lg font-light italic leading-[1.45] text-ink md:text-xl">
+                      {text}
+                    </blockquote>
+                    <figcaption className="mt-4 label">{who}</figcaption>
+                    <span className="absolute -right-3 -top-3 font-mono text-xs tabular text-ash">
+                      0{i + 1}
+                    </span>
+                  </figure>
+                </Reveal>
               ))}
             </div>
           </Reveal>
@@ -447,8 +451,12 @@ export default function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="page-wash py-28 md:py-36">
-        <Container size="prose" className="text-center">
+      <section className="page-wash relative overflow-hidden py-28 md:py-36">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-tomato/25 to-transparent"
+        />
+        <Container size="prose" className="relative text-center">
           <Reveal>
           <SectionLabel number="05" variant="accent" className="justify-center">
             Your move
